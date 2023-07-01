@@ -1,0 +1,468 @@
+.iconoutlinehome {
+  position: relative;
+  width: 28px;
+  height: 28px;
+  overflow: hidden;
+  flex-shrink: 0;
+  mix-blend-mode: normal;
+}
+.home,
+.item {
+  display: flex;
+  align-items: center;
+}
+.home {
+  background-color: #fff;
+  height: 44px;
+  flex-direction: column;
+  padding: 8px;
+  box-sizing: border-box;
+  justify-content: center;
+  transform: rotate(-0.11deg);
+  transform-origin: 0 0;
+}
+.item {
+  width: 44.58px;
+  height: 43.7px;
+  flex-direction: row;
+  justify-content: flex-start;
+}
+.investment,
+.lighticon {
+  position: relative;
+}
+.lighticon {
+  width: 16.03px;
+  height: 16.03px;
+}
+.categories,
+.item1,
+.item2,
+.item3,
+.item4 {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+}
+.item1 {
+  width: 134.98px;
+  height: 43.77px;
+  gap: 8px;
+}
+.categories,
+.item2,
+.item3,
+.item4 {
+  width: 150.05px;
+  height: 43.19px;
+}
+.categories,
+.item3,
+.item4 {
+  width: 109.05px;
+}
+.categories,
+.item4 {
+  width: 101.05px;
+}
+.categories {
+  top: 3.44px;
+  left: 319.64px;
+  width: 684.44px;
+  height: 42.19px;
+  justify-content: center;
+  gap: 20px;
+  transform: rotate(0.11deg);
+  transform-origin: 0 0;
+  z-index: 0;
+}
+.categories,
+.logo,
+.vector-icon {
+  position: absolute;
+  margin: 0 !important;
+}
+.logo {
+  top: 3.75px;
+  left: 111px;
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  justify-content: flex-start;
+  z-index: 1;
+  font-size: 30px;
+  color: #191d23;
+}
+.vector-icon {
+  height: 100%;
+  width: 4.9%;
+  top: 5.24%;
+  right: 92.46%;
+  bottom: -5.24%;
+  left: 2.64%;
+  max-width: 100%;
+  overflow: hidden;
+  max-height: 100%;
+  z-index: 2;
+}
+.header1,
+.headerleft {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+}
+.headerleft {
+  flex: 1;
+  position: relative;
+  gap: 8px;
+}
+.header1 {
+  position: absolute;
+  top: 17px;
+  left: 37px;
+  width: 1366px;
+  height: 55px;
+  color: #64748b;
+}
+.jenny-wilson,
+.jenwilsonexamplecom {
+  align-self: stretch;
+  position: relative;
+  font-weight: 600;
+  display: -webkit-inline-box;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  -webkit-line-clamp: 17;
+  -webkit-box-orient: vertical;
+}
+.jenwilsonexamplecom {
+  color: #a0abbb;
+}
+.content,
+.content-wrapper {
+  display: flex;
+  justify-content: flex-start;
+}
+.content {
+  flex: 1;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 4px;
+}
+.content-wrapper {
+  align-self: stretch;
+  flex-direction: row;
+  align-items: center;
+}
+.left-icon {
+  position: relative;
+  width: 20px;
+  height: 20px;
+  overflow: hidden;
+  flex-shrink: 0;
+}
+.label7 {
+  position: relative;
+  font-weight: 600;
+}
+.layout1,
+.log-out {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+}
+.layout1 {
+  overflow: hidden;
+  padding: 0 4px;
+}
+.log-out {
+  align-self: stretch;
+  border-radius: 4px;
+  background-color: #f7f8f9;
+  padding: 6px 8px;
+  gap: 4px;
+}
+.profileandlogout {
+  position: absolute;
+  top: 18px;
+  left: 1152px;
+  width: 251px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  gap: 16px;
+}
+.icon1 {
+  position: relative;
+  width: 16px;
+  height: 16px;
+  overflow: hidden;
+  flex-shrink: 0;
+}
+.icon-wrapper {
+  border-radius: 4px;
+  border: 1px solid #d0d5dd;
+  box-sizing: border-box;
+  width: 24px;
+  height: 24px;
+  display: flex;
+  flex-direction: row;
+  padding: 8px;
+  align-items: center;
+  justify-content: center;
+}
+.profile1 {
+  flex: 1;
+  position: relative;
+  font-weight: 600;
+  display: -webkit-inline-box;
+  align-items: center;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  -webkit-line-clamp: 17;
+  -webkit-box-orient: vertical;
+}
+.settings,
+.top1 {
+  display: flex;
+  justify-content: flex-start;
+}
+.top1 {
+  align-self: stretch;
+  flex-direction: row;
+  align-items: center;
+  gap: 12px;
+}
+.settings {
+  position: absolute;
+  top: 175px;
+  left: 89px;
+  border-radius: 4px;
+  background-color: #fff;
+  width: 333px;
+  height: 49px;
+  flex-direction: column;
+  padding: 16px;
+  box-sizing: border-box;
+  align-items: flex-start;
+  font-size: 24px;
+}
+.user-details {
+  position: absolute;
+  top: 257px;
+  left: 119px;
+  font-weight: 600;
+  display: -webkit-inline-box;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  -webkit-line-clamp: 17;
+  -webkit-box-orient: vertical;
+  width: 126.5px;
+}
+.first-name {
+  flex: 1;
+  position: relative;
+}
+.jenny {
+  position: relative;
+  text-align: right;
+}
+.row {
+  align-self: stretch;
+  height: 40px;
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  justify-content: flex-start;
+  gap: 8px;
+}
+.checkout,
+.lightbutton,
+.list {
+  display: flex;
+  flex-direction: column;
+}
+.list {
+  width: 337px;
+  height: 308px;
+  align-items: flex-start;
+  justify-content: center;
+  gap: 16px;
+}
+.checkout,
+.lightbutton {
+  position: absolute;
+  box-sizing: border-box;
+}
+.checkout {
+  top: 308px;
+  left: 117px;
+  border-radius: 8px;
+  background-color: #fff;
+  width: 367px;
+  height: 316px;
+  padding: 10px 16px;
+  align-items: flex-start;
+  justify-content: flex-start;
+}
+.lightbutton {
+  top: 250px;
+  left: 377px;
+  border-radius: 4px;
+  background-color: #e7eaee;
+  height: 36px;
+  overflow: hidden;
+  padding: 0 32px;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  color: #64748b;
+}
+.change-password {
+  align-self: stretch;
+  position: relative;
+  font-weight: 600;
+}
+.change-password-wrapper,
+.title2,
+.top2 {
+  align-self: stretch;
+  display: flex;
+  align-items: flex-start;
+}
+.change-password-wrapper {
+  flex: 1;
+  flex-direction: column;
+  justify-content: flex-start;
+}
+.title2,
+.top2 {
+  flex-direction: row;
+  justify-content: flex-end;
+}
+.top2 {
+  flex-direction: column;
+  justify-content: flex-start;
+}
+.icons1 {
+  position: relative;
+  width: 16px;
+  height: 16px;
+}
+.search-bar8 {
+  align-self: stretch;
+  border-radius: 4px;
+  border: 1px solid #d0d5dd;
+  box-sizing: border-box;
+  height: 40px;
+  display: flex;
+  flex-direction: row;
+  padding: 8px;
+  align-items: center;
+  justify-content: flex-end;
+}
+.current-password {
+  align-self: stretch;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  gap: 4px;
+}
+.create-new-password {
+  align-self: stretch;
+  position: relative;
+  font-weight: 500;
+}
+.inputs1,
+.midldle,
+.search-bar9 {
+  align-self: stretch;
+  display: flex;
+  justify-content: flex-start;
+}
+.search-bar9 {
+  border-radius: 4px;
+  border: 1px solid #d0d5dd;
+  box-sizing: border-box;
+  height: 40px;
+  flex-direction: row;
+  padding: 8px;
+  align-items: center;
+  gap: 8px;
+  color: #64748b;
+}
+.inputs1,
+.midldle {
+  flex-direction: column;
+  align-items: flex-start;
+}
+.inputs1 {
+  gap: 24px;
+}
+.midldle {
+  font-size: 14px;
+}
+.icons4 {
+  position: relative;
+  width: 20px;
+  height: 20px;
+}
+.bottom1,
+.cta2,
+.sign-up1 {
+  display: flex;
+  align-items: center;
+}
+.cta2 {
+  align-self: stretch;
+  border-radius: 4px;
+  background-color: #047857;
+  height: 44px;
+  flex-direction: row;
+  padding: 6px 12px;
+  box-sizing: border-box;
+  justify-content: center;
+  gap: 4px;
+}
+.bottom1,
+.sign-up1 {
+  flex-direction: column;
+  justify-content: flex-start;
+}
+.bottom1 {
+  align-self: stretch;
+  text-align: center;
+  font-size: 16px;
+  color: #fff;
+}
+.sign-up1 {
+  position: absolute;
+  top: 224px;
+  left: 869px;
+  border-radius: 4px;
+  background-color: #fff;
+  width: 450px;
+  padding: 32px 24px;
+  box-sizing: border-box;
+  gap: 40px;
+  font-size: 22px;
+}
+.editprofilepage {
+  position: relative;
+  background-color: #fff;
+  box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
+  width: 100%;
+  height: 805px;
+  overflow: hidden;
+  opacity: 0.72;
+  mix-blend-mode: overlay;
+  text-align: left;
+  font-size: 16px;
+  color: #191d23;
+  font-family: Manrope;
+}

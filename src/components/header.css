@@ -1,0 +1,131 @@
+.iconoutlinehome9 {
+  position: relative;
+  width: 28px;
+  height: 28px;
+  overflow: hidden;
+  flex-shrink: 0;
+  mix-blend-mode: normal;
+}
+.home11,
+.item58 {
+  display: flex;
+  align-items: center;
+}
+.home11 {
+  background-color: #fff;
+  height: 44px;
+  flex-direction: column;
+  padding: 8px;
+  box-sizing: border-box;
+  justify-content: center;
+  transform: rotate(-0.11deg);
+  transform-origin: 0 0;
+}
+.item58 {
+  width: 44.58px;
+  height: 43.7px;
+  flex-direction: row;
+  justify-content: flex-start;
+}
+.investment9,
+.lighticon7 {
+  position: relative;
+}
+.lighticon7 {
+  width: 16.03px;
+  height: 16.03px;
+}
+.categories9,
+.item59,
+.item60,
+.item61,
+.item62 {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+}
+.item59 {
+  width: 134.98px;
+  height: 43.77px;
+  gap: 8px;
+}
+.categories9,
+.item60,
+.item61,
+.item62 {
+  width: 150.05px;
+  height: 43.19px;
+}
+.categories9,
+.item61,
+.item62 {
+  width: 109.05px;
+}
+.categories9,
+.item62 {
+  width: 101.05px;
+}
+.categories9 {
+  top: 3.44px;
+  left: 319.64px;
+  width: 684.44px;
+  height: 42.19px;
+  justify-content: center;
+  gap: 20px;
+  transform: rotate(0.11deg);
+  transform-origin: 0 0;
+  z-index: 0;
+}
+.categories9,
+.logo20,
+.vector-icon9 {
+  position: absolute;
+  margin: 0 !important;
+}
+.logo20 {
+  top: 3.75px;
+  left: 111px;
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  justify-content: flex-start;
+  z-index: 1;
+  font-size: 30px;
+  color: #191d23;
+}
+.vector-icon9 {
+  height: 100%;
+  width: 4.9%;
+  top: 5.24%;
+  right: 92.46%;
+  bottom: -5.24%;
+  left: 2.64%;
+  max-width: 100%;
+  overflow: hidden;
+  max-height: 100%;
+  z-index: 2;
+}
+.header13,
+.headerleft9 {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+}
+.headerleft9 {
+  flex: 1;
+  position: relative;
+  gap: 8px;
+}
+.header13 {
+  position: absolute;
+  top: 17px;
+  left: 37px;
+  width: 1366px;
+  height: 55px;
+  text-align: left;
+  font-size: 16px;
+  color: #64748b;
+  font-family: Manrope;
+}
