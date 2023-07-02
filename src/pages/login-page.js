@@ -1,9 +1,14 @@
-import { useCallback } from "react";
-import { TextField } from "@mui/material";
+import { useCallback, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "./login-page.css";
+import TextFieldComponent from "../meterial-ui-components/Input/TextFieldComponent";
 const LoginPage = () => {
   const navigate = useNavigate();
+  const initialValues = {
+    email: "",
+    password: "",
+  };
+  const [formData, setFormData] = useState(initialValues);
 
   const onButtonsContainerClick = useCallback(() => {
     navigate("/signuppage");
@@ -74,8 +79,7 @@ const LoginPage = () => {
           </div>
         </div>
         <div className="email6">
-          <div className="label23">Email Address</div>
-          <TextField
+          <TextFieldComponent
             className="bar4"
             color="primary"
             variant="standard"
@@ -84,18 +88,22 @@ const LoginPage = () => {
             name="email"
             id="email"
             label="Email Address"
-            placeholder="Placeholder"
+            placeholder="Enter email"
             size="medium"
             margin="none"
+            value={formData.email}
+            onChangeHandler={(e) =>
+              setFormData({ ...formData, email: e.target.value })
+            }
           />
         </div>
         <div className="email6">
           <div className="email6">
             <div className="label24">
-              <div className="left-text">Password</div>
+              <div className="left-text"></div>
               <b className="right-text">Forgot Password</b>
             </div>
-            <TextField
+            <TextFieldComponent
               className="bar4"
               color="primary"
               variant="standard"
@@ -107,6 +115,10 @@ const LoginPage = () => {
               placeholder="Placeholder"
               size="medium"
               margin="none"
+              value={formData.password}
+              onChangeHandler={(e) =>
+                setFormData({ ...formData, password: e.target.value })
+              }
             />
           </div>
           <div className="sub-label">Please enter correct password</div>
@@ -130,9 +142,6 @@ const LoginPage = () => {
         <div className="bottom4">
           <div className="container10">
             <div className="or1">
-              <div className="or-sign-up-with-wrapper">
-                <div className="or-sign-up">or sign up with</div>
-              </div>
               <div className="or-child" />
             </div>
             <div className="socials1">
