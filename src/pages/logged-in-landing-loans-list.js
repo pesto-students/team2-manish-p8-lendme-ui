@@ -7,62 +7,11 @@ import {
   Select,
 } from "@mui/material";
 import "./logged-in-landing-loans-list.css";
+import Header from "../components/header";
 const LoggedInLandingLoansList = () => {
   return (
     <div className="loggedinlandingloanslist">
-      <div className="header4">
-        <div className="headerleft3">
-          <div className="categories3">
-            <div className="item18">
-              <div className="home4">
-                <img
-                  className="iconoutlinehome3"
-                  alt=""
-                  src="/iconoutlinehome2.svg"
-                />
-              </div>
-            </div>
-            <div className="item19">
-              <div className="investment3">Investment</div>
-              <img className="lighticon3" alt="" src="/lighticon3.svg" />
-            </div>
-            <div className="item20">
-              <div className="investment3">Request a Loan</div>
-            </div>
-            <div className="item21">
-              <div className="investment3">Loans List</div>
-            </div>
-            <div className="item22">
-              <div className="investment3">Portfolio</div>
-            </div>
-            <div className="item22">
-              <div className="investment3">Profile</div>
-            </div>
-          </div>
-          <div className="logo6">
-            <b className="investment3">LendMe</b>
-          </div>
-          <img className="vector-icon3" alt="" src="/vector3.svg" />
-        </div>
-      </div>
-      <div className="profileandlogout3">
-        <div className="content-wrapper1">
-          <div className="content6">
-            <div className="jenny-wilson3">Jenny Wilson</div>
-            <div className="jenwilsonexamplecom3">jen.wilson@example.com</div>
-          </div>
-        </div>
-        <Button
-          className="log-out3"
-          variant="outlined"
-          name="log_out"
-          id="log_out"
-          color="primary"
-          href="/loginpage"
-        >
-          Log out
-        </Button>
-      </div>
+      <Header isUserLoggedIn={true} />
       <div className="filters">
         <b className="title6">Filters</b>
         <div className="section">

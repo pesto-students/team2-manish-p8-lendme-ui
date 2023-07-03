@@ -1,56 +1,9 @@
+import Header from "../components/header";
 import "./existing-loan-detail-page.css";
 const ExistingLoanDetailPage = () => {
   return (
     <div className="existingloandetailpage">
-      <div className="header12">
-        <div className="headerleft8">
-          <div className="categories8">
-            <div className="item52">
-              <div className="home9">
-                <img
-                  className="iconoutlinehome8"
-                  alt=""
-                  src="/iconoutlinehome6.svg"
-                />
-              </div>
-            </div>
-            <div className="item53">
-              <div className="pay">Investment</div>
-              <img className="lighticon6" alt="" src="/lighticon5.svg" />
-            </div>
-            <div className="item54">
-              <div className="pay">Request a Loan</div>
-            </div>
-            <div className="item55">
-              <div className="pay">Loans List</div>
-            </div>
-            <div className="item56">
-              <div className="pay">Portfolio</div>
-            </div>
-            <div className="item56">
-              <div className="pay">Profile</div>
-            </div>
-          </div>
-          <div className="logo18">
-            <b className="pay">LendMe</b>
-          </div>
-          <img className="vector-icon8" alt="" src="/vector6.svg" />
-        </div>
-      </div>
-      <div className="profileandlogout5">
-        <div className="content-wrapper3">
-          <div className="content34">
-            <div className="jenny-wilson5">Jenny Wilson</div>
-            <div className="jenwilsonexamplecom5">jen.wilson@example.com</div>
-          </div>
-        </div>
-        <div className="log-out5">
-          <img className="left-icon4" alt="" src="/left-icon4.svg" />
-          <div className="layout5">
-            <div className="paid">Log out</div>
-          </div>
-        </div>
-      </div>
+      <Header isUserLoggedIn={true} />
       <div className="settings4">
         <div className="top9">
           <div className="icon-wrapper2">

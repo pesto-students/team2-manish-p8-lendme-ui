@@ -1,57 +1,10 @@
 import { Button } from "@mui/material";
 import "./profile-page.css";
+import Header from "../components/header";
 const ProfilePage = () => {
   return (
     <div className="profilepage">
-      <div className="header2">
-        <div className="headerleft1">
-          <div className="categories1">
-            <div className="item6">
-              <div className="home1">
-                <img
-                  className="iconoutlinehome1"
-                  alt=""
-                  src="/iconoutlinehome1.svg"
-                />
-              </div>
-            </div>
-            <div className="item7">
-              <div className="investment1">Investment</div>
-              <img className="lighticon1" alt="" src="/lighticon1.svg" />
-            </div>
-            <div className="item8">
-              <div className="investment1">Request a Loan</div>
-            </div>
-            <div className="item9">
-              <div className="investment1">Loans List</div>
-            </div>
-            <div className="item10">
-              <div className="investment1">Portfolio</div>
-            </div>
-            <div className="item10">
-              <div className="investment1">Profile</div>
-            </div>
-          </div>
-          <div className="logo2">
-            <b className="investment1">LendMe</b>
-          </div>
-          <img className="vector-icon1" alt="" src="/vector1.svg" />
-        </div>
-      </div>
-      <div className="profileandlogout1">
-        <div className="content-container">
-          <div className="content1">
-            <div className="jenny-wilson1">Jenny Wilson</div>
-            <div className="jenwilsonexamplecom1">jen.wilson@example.com</div>
-          </div>
-        </div>
-        <div className="log-out1">
-          <img className="left-icon1" alt="" src="/left-icon1.svg" />
-          <div className="layout2">
-            <div className="label9">Log out</div>
-          </div>
-        </div>
-      </div>
+      <Header isUserLoggedIn={true} />
       <div className="settings1">
         <div className="top3">
           <div className="icon-container">

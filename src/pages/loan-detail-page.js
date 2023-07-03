@@ -1,56 +1,9 @@
+import Header from "../components/header";
 import "./loan-detail-page.css";
 const LoanDetailPage = () => {
   return (
     <div className="loandetailpage">
-      <div className="header3">
-        <div className="headerleft2">
-          <div className="categories2">
-            <div className="item12">
-              <div className="home2">
-                <img
-                  className="iconoutlinehome2"
-                  alt=""
-                  src="/iconoutlinehome.svg"
-                />
-              </div>
-            </div>
-            <div className="item13">
-              <div className="investment2">Investment</div>
-              <img className="lighticon2" alt="" src="/lighticon2.svg" />
-            </div>
-            <div className="item14">
-              <div className="investment2">Request a Loan</div>
-            </div>
-            <div className="item15">
-              <div className="investment2">Loans List</div>
-            </div>
-            <div className="item16">
-              <div className="investment2">Portfolio</div>
-            </div>
-            <div className="item16">
-              <div className="investment2">Profile</div>
-            </div>
-          </div>
-          <div className="logo4">
-            <b className="investment2">LendMe</b>
-          </div>
-          <img className="vector-icon2" alt="" src="/vector2.svg" />
-        </div>
-      </div>
-      <div className="profileandlogout2">
-        <div className="content-frame">
-          <div className="content2">
-            <div className="jenny-wilson2">Jenny Wilson</div>
-            <div className="jenwilsonexamplecom2">jen.wilson@example.com</div>
-          </div>
-        </div>
-        <div className="log-out2">
-          <img className="left-icon2" alt="" src="/left-icon2.svg" />
-          <div className="layout3">
-            <div className="emi">Log out</div>
-          </div>
-        </div>
-      </div>
+      <Header isUserLoggedIn={true} />
       <div className="settings2">
         <div className="top5">
           <div className="icon-frame">

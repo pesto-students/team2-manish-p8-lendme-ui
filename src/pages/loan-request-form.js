@@ -1,12 +1,10 @@
 import { TextField } from "@mui/material";
 import Header from "../components/header";
-import ProfileAndLogout from "../components/profile-and-logout";
 import "./loan-request-form.css";
 const LoanRequestForm = () => {
   return (
     <div className="loanrequestform">
-      <Header />
-      <ProfileAndLogout />
+      <Header isUserLoggedIn={true} />
       <div className="sign-up">
         <div className="top">
           <div className="title">

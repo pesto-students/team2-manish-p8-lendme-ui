@@ -1,49 +1,9 @@
+import Header from "../components/header";
 import "./landing-page.css";
 const LandingPage = () => {
   return (
     <div className="landingpage">
-      <div className="header8">
-        <div className="headerleft6">
-          <div className="categories6">
-            <div className="item40">
-              <div className="home7">
-                <img
-                  className="iconoutlinehome6"
-                  alt=""
-                  src="/iconoutlinehome5.svg"
-                />
-              </div>
-            </div>
-            <div className="item41">
-              <div className="enter-your-email">Personal Loan</div>
-            </div>
-            <div className="item42">
-              <div className="enter-your-email">Investment</div>
-            </div>
-            <div className="item42">
-              <div className="enter-your-email">How it works</div>
-            </div>
-            <div className="item42">
-              <div className="enter-your-email">About us</div>
-            </div>
-            <div className="item42">
-              <div className="enter-your-email">Contact us</div>
-            </div>
-          </div>
-          <div className="logo13">
-            <b className="enter-your-email">LendMe</b>
-          </div>
-          <img className="vector-icon6" alt="" src="/vector4.svg" />
-        </div>
-        <div className="buttons3">
-          <div className="lightbutton5">
-            <div className="log-in2">Log In</div>
-          </div>
-          <div className="lightbutton6">
-            <div className="log-in2">Sign Up</div>
-          </div>
-        </div>
-      </div>
+      <Header isUserLoggedIn={false} />
       <div className="fast-accurate-reliable-parent">
         <b className="fast-accurate-reliable">Fast. Accurate. Reliable</b>
         <div className="the-most-powerful">

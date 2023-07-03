@@ -1,46 +1,9 @@
+import Header from "../components/header";
 import "./signup-page.css";
 const SignupPage = () => {
   return (
     <div className="signuppage">
-      <div className="header5">
-        <div className="headerleft4">
-          <div className="categories4">
-            <div className="item28">
-              <div className="home5">
-                <img
-                  className="iconoutlinehome4"
-                  alt=""
-                  src="/iconoutlinehome3.svg"
-                />
-              </div>
-            </div>
-            <div className="item29">
-              <div className="personal-loan">Personal Loan</div>
-            </div>
-            <div className="item30">
-              <div className="personal-loan">Investment</div>
-            </div>
-            <div className="item30">
-              <div className="personal-loan">How it works</div>
-            </div>
-            <div className="item30">
-              <div className="personal-loan">About us</div>
-            </div>
-            <div className="item30">
-              <div className="personal-loan">Contact us</div>
-            </div>
-          </div>
-          <div className="logo8">
-            <b className="personal-loan">LendMe</b>
-          </div>
-          <img className="vector-icon4" alt="" src="/vector4.svg" />
-        </div>
-        <div className="buttons1">
-          <div className="lightbutton3">
-            <div className="log-in">Log In</div>
-          </div>
-        </div>
-      </div>
+      <Header isUserLoggedIn={false} />
       <div className="sign-up3">
         <div className="top7">
           <div className="title9">

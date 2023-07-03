@@ -1,56 +1,9 @@
+import Header from "../components/header";
 import "./portfolio-page.css";
 const PortfolioPage = () => {
   return (
     <div className="portfoliopage">
-      <div className="header11">
-        <div className="headerleft7">
-          <div className="categories7">
-            <div className="item46">
-              <div className="home8">
-                <img
-                  className="iconoutlinehome7"
-                  alt=""
-                  src="/iconoutlinehome1.svg"
-                />
-              </div>
-            </div>
-            <div className="item47">
-              <div className="total-interest-gained">Investment</div>
-              <img className="lighticon5" alt="" src="/lighticon1.svg" />
-            </div>
-            <div className="item48">
-              <div className="total-interest-gained">Request a Loan</div>
-            </div>
-            <div className="item49">
-              <div className="total-interest-gained">Loans List</div>
-            </div>
-            <div className="item50">
-              <div className="total-interest-gained">Portfolio</div>
-            </div>
-            <div className="item50">
-              <div className="total-interest-gained">Profile</div>
-            </div>
-          </div>
-          <div className="logo16">
-            <b className="total-interest-gained">LendMe</b>
-          </div>
-          <img className="vector-icon7" alt="" src="/vector1.svg" />
-        </div>
-      </div>
-      <div className="profileandlogout4">
-        <div className="natonal-avg">
-          <div className="content22">
-            <div className="jenny-wilson4">Jenny Wilson</div>
-            <div className="jenwilsonexamplecom4">jen.wilson@example.com</div>
-          </div>
-        </div>
-        <div className="log-out4">
-          <img className="left-icon3" alt="" src="/left-icon4.svg" />
-          <div className="layout4">
-            <div className="good">Log out</div>
-          </div>
-        </div>
-      </div>
+      <Header isUserLoggedIn={true} />
       <div className="settings3">
         <div className="top8">
           <div className="icon-wrapper1">

@@ -2,6 +2,7 @@ import { useCallback, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "./login-page.css";
 import TextFieldComponent from "../meterial-ui-components/Input/TextFieldComponent";
+import Header from "../components/header";
 const LoginPage = () => {
   const navigate = useNavigate();
   const initialValues = {
@@ -9,10 +10,6 @@ const LoginPage = () => {
     password: "",
   };
   const [formData, setFormData] = useState(initialValues);
-
-  const onButtonsContainerClick = useCallback(() => {
-    navigate("/signuppage");
-  }, [navigate]);
 
   const onCTAContainerClick = useCallback(() => {
     navigate("/loggedinlandingloanslist");
@@ -24,45 +21,7 @@ const LoginPage = () => {
 
   return (
     <div className="loginpage">
-      <div className="header6">
-        <div className="headerleft5">
-          <div className="categories5">
-            <div className="item34">
-              <div className="home6">
-                <img
-                  className="iconoutlinehome5"
-                  alt=""
-                  src="/iconoutlinehome4.svg"
-                />
-              </div>
-            </div>
-            <div className="item35">
-              <div className="google">Personal Loan</div>
-            </div>
-            <div className="item36">
-              <div className="google">Investment</div>
-            </div>
-            <div className="item36">
-              <div className="google">How it works</div>
-            </div>
-            <div className="item36">
-              <div className="google">About us</div>
-            </div>
-            <div className="item36">
-              <div className="google">Contact us</div>
-            </div>
-          </div>
-          <div className="logo10">
-            <b className="google">LendMe</b>
-          </div>
-          <img className="vector-icon5" alt="" src="/vector5.svg" />
-        </div>
-        <div className="buttons2" onClick={onButtonsContainerClick}>
-          <div className="lightbutton4">
-            <div className="sign-up5">Sign Up</div>
-          </div>
-        </div>
-      </div>
+      <Header isUserLoggedIn={false} />
       <div className="log-in1">
         <div className="logo12">
           <img
