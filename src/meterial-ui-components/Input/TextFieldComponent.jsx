@@ -31,6 +31,7 @@ export default function TextFieldComponent({
       margin={margin}
       color={color}
       value={value}
+      fullWidth 
       onChange={(e) => onChangeHandler(e)}
     />
   );
