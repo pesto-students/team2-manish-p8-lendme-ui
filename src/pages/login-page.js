@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import "./login-page.css";
 import TextFieldComponent from "../meterial-ui-components/Input/TextFieldComponent";
 import Header from "../components/header";
+import ButtonComponent from "../meterial-ui-components/Button/ButtonComponent";
 const LoginPage = () => {
   const navigate = useNavigate();
   const initialValues = {
@@ -18,6 +19,11 @@ const LoginPage = () => {
   const onDontHaveAnClick = useCallback(() => {
     navigate("/signuppage");
   }, [navigate]);
+
+  const checkDetails = () => {
+    console.log(formData);
+    //TODO: send data to BE
+  }
 
   return (
     <div className="loginpage">
@@ -41,7 +47,7 @@ const LoginPage = () => {
           <TextFieldComponent
             className="bar4"
             color="primary"
-            variant="standard"
+            variant="outlined"
             defaultValue="abc@abc.abc"
             type="text"
             name="email"
@@ -65,7 +71,7 @@ const LoginPage = () => {
             <TextFieldComponent
               className="bar4"
               color="primary"
-              variant="standard"
+              variant="outlined"
               defaultValue="password"
               type="password"
               name="password"
@@ -95,9 +101,16 @@ const LoginPage = () => {
             <div className="keep-me-signed">Keep me signed in</div>
           </div>
         </div>
-        <div className="cta15" onClick={onCTAContainerClick}>
+        {/* <div className="cta15" onClick={onCTAContainerClick}>
           <div className="sign-up5">Continue</div>
-        </div>
+        </div> */}
+        <ButtonComponent
+            className="cta14"
+            buttonText="Continue"
+            onClickHandler={() => {
+              checkDetails();
+            }}
+          />
         <div className="bottom4">
           <div className="container10">
             <div className="or1">

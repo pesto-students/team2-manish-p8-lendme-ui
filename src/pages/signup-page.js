@@ -1,6 +1,31 @@
-import Header from "../components/header";
 import "./signup-page.css";
+import TextFieldComponent from "../meterial-ui-components/Input/TextFieldComponent";
+import { useState } from "react";
+import ButtonComponent from "../meterial-ui-components/Button/ButtonComponent";
+import Header from "../components/header";
+
 const SignupPage = () => {
+  const initialValues = {
+    firstName: "",
+    lastName: "",
+    email: "",
+    mobile: "",
+    panNo: "",
+    adharNo: "",
+    password: "",
+  };
+  const [password, setPassword] = useState("");
+  const [confirmedPassword, setConfirmedPassword] = useState("");
+  const [formData, setFormData] = useState(initialValues);
+
+  const checkDetails = () => {
+    if (password === confirmedPassword) {
+      console.log("password matching");
+      formData.password = confirmedPassword;
+    } else {
+      //TODO: Highlight password elements
+    }
+  };
   return (
     <div className="signuppage">
       <Header isUserLoggedIn={false} />
@@ -35,64 +60,157 @@ const SignupPage = () => {
           </div>
           <div className="inputs3">
             <div className="name11">
-              <div className="firstname1">
-                <div className="create-password">First Name</div>
-                <div className="search-bar14">
-                  <div className="alexan">Alexan</div>
-                  <div className="search-bar-child" />
-                </div>
-              </div>
-              <div className="firstname1">
-                <div className="create-password">Last Name</div>
-                <div className="search-bar15">
-                  <div className="doe">Doe</div>
-                </div>
-              </div>
+              <TextFieldComponent
+                className="firstname1"
+                color="primary"
+                variant="outlined"
+                defaultValue=""
+                type="text"
+                name="first-name"
+                id="first-name"
+                label="First Name"
+                placeholder="First Name"
+                size="medium"
+                margin="none"
+                value={formData.firstName}
+                onChangeHandler={(e) =>
+                  setFormData({ ...formData, firstName: e.target.value })
+                }
+              />
+              <TextFieldComponent
+                className="firstname1"
+                color="primary"
+                variant="outlined"
+                defaultValue=""
+                type="text"
+                name="last-name"
+                id="last-name"
+                label="Last Name"
+                placeholder="Last Name"
+                size="medium"
+                margin="none"
+                value={formData.lastName}
+                onChangeHandler={(e) =>
+                  setFormData({ ...formData, lastName: e.target.value })
+                }
+              />
             </div>
             <div className="name11">
-              <div className="firstname1">
-                <div className="create-password">Email</div>
-                <div className="search-bar15">
-                  <div className="doe">alexan.doe@gmail.com</div>
-                </div>
-              </div>
-              <div className="firstname1">
-                <div className="create-password">Mobile</div>
-                <div className="search-bar15">
-                  <div className="doe">9988998899</div>
-                </div>
-              </div>
+              <TextFieldComponent
+                className="firstname1"
+                color="primary"
+                variant="outlined"
+                defaultValue=""
+                type="text"
+                name="email"
+                id="email"
+                label="Email"
+                placeholder="abc@gmail.com"
+                size="medium"
+                margin="none"
+                value={formData.email}
+                onChangeHandler={(e) =>
+                  setFormData({ ...formData, email: e.target.value })
+                }
+              />
+              <TextFieldComponent
+                className="firstname1"
+                color="primary"
+                variant="outlined"
+                defaultValue=""
+                type="text"
+                name="mobile"
+                id="mobile"
+                label="Mobile"
+                placeholder="mobile number"
+                size="medium"
+                margin="none"
+                value={formData.mobile}
+                onChangeHandler={(e) =>
+                  setFormData({ ...formData, mobile: e.target.value })
+                }
+              />
             </div>
             <div className="name11">
-              <div className="firstname1">
-                <div className="create-password">Pan No.</div>
-                <div className="search-bar18" />
-              </div>
-              <div className="firstname1">
-                <div className="create-password">Aadhar No.</div>
-                <div className="search-bar18" />
-              </div>
+              <TextFieldComponent
+                className="firstname1"
+                color="primary"
+                variant="outlined"
+                defaultValue=""
+                type="text"
+                name="pan-no"
+                id="pan-no"
+                label="Pan No."
+                placeholder="Pan number"
+                size="medium"
+                margin="none"
+                value={formData.panNo}
+                onChangeHandler={(e) =>
+                  setFormData({ ...formData, panNo: e.target.value })
+                }
+              />
+              <TextFieldComponent
+                className="firstname1"
+                color="primary"
+                variant="outlined"
+                defaultValue=""
+                type="text"
+                name="adhar-no"
+                id="adhar-no"
+                label="Adhar No."
+                placeholder="Adhar number"
+                size="medium"
+                margin="none"
+                value={formData.adharNo}
+                onChangeHandler={(e) =>
+                  setFormData({ ...formData, adharNo: e.target.value })
+                }
+              />
             </div>
             <div className="password">
-              <div className="create-password">Create Password</div>
-              <div className="search-bar20">
-                <div className="doe">at least 8 characters</div>
-                <img className="icons27" alt="" src="/icons13.svg" />
-              </div>
+              <TextFieldComponent
+                className="firstname1"
+                color="primary"
+                variant="outlined"
+                defaultValue=""
+                type="text"
+                name="adhar-no"
+                id="adhar-no"
+                label="Create Password"
+                placeholder="at least 8 characters"
+                size="medium"
+                margin="none"
+                value={password}
+                onChangeHandler={(e) => setPassword(e.target.value)}
+              />
             </div>
             <div className="password">
-              <div className="create-password">Confirm Password</div>
-              <div className="search-bar21">
-                <img className="icons27" alt="" src="/icons13.svg" />
-              </div>
+              <TextFieldComponent
+                className="firstname1"
+                color="primary"
+                variant="outlined"
+                defaultValue=""
+                type="text"
+                name="confirm-pass"
+                id="confirm-pass"
+                label="Confirm Password"
+                size="medium"
+                margin="none"
+                value={confirmedPassword}
+                onChangeHandler={(e) => setConfirmedPassword(e.target.value)}
+              />
             </div>
           </div>
         </div>
         <div className="bottom3">
-          <div className="cta14">
-            <div className="log-in">Sign up</div>
-            <img className="icons29" alt="" src="/icons14.svg" />
-          </div>
+          <ButtonComponent
+            className="cta14"
+            buttonText="Sign up"
+            onClickHandler={() => {
+              checkDetails();
+            }}
+          />
+          
           <div className="login">
             <div className="already-have-an">Already have an account?</div>
             <div className="login-here">Login here</div>
