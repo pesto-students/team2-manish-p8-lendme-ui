@@ -200,7 +200,6 @@
   align-items: flex-start;
   justify-content: flex-start;
   font-size: 18px;
-  font-family: "SF Compact Rounded";
 }
 .fill {
   border-radius: 2px;
@@ -411,7 +410,13 @@
 .search {
   position: relative;
   font-weight: 500;
+  background-color: #047857;
+  padding: 14px;
 }
+.search:hover {
+  background-color: #035c43
+}
+
 .lightbutton2,
 .searchbar {
   border-radius: 4px;
@@ -450,7 +455,13 @@
   border: 1px solid #dadadb;
   box-sizing: border-box;
   width: 1042px;
-  height: 1252px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  padding: 15px 25px;
+  min-height: 500px;
+  height: 600px;
+  overflow-y: scroll;
 }
 .subtitle5 {
   align-self: stretch;
@@ -498,7 +509,7 @@
 }
 .verified {
   background-color: #ecfdf5;
-  width: 113px;
+  width: 120px;
   height: 22px;
   padding: 4px 10px;
   gap: 8px;
@@ -580,91 +591,31 @@
   text-align: center;
   color: #fff;
 }
-.checkout10,
-.checkout11,
-.checkout3,
-.checkout4,
-.checkout5,
-.checkout6,
-.checkout7,
-.checkout8,
-.checkout9 {
-  position: absolute;
-  top: 412px;
-  left: 727px;
+
+.checkout3 {
   border-radius: 8px;
   background-color: #fff;
   width: 308px;
-  height: 332px;
+  height: 350px;
   display: flex;
   flex-direction: column;
   padding: 10px 16px;
-  box-sizing: border-box;
-  align-items: flex-start;
-  justify-content: flex-start;
   gap: 25px;
+  margin: 15px 0px;
 }
-.checkout10,
-.checkout11,
-.checkout4,
-.checkout5,
-.checkout6,
-.checkout7,
-.checkout8,
-.checkout9 {
-  left: 1063px;
-}
-.checkout10,
-.checkout11,
-.checkout5,
-.checkout6,
-.checkout7,
-.checkout8,
-.checkout9 {
-  left: 391px;
-}
-.checkout10,
-.checkout11,
-.checkout6,
-.checkout7,
-.checkout8,
-.checkout9 {
-  top: 807px;
-}
-.checkout10,
-.checkout11,
-.checkout7,
-.checkout8,
-.checkout9 {
-  top: 1202px;
-}
-.checkout10,
-.checkout11,
-.checkout8,
-.checkout9 {
-  left: 727px;
-}
-.checkout10,
-.checkout11,
-.checkout9 {
-  left: 1063px;
-}
-.checkout10,
-.checkout11 {
-  top: 807px;
-  left: 727px;
-}
-.checkout11 {
-  left: 1063px;
-}
+
 .loggedinlandingloanslist {
   position: relative;
   background-color: #fff;
   width: 100%;
-  height: 1585px;
+  height: 1200px;
   overflow: hidden;
   text-align: left;
   font-size: 16px;
   color: #191d23;
   font-family: Manrope;
+}
+.css-12wnr2w-MuiButtonBase-root-MuiCheckbox-root.Mui-checked, 
+.css-vqmohf-MuiButtonBase-root-MuiRadio-root.Mui-checked  {
+  color: #047857;
 }

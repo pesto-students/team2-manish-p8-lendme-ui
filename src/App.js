@@ -15,6 +15,9 @@ import LoginPage from "./pages/login-page";
 import PortfolioPage from "./pages/portfolio-page";
 import ExistingLoanDetailPage from "./pages/existing-loan-detail-page";
 import { useEffect } from "react";
+import { LocalizationProvider } from "@mui/x-date-pickers";
+import { AdapterMoment } from "@mui/x-date-pickers/AdapterMoment";
+import { ToastContainer } from "react-toastify";
 
 function App() {
   const action = useNavigationType();
@@ -89,24 +92,37 @@ function App() {
   }, [pathname]);
 
   return (
-    <Routes>
-      <Route path="/" element={<LandingPage />} />
-      <Route path="/loanrequestform" element={<LoanRequestForm />} />
-      <Route path="/editprofilepage" element={<EditProfilePage />} />
-      <Route path="/profilepage" element={<ProfilePage />} />
-      <Route path="/loandetailpage" element={<LoanDetailPage />} />
-      <Route
-        path="/loggedinlandingloanslist"
-        element={<LoggedInLandingLoansList />}
+    <LocalizationProvider dateAdapter={AdapterMoment}>
+      <Routes>
+        <Route path="/" element={<LandingPage />} />
+        <Route path="/loanrequestform" element={<LoanRequestForm />} />
+        <Route path="/editprofilepage" element={<EditProfilePage />} />
+        <Route path="/profilepage" element={<ProfilePage />} />
+        <Route path="/loandetailpage" element={<LoanDetailPage />} />
+        <Route
+          path="/loggedinlandingloanslist"
+          element={<LoggedInLandingLoansList />}
+        />
+        <Route path="/signuppage" element={<SignupPage />} />
+        <Route path="/loginpage" element={<LoginPage />} />
+        <Route path="/portfoliopage" element={<PortfolioPage />} />
+        <Route
+          path="/existingloandetailpage"
+          element={<ExistingLoanDetailPage />}
+        />
+      </Routes>
+      <ToastContainer
+        position="top-right"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
       />
-      <Route path="/signuppage" element={<SignupPage />} />
-      <Route path="/loginpage" element={<LoginPage />} />
-      <Route path="/portfoliopage" element={<PortfolioPage />} />
-      <Route
-        path="/existingloandetailpage"
-        element={<ExistingLoanDetailPage />}
-      />
-    </Routes>
+    </LocalizationProvider>
   );
 }
 export default App;

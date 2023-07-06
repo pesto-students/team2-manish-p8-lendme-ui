@@ -202,12 +202,6 @@
   -webkit-line-clamp: 15;
   -webkit-box-orient: vertical;
 }
-.right-text {
-  position: relative;
-  font-size: 12px;
-  color: #047857;
-  text-align: right;
-}
 .label24 {
   align-self: stretch;
   display: flex;
@@ -222,10 +216,12 @@
   font-weight: 300;
   color: #dc2626;
   display: -webkit-inline-box;
-  overflow: hidden;
   text-overflow: ellipsis;
   -webkit-line-clamp: 15;
   -webkit-box-orient: vertical;
+}
+.invalid-email {
+  margin-top: -17px;
 }
 .fill4,
 .iconsoutlinecheckmark1 {
@@ -388,6 +384,7 @@
 }
 .sign-up-here {
   color: #047857;
+  cursor: pointer;
 }
 .dont-have-an-container {
   align-self: stretch;
@@ -398,8 +395,14 @@
   text-overflow: ellipsis;
   -webkit-line-clamp: 15;
   -webkit-box-orient: vertical;
-  cursor: pointer;
   color: #191d23;
+}
+.forgot-password {
+  cursor: pointer;
+  position: relative;
+  font-size: 12px;
+  color: #047857;
+  text-align: right;
 }
 .bottom4 {
   align-self: stretch;

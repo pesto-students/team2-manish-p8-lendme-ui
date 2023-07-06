@@ -1,14 +1,55 @@
 import {
-  Button,
   FormControl,
   InputLabel,
   MenuItem,
   FormHelperText,
   Select,
+  Checkbox,
+  Radio,
+  RadioGroup,
 } from "@mui/material";
 import "./logged-in-landing-loans-list.css";
 import Header from "../components/header";
+import { useEffect, useState } from "react";
+import { loanStatus, mockLoans } from "../constants";
+import { numberWithCommaINR } from "../utils/number-utils";
+import { months2years } from "../utils/date-utils";
+import ButtonComponent from "../meterial-ui-components/Button/ButtonComponent";
 const LoggedInLandingLoansList = () => {
+  const [loans, setLoans] = useState(
+    mockLoans.filter((loan) => loan.loanStatus === loanStatus.REQUESTED)
+  );
+
+  const [findSuitableLoanFormData, setFindSuitableLoanFormData] = useState({
+    principleAmount: "",
+    tenure: "",
+    interestRate: "",
+  });
+
+  const [principleAmountFilterData, setPrincipleAmountFilterData] = useState({
+    one: false,
+    two: false,
+    three: false,
+    four: false,
+  });
+
+  const [interestRateFilterData, setInterestRateFilterData] = useState({
+    one: false,
+    two: false,
+    three: false,
+    four: false,
+    five: false,
+  });
+
+  useEffect(() => {
+    console.log(principleAmountFilterData);
+  }, [principleAmountFilterData]);
+
+  const onClickFindSuitableLoan = () => {
+    console.log(findSuitableLoanFormData);
+    //call get loans with filters
+  };
+
   return (
     <div className="loggedinlandingloanslist">
       <Header isUserLoggedIn={true} />
@@ -17,83 +58,138 @@ const LoggedInLandingLoansList = () => {
         <div className="section">
           <div className="section-title">
             <div className="principle-amount1">Principle amount</div>
-            <img className="icons12" alt="" src="/icons5.svg" />
           </div>
           <div className="item24">
-            <div className="checkbox">
-              <div className="fill" />
-              <img
-                className="iconsoutlinecheckmark"
-                alt=""
-                src="/iconsoutlinecheckmark.svg"
-              />
-            </div>
+            <Checkbox
+              checked={principleAmountFilterData.one}
+              onChange={() => {
+                setPrincipleAmountFilterData({
+                  ...principleAmountFilterData,
+                  one: !principleAmountFilterData.one,
+                });
+              }}
+            />
             <div className="less-than">Less than ₹ 50,000</div>
           </div>
           <div className="item24">
-            <div className="checkbox1">
-              <div className="fill1" />
-              <div className="outline" />
-            </div>
+            <Checkbox
+              checked={principleAmountFilterData.two}
+              onChange={() => {
+                setPrincipleAmountFilterData({
+                  ...principleAmountFilterData,
+                  two: !principleAmountFilterData.two,
+                });
+              }}
+            />
             <div className="less-than">₹ 50,000 - ₹ 1Lakh</div>
           </div>
           <div className="item24">
-            <div className="checkbox1">
-              <div className="fill1" />
-              <div className="outline" />
-            </div>
+            <Checkbox
+              checked={principleAmountFilterData.three}
+              onChange={() => {
+                setPrincipleAmountFilterData({
+                  ...principleAmountFilterData,
+                  three: !principleAmountFilterData.three,
+                });
+              }}
+            />
             <div className="less-than">₹ 1Lakh - ₹ 10Lakhs</div>
           </div>
           <div className="item24">
-            <div className="checkbox1">
-              <div className="fill1" />
-              <div className="outline" />
-            </div>
+            <Checkbox
+              checked={principleAmountFilterData.four}
+              onChange={() => {
+                setPrincipleAmountFilterData({
+                  ...principleAmountFilterData,
+                  four: !principleAmountFilterData.four,
+                });
+              }}
+            />
             <div className="less-than">Greater than ₹ 10Lakhs</div>
           </div>
         </div>
-        <div className="section">
+        <RadioGroup className="section">
           <div className="section-title1">
             <div className="annual-interest-rate">Annual Interest Rate</div>
-            <img className="icons12" alt="" src="/icons6.svg" />
           </div>
           <div className="scale-option-parent">
-            <div className="scale-option">
-              <img className="radio-empty" alt="" src="/radio--empty.svg" />
-            </div>
+            <Radio
+              checked={interestRateFilterData.one}
+              onChange={() => {
+                setInterestRateFilterData({
+                  one: true,
+                  two: false,
+                  three: false,
+                  four: false,
+                  five: false,
+                });
+              }}
+            />
             <div className="less-than">{`< 5%`}</div>
           </div>
           <div className="scale-option-parent">
-            <div className="scale-option">
-              <img className="radio-empty" alt="" src="/radio--empty.svg" />
-            </div>
+            <Radio
+              checked={interestRateFilterData.two}
+              onChange={() => {
+                setInterestRateFilterData({
+                  one: false,
+                  two: true,
+                  three: false,
+                  four: false,
+                  five: false,
+                });
+              }}
+            />
             <div className="less-than">5% - 8%</div>
           </div>
           <div className="scale-option-parent">
-            <div className="scale-option">
-              <img className="radio-empty" alt="" src="/radio--empty.svg" />
-            </div>
+            <Radio
+              checked={interestRateFilterData.three}
+              onChange={() => {
+                setInterestRateFilterData({
+                  one: false,
+                  two: false,
+                  three: true,
+                  four: false,
+                  five: false,
+                });
+              }}
+            />
             <div className="less-than">8%-12%</div>
           </div>
           <div className="scale-option-parent">
-            <div className="scale-option">
-              <img className="radio-empty" alt="" src="/radio--empty.svg" />
-            </div>
+            <Radio
+              checked={interestRateFilterData.four}
+              onChange={() => {
+                setInterestRateFilterData({
+                  one: false,
+                  two: false,
+                  three: false,
+                  four: true,
+                  five: false,
+                });
+              }}
+            />
             <div className="less-than">12%-16%</div>
           </div>
           <div className="scale-option-parent">
             <div className="scale-option4">
-              <div className="scale-option">
-                <img className="radio-empty" alt="" src="/radio--filled.svg" />
-              </div>
+              <Radio
+                checked={interestRateFilterData.five}
+                onChange={() => {
+                  setInterestRateFilterData({
+                    one: false,
+                    two: false,
+                    three: false,
+                    four: false,
+                    five: true,
+                  });
+                }}
+              />
             </div>
             <div className="less-than">{`> 16%`}</div>
           </div>
-          <div className="dropdown">
-            <div className="show-more">Show more</div>
-            <img className="icons12" alt="" src="/icons7.svg" />
-          </div>
-        </div>
+        </RadioGroup>
       </div>
       <div className="searchbar">
         <div className="section2">
@@ -102,399 +198,135 @@ const LoggedInLandingLoansList = () => {
             variant="standard"
             id="principle_amount"
           >
-            <InputLabel color="primary">Principle Amount</InputLabel>
+            <InputLabel>Principle Amount</InputLabel>
             <Select
-              color="primary"
               name="principle_amount"
               id="principle_amount"
-              defaultValue="Select"
               size="medium"
-              label="Principle Amount"
-            />
-            <FormHelperText />
+              placeholder="Select Principle Amount"
+              onChange={(e) =>
+                setFindSuitableLoanFormData({
+                  ...findSuitableLoanFormData,
+                  principleAmount: e.target.value,
+                })
+              }
+            >
+              <MenuItem value={"1000-100000"}>{`${numberWithCommaINR(
+                1000
+              )} - ${numberWithCommaINR(100000)}`}</MenuItem>
+              <MenuItem value={"100000-500000"}>{`${numberWithCommaINR(
+                100000
+              )} - ${numberWithCommaINR(500000)}`}</MenuItem>
+              <MenuItem value={"500000-5000000"}>{`${numberWithCommaINR(
+                500000
+              )} - ${numberWithCommaINR(5000000)}`}</MenuItem>
+              <MenuItem value={"5000000"}>{`${numberWithCommaINR(
+                5000000
+              )}+`}</MenuItem>
+            </Select>
           </FormControl>
-          <img className="icons15" alt="" src="/icons8.svg" />
         </div>
         <img className="divider-icon" alt="" src="/divider.svg" />
         <div className="section3">
-          <div className="content8">
-            <div className="title7">Tenure</div>
-            <div className="subtitle3">Select</div>
-          </div>
-          <img className="icons15" alt="" src="/icons9.svg" />
+          <FormControl className="content7" variant="standard" id="tenure">
+            <InputLabel>Tenure</InputLabel>
+            <Select
+              name="tenure"
+              id="tenure"
+              size="medium"
+              placeholder="Select Tenure"
+              onChange={(e) =>
+                setFindSuitableLoanFormData({
+                  ...findSuitableLoanFormData,
+                  tenure: e.target.value,
+                })
+              }
+            >
+              <MenuItem value={"0-12"}>Less than an year</MenuItem>
+              <MenuItem value={"12-36"}>1-3 years</MenuItem>
+              <MenuItem value={"36-60"}>3-5 years</MenuItem>
+              <MenuItem value={"60"}>5+ years</MenuItem>
+            </Select>
+          </FormControl>
         </div>
         <img className="divider-icon" alt="" src="/divider1.svg" />
         <div className="section4">
-          <div className="content9">
-            <div className="title7">Interest Rate</div>
-            <div className="subtitle3">Select</div>
-          </div>
-          <img className="icons15" alt="" src="/icons10.svg" />
+          <FormControl
+            className="content7"
+            variant="standard"
+            id="interest_rate"
+          >
+            <InputLabel>Interest Rate</InputLabel>
+            <Select
+              name="interest_rate"
+              id="interest_rate"
+              size="medium"
+              placeholder="Select Interest Rate"
+              onChange={(e) =>
+                setFindSuitableLoanFormData({
+                  ...findSuitableLoanFormData,
+                  interestRate: e.target.value,
+                })
+              }
+            >
+              <MenuItem value={"0-5"}>0% to 5%</MenuItem>
+              <MenuItem value={"5-10"}>5% to 10%</MenuItem>
+              <MenuItem value={"10-15"}>10% to 15%</MenuItem>
+              <MenuItem value={"15-20"}>15% to 20%</MenuItem>
+              <MenuItem value={"20"}>20% +</MenuItem>
+            </Select>
+          </FormControl>
         </div>
-        <div className="lightbutton2">
-          <div className="search">Find a suitable Loan</div>
-        </div>
+        <ButtonComponent
+          className="search"
+          buttonText={"Find a suitable Loan"}
+          onClickHandler={onClickFindSuitableLoan}
+        />
       </div>
-      <div className="loggedinlandingloanslist-child" />
-      <div className="checkout3">
-        <div className="user1">
-          <div className="space">
-            <div className="container1">
-              <div className="content10">
-                <div className="content-wrapper1">
-                  <div className="total">Cameron Williamson</div>
+      <div className="loggedinlandingloanslist-child">
+        {loans.map((loan) => (
+          <div className="checkout3">
+            <div className="user1">
+              <div className="space">
+                <div className="container1">
+                  <div className="content10">
+                    <div className="content-wrapper1">
+                      <div className="total">{loan.borrowerName}</div>
+                    </div>
+                  </div>
                 </div>
-                <div className="subtitle5">Product Designer</div>
+              </div>
+              <div className="verified">
+                <img className="checkbox1" alt="" src="/icons11.svg" />
+                <div className="show-more">Verified User</div>
               </div>
             </div>
-          </div>
-          <div className="verified">
-            <img className="checkbox1" alt="" src="/icons11.svg" />
-            <div className="show-more">Verified User</div>
-          </div>
-        </div>
-        <div className="list3">
-          <div className="row18">
-            <div className="principle-amount2">Principle Amount</div>
-            <div className="div56">₹ 1,30,000</div>
-          </div>
-          <div className="row18">
-            <div className="principle-amount2">Interest Rate</div>
-            <div className="div56">5.5%</div>
-          </div>
-          <div className="row18">
-            <div className="principle-amount2">Tenure</div>
-            <div className="div56">2 years</div>
-          </div>
-          <div className="divider1" />
-          <div className="row21">
-            <div className="total">Total</div>
-            <div className="div58">₹ 1,65,960</div>
-          </div>
-        </div>
-        <div className="cta5">
-          <div className="show-more">Check Loan Details</div>
-        </div>
-      </div>
-      <div className="checkout4">
-        <div className="user1">
-          <div className="space">
-            <div className="container1">
-              <div className="content10">
-                <div className="content-wrapper1">
-                  <div className="total">Cameron Williamson</div>
+            <div className="list3">
+              <div className="row18">
+                <div className="principle-amount2">Principle Amount</div>
+                <div className="div56">{numberWithCommaINR(loan.amount)}</div>
+              </div>
+              <div className="row18">
+                <div className="principle-amount2">Interest Rate</div>
+                <div className="div56">{`${loan.interestRate}%`}</div>
+              </div>
+              <div className="row18">
+                <div className="principle-amount2">Tenure</div>
+                <div className="div56">{months2years(loan.tenureMonths)}</div>
+              </div>
+              <div className="divider1" />
+              <div className="row21">
+                <div className="total">Total</div>
+                <div className="div58">
+                  {numberWithCommaINR(loan.totalAmount, true)}
                 </div>
-                <div className="subtitle5">Product Designer</div>
               </div>
             </div>
-          </div>
-          <div className="verified">
-            <img className="checkbox1" alt="" src="/icons12.svg" />
-            <div className="show-more">Verified User</div>
-          </div>
-        </div>
-        <div className="list3">
-          <div className="row18">
-            <div className="principle-amount2">Principle Amount</div>
-            <div className="div56">₹ 1,30,000</div>
-          </div>
-          <div className="row18">
-            <div className="principle-amount2">Interest Rate</div>
-            <div className="div56">5.5%</div>
-          </div>
-          <div className="row18">
-            <div className="principle-amount2">Tenure</div>
-            <div className="div56">2 years</div>
-          </div>
-          <div className="divider1" />
-          <div className="row21">
-            <div className="total">Total</div>
-            <div className="div58">₹ 1,65,960</div>
-          </div>
-        </div>
-        <div className="cta5">
-          <div className="show-more">Check Loan Details</div>
-        </div>
-      </div>
-      <div className="checkout5">
-        <div className="user1">
-          <div className="space">
-            <div className="container1">
-              <div className="content10">
-                <div className="content-wrapper1">
-                  <div className="total">Cameron Williamson</div>
-                </div>
-                <div className="subtitle5">Product Designer</div>
-              </div>
+            <div className="cta5">
+              <div className="show-more">Check Loan Details</div>
             </div>
           </div>
-          <div className="verified">
-            <img className="checkbox1" alt="" src="/icons11.svg" />
-            <div className="show-more">Verified User</div>
-          </div>
-        </div>
-        <div className="list3">
-          <div className="row18">
-            <div className="principle-amount2">Principle Amount</div>
-            <div className="div56">₹ 1,30,000</div>
-          </div>
-          <div className="row18">
-            <div className="principle-amount2">Interest Rate</div>
-            <div className="div56">5.5%</div>
-          </div>
-          <div className="row18">
-            <div className="principle-amount2">Tenure</div>
-            <div className="div56">2 years</div>
-          </div>
-          <div className="divider1" />
-          <div className="row21">
-            <div className="total">Total</div>
-            <div className="div58">₹ 1,65,960</div>
-          </div>
-        </div>
-        <div className="cta5">
-          <div className="show-more">Check Loan Details</div>
-        </div>
-      </div>
-      <div className="checkout6">
-        <div className="user1">
-          <div className="space">
-            <div className="container1">
-              <div className="content10">
-                <div className="content-wrapper1">
-                  <div className="total">Cameron Williamson</div>
-                </div>
-                <div className="subtitle5">Product Designer</div>
-              </div>
-            </div>
-          </div>
-          <div className="verified">
-            <img className="checkbox1" alt="" src="/icons11.svg" />
-            <div className="show-more">Verified User</div>
-          </div>
-        </div>
-        <div className="list3">
-          <div className="row18">
-            <div className="principle-amount2">Principle Amount</div>
-            <div className="div56">₹ 1,30,000</div>
-          </div>
-          <div className="row18">
-            <div className="principle-amount2">Interest Rate</div>
-            <div className="div56">5.5%</div>
-          </div>
-          <div className="row18">
-            <div className="principle-amount2">Tenure</div>
-            <div className="div56">2 years</div>
-          </div>
-          <div className="divider1" />
-          <div className="row21">
-            <div className="total">Total</div>
-            <div className="div58">₹ 1,65,960</div>
-          </div>
-        </div>
-        <div className="cta5">
-          <div className="show-more">Check Loan Details</div>
-        </div>
-      </div>
-      <div className="checkout7">
-        <div className="user1">
-          <div className="space">
-            <div className="container1">
-              <div className="content10">
-                <div className="content-wrapper1">
-                  <div className="total">Cameron Williamson</div>
-                </div>
-                <div className="subtitle5">Product Designer</div>
-              </div>
-            </div>
-          </div>
-          <div className="verified">
-            <img className="checkbox1" alt="" src="/icons11.svg" />
-            <div className="show-more">Verified User</div>
-          </div>
-        </div>
-        <div className="list3">
-          <div className="row18">
-            <div className="principle-amount2">Principle Amount</div>
-            <div className="div56">₹ 1,30,000</div>
-          </div>
-          <div className="row18">
-            <div className="principle-amount2">Interest Rate</div>
-            <div className="div56">5.5%</div>
-          </div>
-          <div className="row18">
-            <div className="principle-amount2">Tenure</div>
-            <div className="div56">2 years</div>
-          </div>
-          <div className="divider1" />
-          <div className="row21">
-            <div className="total">Total</div>
-            <div className="div58">₹ 1,65,960</div>
-          </div>
-        </div>
-        <div className="cta5">
-          <div className="show-more">Check Loan Details</div>
-        </div>
-      </div>
-      <div className="checkout8">
-        <div className="user1">
-          <div className="space">
-            <div className="container1">
-              <div className="content10">
-                <div className="content-wrapper1">
-                  <div className="total">Cameron Williamson</div>
-                </div>
-                <div className="subtitle5">Product Designer</div>
-              </div>
-            </div>
-          </div>
-          <div className="verified">
-            <img className="checkbox1" alt="" src="/icons11.svg" />
-            <div className="show-more">Verified User</div>
-          </div>
-        </div>
-        <div className="list3">
-          <div className="row18">
-            <div className="principle-amount2">Principle Amount</div>
-            <div className="div56">₹ 1,30,000</div>
-          </div>
-          <div className="row18">
-            <div className="principle-amount2">Interest Rate</div>
-            <div className="div56">5.5%</div>
-          </div>
-          <div className="row18">
-            <div className="principle-amount2">Tenure</div>
-            <div className="div56">2 years</div>
-          </div>
-          <div className="divider1" />
-          <div className="row21">
-            <div className="total">Total</div>
-            <div className="div58">₹ 1,65,960</div>
-          </div>
-        </div>
-        <div className="cta5">
-          <div className="show-more">Check Loan Details</div>
-        </div>
-      </div>
-      <div className="checkout9">
-        <div className="user1">
-          <div className="space">
-            <div className="container1">
-              <div className="content10">
-                <div className="content-wrapper1">
-                  <div className="total">Cameron Williamson</div>
-                </div>
-                <div className="subtitle5">Product Designer</div>
-              </div>
-            </div>
-          </div>
-          <div className="verified">
-            <img className="checkbox1" alt="" src="/icons12.svg" />
-            <div className="show-more">Verified User</div>
-          </div>
-        </div>
-        <div className="list3">
-          <div className="row18">
-            <div className="principle-amount2">Principle Amount</div>
-            <div className="div56">₹ 1,30,000</div>
-          </div>
-          <div className="row18">
-            <div className="principle-amount2">Interest Rate</div>
-            <div className="div56">5.5%</div>
-          </div>
-          <div className="row18">
-            <div className="principle-amount2">Tenure</div>
-            <div className="div56">2 years</div>
-          </div>
-          <div className="divider1" />
-          <div className="row21">
-            <div className="total">Total</div>
-            <div className="div58">₹ 1,65,960</div>
-          </div>
-        </div>
-        <div className="cta5">
-          <div className="show-more">Check Loan Details</div>
-        </div>
-      </div>
-      <div className="checkout10">
-        <div className="user1">
-          <div className="space">
-            <div className="container1">
-              <div className="content10">
-                <div className="content-wrapper1">
-                  <div className="total">Cameron Williamson</div>
-                </div>
-                <div className="subtitle5">Product Designer</div>
-              </div>
-            </div>
-          </div>
-          <div className="verified">
-            <img className="checkbox1" alt="" src="/icons11.svg" />
-            <div className="show-more">Verified User</div>
-          </div>
-        </div>
-        <div className="list3">
-          <div className="row18">
-            <div className="principle-amount2">Principle Amount</div>
-            <div className="div56">₹ 1,30,000</div>
-          </div>
-          <div className="row18">
-            <div className="principle-amount2">Interest Rate</div>
-            <div className="div56">5.5%</div>
-          </div>
-          <div className="row18">
-            <div className="principle-amount2">Tenure</div>
-            <div className="div56">2 years</div>
-          </div>
-          <div className="divider1" />
-          <div className="row21">
-            <div className="total">Total</div>
-            <div className="div58">₹ 1,65,960</div>
-          </div>
-        </div>
-        <div className="cta5">
-          <div className="show-more">Check Loan Details</div>
-        </div>
-      </div>
-      <div className="checkout11">
-        <div className="user1">
-          <div className="space">
-            <div className="container1">
-              <div className="content10">
-                <div className="content-wrapper1">
-                  <div className="total">Cameron Williamson</div>
-                </div>
-                <div className="subtitle5">Product Designer</div>
-              </div>
-            </div>
-          </div>
-          <div className="verified">
-            <img className="checkbox1" alt="" src="/icons12.svg" />
-            <div className="show-more">Verified User</div>
-          </div>
-        </div>
-        <div className="list3">
-          <div className="row18">
-            <div className="principle-amount2">Principle Amount</div>
-            <div className="div56">₹ 1,30,000</div>
-          </div>
-          <div className="row18">
-            <div className="principle-amount2">Interest Rate</div>
-            <div className="div56">5.5%</div>
-          </div>
-          <div className="row18">
-            <div className="principle-amount2">Tenure</div>
-            <div className="div56">2 years</div>
-          </div>
-          <div className="divider1" />
-          <div className="row21">
-            <div className="total">Total</div>
-            <div className="div58">₹ 1,65,960</div>
-          </div>
-        </div>
-        <div className="cta5">
-          <div className="show-more">Check Loan Details</div>
-        </div>
+        ))}
       </div>
     </div>
   );

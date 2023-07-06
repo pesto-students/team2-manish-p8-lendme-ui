@@ -1,8 +1,16 @@
-import { TextField } from "@mui/material";
+import {
+  FormControl,
+  InputLabel,
+  MenuItem,
+  Select,
+  TextField,
+} from "@mui/material";
 import Header from "../components/header";
 import "./loan-request-form.css";
 import ButtonComponent from "../meterial-ui-components/Button/ButtonComponent";
 import { useState } from "react";
+import { DatePicker } from "@mui/x-date-pickers";
+
 const LoanRequestForm = () => {
   const initialValues = {
     principalAmount: "",
@@ -10,14 +18,16 @@ const LoanRequestForm = () => {
     repaymentFrequency: "",
     tenure: "",
     loanPurpose: "",
-    loanRequestExpiryDate: "",
+    loanRequestExpiryDate: null,
     description: "",
-    emiStartDate: "",
+    emiStartDate: null,
   };
 
   const [formData, setFormData] = useState(initialValues);
-
-  const checkDetails = () => {
+  const checkDetails = (e) => {
+    if (e) {
+      e.preventDefault();
+    }
     console.log(formData);
     //TODO: send data to BE
   };
@@ -25,8 +35,7 @@ const LoanRequestForm = () => {
   return (
     <div className="loanrequestform">
       <Header isUserLoggedIn={true} />
-
-      <div className="sign-up">
+      <form className="sign-up" onSubmit={(e) => checkDetails(e)}>
         <div className="top">
           <div className="title">
             <div className="loan-request-form-wrapper">
@@ -37,157 +46,195 @@ const LoanRequestForm = () => {
         <div className="middle">
           <div className="inputs">
             <div className="name">
-              <div className="firstname">
+              <FormControl className="firstname">
                 <TextField
-                  className="principal-amount"
+                  className="loan-request-form-field"
                   color="primary"
                   variant="outlined"
-                  defaultValue="20000"
-                  type="text"
+                  type="number"
                   name="principle_amount"
                   id="principle_amount"
-                  label="Principal Amount"
-                  placeholder="Placeholder"
+                  label="Principal Amount (in Rs)"
+                  placeholder="Enter principal amount"
                   size="medium"
+                  required={true}
                   margin="none"
-                  onChangeHandler={(e) =>
-                    setFormData({...formData, principalAmount: e.target.value})
-                  }
+                  value={formData.principalAmount}
+                  onChange={(e) => {
+                    const val = e.target.value;
+                    if (val < 0 || val > 10000000 || val % 1 !== 0) {
+                      return;
+                    }
+                    setFormData({
+                      ...formData,
+                      principalAmount: val,
+                    });
+                  }}
+                  onKeyPress={(e) => {
+                    if (e.key === "e" || e.key === "-") {
+                      e.preventDefault();
+                    }
+                  }}
                 />
-              </div>
-              <div className="firstname">
+              </FormControl>
+              <FormControl className="firstname">
                 <TextField
-                  className="principal-amount"
+                  className="loan-request-form-field"
                   color="primary"
                   variant="outlined"
-                  defaultValue=""
-                  type="text"
+                  type="number"
                   name="interest-rate"
                   id="interest-rate"
-                  label="Interest Rate (Annually)"
-                  placeholder="Placeholder"
+                  label="Interest Rate (% Annually)"
+                  placeholder="Enter interest rate"
                   size="medium"
+                  required={true}
                   margin="none"
-                  onChangeHandler={(e) =>
-                    setFormData({ ...formData, interestRate: e.target.value })
-                  }
+                  value={formData.interestRate}
+                  onChange={(e) => {
+                    const val = e.target.value;
+                    if (val < 0 || val > 100) {
+                      return;
+                    }
+                    setFormData({ ...formData, interestRate: val });
+                  }}
+                  onKeyPress={(e) => {
+                    if (e.key === "e" || e.key === "-") {
+                      e.preventDefault();
+                    }
+                  }}
                 />
-              </div>
+              </FormControl>
             </div>
             <div className="name">
-              <div className="firstname">
-                <TextField
-                  className="principal-amount"
-                  color="primary"
-                  variant="outlined"
-                  defaultValue=""
+              <FormControl className="firstname">
+                <InputLabel>Repayment Frequency</InputLabel>
+                <Select
+                  className="loan-request-form-field"
                   type="text"
-                  name="repeyment-frequency"
-                  id="repeyment-frequency"
+                  name="repayment-frequency"
+                  id="repayment-frequency"
                   label="Repayment Frequency"
-                  placeholder="Placeholder"
+                  placeholder="Enter repayment frequency"
                   size="medium"
+                  required={true}
                   margin="none"
-                  onChangeHandler={(e) =>
-                    setFormData({...formData, repaymentFrequency: e.target.value})
+                  value={formData.repaymentFrequency}
+                  onChange={(e) =>
+                    setFormData({
+                      ...formData,
+                      repaymentFrequency: e.target.value,
+                    })
                   }
-                />
-              </div>
-              <div className="firstname">
+                >
+                  <MenuItem value={1}>Monthly</MenuItem>
+                  <MenuItem value={2}>Quaterly</MenuItem>
+                  <MenuItem value={3}>Half-yearly</MenuItem>
+                  <MenuItem value={4}>Yearly</MenuItem>
+                </Select>
+              </FormControl>
+              <FormControl className="firstname">
                 <TextField
-                  className="principal-amount"
+                  className="loan-request-form-field"
                   color="primary"
                   variant="outlined"
-                  defaultValue="1 year"
-                  type="text"
+                  type="number"
                   name="tenure"
                   id="tenure"
-                  label="Tenure"
-                  placeholder="Placeholder"
+                  label="Tenure (in Months)"
+                  placeholder="Enter tenure"
                   size="medium"
+                  required={true}
                   margin="none"
-                  onChangeHandler={(e) =>
-                    setFormData({ ...formData, tenure: e.target.value })
-                  }
+                  value={formData.tenure}
+                  onChange={(e) => {
+                    const val = e.target.value;
+                    if (val < 0 || val > 100) {
+                      return;
+                    }
+                    setFormData({ ...formData, tenure: val });
+                  }}
+                  onKeyPress={(e) => {
+                    if (e.key === "e" || e.key === "-") {
+                      e.preventDefault();
+                    }
+                  }}
                 />
-              </div>
+              </FormControl>
             </div>
             <div className="name">
-              <div className="firstname">
+              <FormControl className="firstname">
                 <TextField
-                  className="principal-amount"
+                  className="loan-request-form-field"
                   color="primary"
                   variant="outlined"
-                  defaultValue="education"
                   type="text"
                   name="loan-purpose"
                   id="loan-purpose"
                   label="Loan purpose"
-                  placeholder="Placeholder"
+                  placeholder="Enter loan purpose"
                   size="medium"
+                  required={true}
                   margin="none"
-                  onChangeHandler={(e) =>
+                  value={formData.loanPurpose}
+                  onChange={(e) =>
                     setFormData({ ...formData, loanPurpose: e.target.value })
                   }
                 />
-              </div>
-              <div className="firstname">
-                <TextField
-                  className="principal-amount"
-                  color="primary"
-                  variant="outlined"
-                  defaultValue=""
-                  type="text"
-                  name="loan-request-expiry-date"
-                  id="loan-request-expiry-date"
+              </FormControl>
+              <FormControl className="firstname">
+                <DatePicker
+                  className="loan-request-form-field"
                   label="Loan Request Expiry Date"
-                  placeholder="Placeholder"
-                  size="medium"
-                  margin="none"
-                  onChangeHandler={(e) =>
-                    setFormData({
-                      ...formData,
-                      loanRequestExpiryDate: e.target.value,
-                    })
-                  }
+                  value={formData.loanRequestExpiryDate}
+                  required={true}
+                  onChange={(e) => {
+                    setFormData({ ...formData, loanRequestExpiryDate: e });
+                  }}
+                  format="DD/MM/YYYY"
+                  slotProps={{
+                    textField: {
+                      required: true,
+                    },
+                  }}
                 />
-              </div>
+              </FormControl>
             </div>
             <div className="name">
               <TextField
-                className="principal-amount"
+                className="loan-request-form-field description-field"
                 color="primary"
                 variant="outlined"
-                defaultValue=""
-                type="text"
+                type=""
                 name="description"
                 id="description"
-                label="Description(optional)"
-                placeholder="Placeholder"
+                label="Description (optional)"
+                placeholder="Enter description"
                 size="medium"
                 margin="none"
-                onChangeHandler={(e) =>
+                value={formData.description}
+                fullWidth={false}
+                onChange={(e) =>
                   setFormData({ ...formData, description: e.target.value })
                 }
               />
-              <div className="firstname">
-                <TextField
-                  className="principal-amount"
-                  color="primary"
-                  variant="outlined"
-                  defaultValue=""
-                  type="text"
-                  name="emi-start-date"
-                  id="emi-start-date"
+              <FormControl className="firstname">
+                <DatePicker
+                  className="loan-request-form-field"
                   label="EMI Start Date"
-                  placeholder="Placeholder"
-                  size="medium"
-                  margin="none"
-                  onChangeHandler={(e) =>
-                    setFormData({ ...formData, emiStartDate: e.target.value })
-                  }
+                  value={formData.emiStartDate}
+                  required={true}
+                  onChange={(e) => {
+                    setFormData({ ...formData, emiStartDate: e });
+                  }}
+                  format="DD/MM/YYYY"
+                  slotProps={{
+                    textField: {
+                      required: true,
+                    },
+                  }}
                 />
-              </div>
+              </FormControl>
             </div>
           </div>
         </div>
@@ -195,12 +242,10 @@ const LoanRequestForm = () => {
           <ButtonComponent
             className="cta14"
             buttonText="Request a loan"
-            onClickHandler={() => {
-              checkDetails();
-            }}
+            type="submit"
           />
         </div>
-      </div>
+      </form>
     </div>
   );
 };

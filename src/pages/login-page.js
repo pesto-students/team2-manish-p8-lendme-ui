@@ -1,9 +1,10 @@
 import { useCallback, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "./login-page.css";
-import TextFieldComponent from "../meterial-ui-components/Input/TextFieldComponent";
 import Header from "../components/header";
 import ButtonComponent from "../meterial-ui-components/Button/ButtonComponent";
+import { FormControl, TextField } from "@mui/material";
+import isEmail from "validator/lib/isEmail";
 const LoginPage = () => {
   const navigate = useNavigate();
   const initialValues = {
@@ -11,24 +12,26 @@ const LoginPage = () => {
     password: "",
   };
   const [formData, setFormData] = useState(initialValues);
+  const [wrongPassword, setWrongPassword] = useState(false);
+  const [validEmail, setValidEmail] = useState(true);
 
-  const onCTAContainerClick = useCallback(() => {
-    navigate("/loggedinlandingloanslist");
-  }, [navigate]);
-
-  const onDontHaveAnClick = useCallback(() => {
+  const onClickDontHaveAnAccount = useCallback(() => {
     navigate("/signuppage");
   }, [navigate]);
 
-  const checkDetails = () => {
+  const checkDetails = (e = null) => {
+    if (e) {
+      e.preventDefault();
+    }
+    setWrongPassword(true);
     console.log(formData);
     //TODO: send data to BE
-  }
+  };
 
   return (
     <div className="loginpage">
       <Header isUserLoggedIn={false} />
-      <div className="log-in1">
+      <form className="log-in1" onSubmit={(e) => checkDetails(e)}>
         <div className="logo12">
           <img
             className="black-and-white-collection-15"
@@ -43,32 +46,42 @@ const LoginPage = () => {
             Welcome back. Enter your credentials to access your account
           </div>
         </div>
-        <div className="email6">
-          <TextFieldComponent
+        <FormControl className="email6">
+          <TextField
             className="bar4"
             color="primary"
             variant="outlined"
-            defaultValue="abc@abc.abc"
-            type="text"
+            type="email"
             name="email"
             id="email"
             label="Email Address"
             placeholder="Enter email"
+            required
             size="medium"
             margin="none"
             value={formData.email}
-            onChangeHandler={(e) =>
-              setFormData({ ...formData, email: e.target.value })
-            }
+            onChange={(e) => {
+              const val = e.target.value;
+              if (isEmail(val)) {
+                setValidEmail(true);
+              } else {
+                setValidEmail(false);
+              }
+
+              setFormData({ ...formData, email: e.target.value });
+            }}
           />
+        </FormControl>
+        <div className="sub-label invalid-email">
+          {validEmail ? " " : "Incorrect Email"}
         </div>
         <div className="email6">
-          <div className="email6">
+          <FormControl className="email6">
             <div className="label24">
               <div className="left-text"></div>
-              <b className="right-text">Forgot Password</b>
+              <b className="forgot-password">Forgot Password</b>
             </div>
-            <TextFieldComponent
+            <TextField
               className="bar4"
               color="primary"
               variant="outlined"
@@ -77,76 +90,31 @@ const LoginPage = () => {
               name="password"
               id="password"
               label="Password"
-              placeholder="Placeholder"
+              placeholder="Enter Password"
               size="medium"
               margin="none"
+              required
               value={formData.password}
-              onChangeHandler={(e) =>
-                setFormData({ ...formData, password: e.target.value })
-              }
+              onChange={(e) => {
+                setWrongPassword(false);
+                setFormData({ ...formData, password: e.target.value });
+              }}
             />
-          </div>
-          <div className="sub-label">Please enter correct password</div>
-        </div>
-        <div className="checkbox4">
-          <div className="checkbox-icon">
-            <div className="fill4" />
-            <img
-              className="iconsoutlinecheckmark1"
-              alt=""
-              src="/iconsoutlinecheckmark1.svg"
-            />
-          </div>
-          <div className="label25">
-            <div className="keep-me-signed">Keep me signed in</div>
+          </FormControl>
+          <div className="sub-label">
+            {wrongPassword ? "Please enter correct password" : " "}
           </div>
         </div>
-        {/* <div className="cta15" onClick={onCTAContainerClick}>
-          <div className="sign-up5">Continue</div>
-        </div> */}
-        <ButtonComponent
-            className="cta14"
-            buttonText="Continue"
-            onClickHandler={() => {
-              checkDetails();
-            }}
-          />
+        <ButtonComponent className="cta14" buttonText="Continue" />
         <div className="bottom4">
-          <div className="container10">
-            <div className="or1">
-              <div className="or-child" />
-            </div>
-            <div className="socials1">
-              <div className="google-button1">
-                <div className="google-logo">
-                  <img
-                    className="logo-googleg-48dp"
-                    alt=""
-                    src="/logo-googleg-48dp.svg"
-                  />
-                </div>
-                <div className="google">Google</div>
-              </div>
-              <div className="apple-button1">
-                <div className="path4-wrapper">
-                  <img className="path4-icon1" alt="" src="/path41.svg" />
-                </div>
-                <div className="google">Apple</div>
-              </div>
-              <div className="apple-button1">
-                <div className="path4-wrapper">
-                  <img className="logo-googleg-48dp" alt="" src="/path14.svg" />
-                </div>
-                <div className="google">Facebook</div>
-              </div>
-            </div>
-          </div>
-          <div className="dont-have-an-container" onClick={onDontHaveAnClick}>
+          <div className="dont-have-an-container">
             <span>{`Don’t have an Account? `}</span>
-            <b className="sign-up-here">Sign up here</b>
+            <b className="sign-up-here" onClick={onClickDontHaveAnAccount}>
+              Sign up here
+            </b>
           </div>
         </div>
-      </div>
+      </form>
     </div>
   );
 };
