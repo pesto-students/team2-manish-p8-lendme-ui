@@ -1,10 +1,23 @@
 import { Button } from "@mui/material";
 import React from "react";
 
-export default function ButtonComponent({className, buttonText, variant, buttonImage, onClickHandler}){
-    return(
-        <Button className={className} variant={variant} onClick={(e) => onClickHandler(e)}>
-            {buttonText}
-        </Button>
-    )
+export default function ButtonComponent({
+  className,
+  buttonText,
+  buttonImage,
+  onClickHandler = () => {},
+  type = "",
+  disabled = false,
+}) {
+  return (
+    <Button
+      className={className}
+      variant="contained"
+      onClick={(e) => onClickHandler(e)}
+      type={type}
+      disabled={disabled}
+    >
+      {buttonText}
+    </Button>
+  );
 }

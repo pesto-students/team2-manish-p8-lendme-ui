@@ -1,0 +1,453 @@
+.iconoutlinehome1 {
+  position: relative;
+  width: 28px;
+  height: 28px;
+  overflow: hidden;
+  flex-shrink: 0;
+  mix-blend-mode: normal;
+}
+.home1,
+.item6 {
+  display: flex;
+  align-items: center;
+}
+.home1 {
+  background-color: #fff;
+  height: 44px;
+  flex-direction: column;
+  padding: 8px;
+  box-sizing: border-box;
+  justify-content: center;
+  transform: rotate(-0.11deg);
+  transform-origin: 0 0;
+}
+.item6 {
+  width: 44.58px;
+  height: 43.7px;
+  flex-direction: row;
+  justify-content: flex-start;
+}
+.investment1,
+.lighticon1 {
+  position: relative;
+}
+.lighticon1 {
+  width: 16.03px;
+  height: 16.03px;
+}
+.categories1,
+.item10,
+.item7,
+.item8,
+.item9 {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+}
+.item7 {
+  width: 134.98px;
+  height: 43.77px;
+  gap: 8px;
+}
+.categories1,
+.item10,
+.item8,
+.item9 {
+  width: 150.05px;
+  height: 43.19px;
+}
+.categories1,
+.item10,
+.item9 {
+  width: 109.05px;
+}
+.categories1,
+.item10 {
+  width: 101.05px;
+}
+.categories1 {
+  top: 3.44px;
+  left: 319.64px;
+  width: 684.44px;
+  height: 42.19px;
+  justify-content: center;
+  gap: 20px;
+  transform: rotate(0.11deg);
+  transform-origin: 0 0;
+  z-index: 0;
+}
+.categories1,
+.logo2,
+.vector-icon1 {
+  position: absolute;
+  margin: 0 !important;
+}
+.logo2 {
+  top: 3.75px;
+  left: 111px;
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  justify-content: flex-start;
+  z-index: 1;
+  font-size: 30px;
+  color: #191d23;
+}
+.vector-icon1 {
+  height: 100%;
+  width: 4.9%;
+  top: 5.24%;
+  right: 92.46%;
+  bottom: -5.24%;
+  left: 2.64%;
+  max-width: 100%;
+  overflow: hidden;
+  max-height: 100%;
+  z-index: 2;
+}
+.header2,
+.headerleft1 {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+}
+.headerleft1 {
+  flex: 1;
+  position: relative;
+  gap: 8px;
+}
+.header2 {
+  position: absolute;
+  top: 17px;
+  left: 37px;
+  width: 1366px;
+  height: 55px;
+  color: #64748b;
+}
+.jenny-wilson1,
+.jenwilsonexamplecom1 {
+  align-self: stretch;
+  position: relative;
+  font-weight: 600;
+  display: -webkit-inline-box;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  -webkit-line-clamp: 17;
+  -webkit-box-orient: vertical;
+}
+.jenwilsonexamplecom1 {
+  color: #a0abbb;
+}
+.content-container,
+.content1 {
+  display: flex;
+  justify-content: flex-start;
+}
+.content1 {
+  flex: 1;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 4px;
+}
+.content-container {
+  align-self: stretch;
+  flex-direction: row;
+  align-items: center;
+}
+.left-icon1 {
+  position: relative;
+  width: 20px;
+  height: 20px;
+  overflow: hidden;
+  flex-shrink: 0;
+}
+.label9 {
+  position: relative;
+  font-weight: 600;
+}
+.layout2,
+.log-out1 {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+}
+.layout2 {
+  overflow: hidden;
+  padding: 0 4px;
+}
+.log-out1 {
+  align-self: stretch;
+  border-radius: 4px;
+  background-color: #f7f8f9;
+  padding: 6px 8px;
+  gap: 4px;
+}
+.profileandlogout1 {
+  position: absolute;
+  top: 18px;
+  left: 1152px;
+  width: 251px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  gap: 16px;
+}
+.icon2 {
+  position: relative;
+  width: 16px;
+  height: 16px;
+  overflow: hidden;
+  flex-shrink: 0;
+}
+.icon-container {
+  border-radius: 4px;
+  border: 1px solid #d0d5dd;
+  box-sizing: border-box;
+  width: 24px;
+  height: 24px;
+  display: flex;
+  flex-direction: row;
+  padding: 8px;
+  align-items: center;
+  justify-content: center;
+}
+.profile3 {
+  flex: 1;
+  position: relative;
+  font-weight: 600;
+  display: -webkit-inline-box;
+  align-items: center;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  -webkit-line-clamp: 17;
+  -webkit-box-orient: vertical;
+}
+.settings1,
+.top3 {
+  display: flex;
+  justify-content: flex-start;
+}
+.top3 {
+  align-self: stretch;
+  flex-direction: row;
+  align-items: center;
+  gap: 12px;
+}
+.settings1 {
+  position: absolute;
+  top: 175px;
+  left: 89px;
+  border-radius: 4px;
+  background-color: #fff;
+  width: 333px;
+  height: 49px;
+  flex-direction: column;
+  padding: 16px;
+  box-sizing: border-box;
+  align-items: flex-start;
+  font-size: 24px;
+}
+.user-details1 {
+  position: absolute;
+  top: 257px;
+  left: 119px;
+  font-weight: 600;
+  display: -webkit-inline-box;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  -webkit-line-clamp: 17;
+  -webkit-box-orient: vertical;
+  width: 126.5px;
+}
+.first-name1 {
+  flex: 1;
+  position: relative;
+}
+.jenny1 {
+  position: relative;
+  text-align: right;
+}
+.checkout1,
+.list1,
+.row6 {
+  display: flex;
+  align-items: flex-start;
+}
+.row6 {
+  align-self: stretch;
+  height: 40px;
+  flex-direction: row;
+  justify-content: flex-start;
+  gap: 8px;
+}
+.checkout1,
+.list1 {
+  flex-direction: column;
+}
+.list1 {
+  width: 337px;
+  height: 308px;
+  justify-content: center;
+  gap: 16px;
+}
+.checkout1 {
+  position: absolute;
+  top: 308px;
+  left: 117px;
+  border-radius: 8px;
+  background-color: #fff;
+  border: 1px solid #dadadb;
+  box-sizing: border-box;
+  width: 367px;
+  height: 316px;
+  padding: 10px 16px;
+  justify-content: flex-start;
+}
+.lightbutton1 {
+  position: absolute;
+  top: 250px;
+  left: 377px;
+}
+.change-password1 {
+  align-self: stretch;
+  position: relative;
+  font-weight: 600;
+}
+.change-password-container,
+.title3,
+.top4 {
+  align-self: stretch;
+  display: flex;
+  align-items: flex-start;
+}
+.change-password-container {
+  flex: 1;
+  flex-direction: column;
+  justify-content: flex-start;
+}
+.title3,
+.top4 {
+  flex-direction: row;
+  justify-content: flex-end;
+}
+.top4 {
+  flex-direction: column;
+  justify-content: flex-start;
+}
+.current-password3 {
+  align-self: stretch;
+  position: relative;
+  font-weight: 500;
+}
+.icons5 {
+  position: relative;
+  width: 16px;
+  height: 16px;
+}
+.search-bar11 {
+  align-self: stretch;
+  border-radius: 4px;
+  border: 1px solid #d0d5dd;
+  box-sizing: border-box;
+  height: 40px;
+  display: flex;
+  flex-direction: row;
+  padding: 8px;
+  align-items: center;
+  justify-content: flex-end;
+}
+.current-password2 {
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 4px;
+}
+.current-password2,
+.inputs2,
+.midldle1,
+.search-bar12 {
+  align-self: stretch;
+  display: flex;
+  justify-content: flex-start;
+}
+.search-bar12 {
+  border-radius: 4px;
+  border: 1px solid #d0d5dd;
+  box-sizing: border-box;
+  height: 40px;
+  flex-direction: row;
+  padding: 8px;
+  align-items: center;
+  gap: 8px;
+  color: #64748b;
+}
+.inputs2,
+.midldle1 {
+  flex-direction: column;
+  align-items: flex-start;
+}
+.inputs2 {
+  gap: 24px;
+}
+.midldle1 {
+  font-size: 14px;
+}
+.icons8 {
+  position: relative;
+  width: 20px;
+  height: 20px;
+}
+.bottom2,
+.cta3,
+.sign-up2 {
+  display: flex;
+  align-items: center;
+}
+.cta3 {
+  align-self: stretch;
+  border-radius: 4px;
+  background-color: #047857;
+  height: 44px;
+  flex-direction: row;
+  padding: 6px 12px;
+  box-sizing: border-box;
+  justify-content: center;
+  gap: 4px;
+}
+.bottom2,
+.sign-up2 {
+  flex-direction: column;
+  justify-content: flex-start;
+}
+.bottom2 {
+  align-self: stretch;
+  text-align: center;
+  font-size: 16px;
+  color: #fff;
+}
+.sign-up2 {
+  position: absolute;
+  top: 224px;
+  left: 869px;
+  border-radius: 4px;
+  background-color: #fff;
+  width: 450px;
+  padding: 32px 24px;
+  box-sizing: border-box;
+  gap: 40px;
+  font-size: 22px;
+}
+.profilepage {
+  position: relative;
+  background-color: #fff;
+  width: 100%;
+  height: 805px;
+  overflow: hidden;
+  text-align: left;
+  font-size: 16px;
+  color: #191d23;
+  font-family: Manrope;
+}

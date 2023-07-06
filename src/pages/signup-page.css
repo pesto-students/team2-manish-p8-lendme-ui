@@ -253,7 +253,15 @@
   height: 14px;
   z-index: 1;
 }
-.firstname1,
+.firstname {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  gap: 4px;
+}
+/* .firstname1, */
 .search-bar14 {
   display: flex;
   justify-content: flex-start;
@@ -271,10 +279,13 @@
   gap: 8px;
 }
 .firstname1 {
-  flex: 1;
+  /* flex: 1;
   flex-direction: column;
   align-items: flex-start;
-  gap: 4px;
+  gap: 4px; */
+  align-self: stretch;
+  position: relative;
+  font-weight: 500;
 }
 .doe {
   flex: 1;
@@ -306,6 +317,7 @@
   border: 1px solid #d0d5dd;
   box-sizing: border-box;
   height: 40px;
+  width: 77rem;
 }
 .create-password {
   align-self: stretch;
@@ -385,6 +397,9 @@
   justify-content: center;
   gap: 4px;
 }
+.cta14:hover {
+  background-color: #035c43
+}
 .already-have-an,
 .login-here {
   position: relative;
@@ -394,6 +409,7 @@
   text-decoration: underline;
   font-weight: 600;
   color: #047857;
+  cursor: pointer;
 }
 .bottom3,
 .login,
@@ -423,7 +439,7 @@
 }
 .sign-up3 {
   position: absolute;
-  top: 82px;
+  top: 120px;
   left: 53px;
   border-radius: 4px;
   background-color: #fff;
@@ -434,6 +450,16 @@
   gap: 40px;
   font-size: 22px;
   color: #191d23;
+}
+.sub-label {
+  align-self: stretch;
+  position: relative;
+  font-weight: 300;
+  color: #dc2626;
+  display: -webkit-inline-box;
+  text-overflow: ellipsis;
+  -webkit-line-clamp: 15;
+  -webkit-box-orient: vertical;
 }
 .signuppage {
   position: relative;

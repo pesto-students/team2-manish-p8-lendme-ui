@@ -24,15 +24,14 @@
   flex-direction: column;
   justify-content: flex-start;
 }
-.principal-amount {
+.loan-request-form-field {
   align-self: stretch;
   position: relative;
   font-weight: 500;
 }
-.search-bar {
-  border: 0;
-  background-color: transparent;
-  align-self: stretch;
+.description-field div input {
+  height: 5.4375em;
+  width: 37.6rem;
 }
 .firstname {
   flex: 1;
@@ -46,23 +45,12 @@
   flex: 1;
   position: relative;
 }
-.name,
-.search-bar1 {
+
+.name {
   align-self: stretch;
   display: flex;
   flex-direction: row;
   justify-content: flex-start;
-}
-.search-bar1 {
-  border-radius: 4px;
-  border: 1px solid #d0d5dd;
-  box-sizing: border-box;
-  height: 40px;
-  padding: 8px;
-  align-items: center;
-  color: #64748b;
-}
-.name {
   align-items: flex-start;
   gap: 28px;
 }
@@ -148,4 +136,20 @@
   font-size: 22px;
   color: #191d23;
   font-family: Manrope;
+}
+.cta14 {
+  align-self: stretch;
+  border-radius: 4px;
+  background-color: #047857;
+  height: 44px;
+  display: flex;
+  flex-direction: row;
+  padding: 6px 12px;
+  box-sizing: border-box;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+}
+.cta14:hover {
+  background-color: #035c43
 }
