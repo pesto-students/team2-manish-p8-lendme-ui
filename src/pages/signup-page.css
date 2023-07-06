@@ -416,6 +416,7 @@
 .sign-up3 {
   display: flex;
   align-items: center;
+  margin-top: 50px;
 }
 .login {
   align-self: stretch;
