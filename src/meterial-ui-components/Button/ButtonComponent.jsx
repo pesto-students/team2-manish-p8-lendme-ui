@@ -16,6 +16,7 @@ export default function ButtonComponent({
       onClick={(e) => onClickHandler(e)}
       type={type}
       disabled={disabled}
+      style={{ fontWeight: 600, fontFamily: "Manrope" }}
     >
       {buttonText}
     </Button>

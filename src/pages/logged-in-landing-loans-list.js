@@ -11,14 +11,16 @@ import {
 import "./logged-in-landing-loans-list.css";
 import Header from "../components/header";
 import { useEffect, useState } from "react";
-import { loanStatus, mockLoans } from "../constants";
+import { loanStatus, urlRoutes } from "../constants";
 import { numberWithCommaINR } from "../utils/number-utils";
 import { months2years } from "../utils/date-utils";
 import ButtonComponent from "../meterial-ui-components/Button/ButtonComponent";
+import { read } from "../utils/axios-utils";
+import { getFullName } from "../utils/string-utils";
+import { useNavigate } from "react-router-dom";
 const LoggedInLandingLoansList = () => {
-  const [loans, setLoans] = useState(
-    mockLoans.filter((loan) => loan.loanStatus === loanStatus.REQUESTED)
-  );
+  const navigate = useNavigate();
+  const [loans, setLoans] = useState([]);
 
   const [findSuitableLoanFormData, setFindSuitableLoanFormData] = useState({
     principleAmount: "",
@@ -41,13 +43,27 @@ const LoggedInLandingLoansList = () => {
     five: false,
   });
 
+  const [loading, setLoading] = useState(false);
+
   useEffect(() => {
-    console.log(principleAmountFilterData);
-  }, [principleAmountFilterData]);
+    (async () => {
+      setLoading(true);
+      const resp = await read("loan");
+      console.log(resp);
+      if (resp.status === "SUCCESS") {
+        setLoans(resp.data.loans);
+      }
+      setLoading(false);
+    })();
+  }, []);
 
   const onClickFindSuitableLoan = () => {
     console.log(findSuitableLoanFormData);
-    //call get loans with filters
+    //call get loans with filters.
+  };
+
+  const handleCheckLoanDetailsClick = (loanData) => {
+    navigate(`${urlRoutes.loanDetailPage}/${loanData.id}`);
   };
 
   return (
@@ -291,7 +307,12 @@ const LoggedInLandingLoansList = () => {
                 <div className="container1">
                   <div className="content10">
                     <div className="content-wrapper1">
-                      <div className="total">{loan.borrowerName}</div>
+                      <div className="total">
+                        {getFullName(
+                          loan.borrower.firstName,
+                          loan.borrower.lastName
+                        )}
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -318,13 +339,21 @@ const LoggedInLandingLoansList = () => {
               <div className="row21">
                 <div className="total">Total</div>
                 <div className="div58">
-                  {numberWithCommaINR(loan.totalAmount, true)}
+                  {numberWithCommaINR(
+                    parseFloat(loan.amount || 0) +
+                      parseFloat(loan.interest || 0),
+                    true
+                  )}
                 </div>
               </div>
             </div>
-            <div className="cta5">
-              <div className="show-more">Check Loan Details</div>
-            </div>
+            <ButtonComponent
+              className="cta5"
+              buttonText={"Check Loan Details"}
+              onClickHandler={() => handleCheckLoanDetailsClick(loan)}
+            >
+              <div className="show-more"></div>
+            </ButtonComponent>
           </div>
         ))}
       </div>

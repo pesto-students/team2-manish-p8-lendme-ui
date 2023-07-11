@@ -3,8 +3,10 @@ import { useNavigate } from "react-router-dom";
 import "./login-page.css";
 import Header from "../components/header";
 import ButtonComponent from "../meterial-ui-components/Button/ButtonComponent";
-import { FormControl, TextField } from "@mui/material";
+import { CircularProgress, FormControl, TextField } from "@mui/material";
 import isEmail from "validator/lib/isEmail";
+import { create } from "../utils/axios-utils";
+import { urlRoutes } from "../constants";
 const LoginPage = () => {
   const navigate = useNavigate();
   const initialValues = {
@@ -12,20 +14,29 @@ const LoginPage = () => {
     password: "",
   };
   const [formData, setFormData] = useState(initialValues);
-  const [wrongPassword, setWrongPassword] = useState(false);
+  const [wrongPassword, setWrongPassword] = useState("");
   const [validEmail, setValidEmail] = useState(true);
+  const [loading, setLoading] = useState(false);
 
   const onClickDontHaveAnAccount = useCallback(() => {
-    navigate("/signuppage");
+    navigate(urlRoutes.signupPage);
   }, [navigate]);
 
-  const checkDetails = (e = null) => {
+  const checkDetails = async (e = null) => {
     if (e) {
       e.preventDefault();
     }
-    setWrongPassword(true);
-    console.log(formData);
-    //TODO: send data to BE
+    setLoading(true);
+    const resp = await create("auth/login", formData);
+    console.log(resp);
+    if (resp.status === "ERROR") {
+      setWrongPassword("Email and Password do not match");
+    } else if (resp.status === "SUCCESS") {
+      const token = resp.data.token;
+      localStorage.setItem("accessToken", token);
+      navigate(urlRoutes.loggedInLandingLoansList);
+    }
+    setLoading(false);
   };
 
   return (
@@ -96,16 +107,25 @@ const LoginPage = () => {
               required
               value={formData.password}
               onChange={(e) => {
-                setWrongPassword(false);
+                setWrongPassword("");
                 setFormData({ ...formData, password: e.target.value });
               }}
             />
           </FormControl>
-          <div className="sub-label">
-            {wrongPassword ? "Please enter correct password" : " "}
-          </div>
+          <div className="sub-label">{wrongPassword ? wrongPassword : " "}</div>
         </div>
-        <ButtonComponent className="cta14" buttonText="Continue" />
+        <ButtonComponent
+          className="cta14"
+          buttonText={
+            loading ? (
+              <CircularProgress
+                style={{ color: "white", width: "30px", height: "30px" }}
+              />
+            ) : (
+              "Continue"
+            )
+          }
+        />
         <div className="bottom4">
           <div className="dont-have-an-container">
             <span>{`Don’t have an Account? `}</span>
