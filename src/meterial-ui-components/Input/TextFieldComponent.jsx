@@ -18,6 +18,7 @@ export default function TextFieldComponent({
   onChangeHandler,
   required = false,
   fullWidth = true,
+  style={}
 }) {
   return (
     <TextField
@@ -36,6 +37,7 @@ export default function TextFieldComponent({
       fullWidth={fullWidth}
       required={required}
       onChange={(e) => onChangeHandler(e)}
+      style={style}
     />
   );
 }
