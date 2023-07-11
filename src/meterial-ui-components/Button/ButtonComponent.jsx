@@ -8,15 +8,16 @@ export default function ButtonComponent({
   onClickHandler = () => {},
   type = "",
   disabled = false,
+  style = null,
 }) {
   return (
     <Button
-      className={className}
+      className={`${className} button-component`}
       variant="contained"
       onClick={(e) => onClickHandler(e)}
       type={type}
       disabled={disabled}
-      style={{ fontWeight: 600, fontFamily: "Manrope" }}
+      style={style}
     >
       {buttonText}
     </Button>
