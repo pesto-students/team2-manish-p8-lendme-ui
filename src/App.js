@@ -98,7 +98,7 @@ function App() {
         <Route path="/loanrequestform" element={<LoanRequestForm />} />
         <Route path="/editprofilepage" element={<EditProfilePage />} />
         <Route path="/profilepage" element={<ProfilePage />} />
-        <Route path="/loandetailpage" element={<LoanDetailPage />} />
+        <Route path="/loandetailpage/:id" element={<LoanDetailPage />} />
         <Route
           path="/loggedinlandingloanslist"
           element={<LoggedInLandingLoansList />}

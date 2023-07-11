@@ -311,10 +311,7 @@
   flex-direction: column;
   align-items: flex-start;
 }
-.show-more {
-  position: relative;
-  font-weight: 600;
-}
+
 .dropdown,
 .filters {
   display: flex;
@@ -590,6 +587,9 @@
   align-items: center;
   text-align: center;
   color: #fff;
+}
+.cta5:hover {
+  background-color: #035c43
 }
 
 .checkout3 {
