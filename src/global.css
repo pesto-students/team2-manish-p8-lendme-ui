@@ -8,3 +8,7 @@ body {
   margin: 0;
   line-height: normal;
 }
+.loader-container {
+  text-align: center;
+  margin-top: 20%;
+}

@@ -5,19 +5,21 @@ import Back from "@mui/icons-material/ChevronLeft";
 import ButtonComponent from "../meterial-ui-components/Button/ButtonComponent";
 import Modal from "@mui/material/Modal";
 import Box from "@mui/material/Box";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import validator from "validator";
-import { TextField } from "@mui/material";
+import { CircularProgress, TextField } from "@mui/material";
 import isEmail from "validator/lib/isEmail";
+import { read, update } from "../utils/axios-utils";
+import { toast } from "react-toastify";
 
 const profilePage = () => {
   const dummyData = {
-    firstName: "Rachel",
-    lastName: "Green",
-    email: "rachel@gmail.com",
-    mobile: "1234987655",
-    panNumber: "HWF276890",
-    aadharNumber: "1928 3847 4857",
+    firstName: "",
+    lastName: "",
+    email: "",
+    mobile: "",
+    panNumber: "",
+    aadharNumber: "",
   };
 
   let count = 0;
@@ -39,6 +41,36 @@ const profilePage = () => {
     useState("");
   const [openModal, setOpenModal] = useState(false);
   const [validEmail, setValidEmail] = useState(true);
+  const [loading, setLoading] = useState(false);
+  const [updatePasswordLoader, setUpdatePasswordLoader] = useState(false);
+  const [updateModalLoader, setUpdateModalLoader] = useState(false);
+  useEffect(() => {
+    (async () => {
+      try {
+        setLoading(true);
+        const resp = await read("user");
+        console.log(resp);
+        if (resp && resp.status === "SUCCESS") {
+          const { aadhar, firstName, lastName, email, mobile, pan } =
+            resp.data.user;
+          setUserData({
+            firstName,
+            lastName,
+            email,
+            mobile,
+            panNumber: pan,
+            aadharNumber: aadhar,
+          });
+        } else {
+          toast.error("Error fetching user profile.");
+        }
+        setLoading(false);
+      } catch (err) {
+        console.log(err);
+        setLoading(false);
+      }
+    })();
+  }, []);
 
   const modalBoxStyle = {
     position: "absolute",
@@ -54,7 +86,7 @@ const profilePage = () => {
     pb: 3,
   };
 
-  const handleUpdatePassword = () => {
+  const handleUpdatePassword = async () => {
     if (newpassword !== confirmedNewpassword) {
       setConfirmedNewPasswordError("Passwords do not match");
       return;
@@ -63,9 +95,23 @@ const profilePage = () => {
       setConfirmedNewPasswordError("Old and new passwords cannot be same");
       return;
     }
-    console.log(currentPassword);
-    console.log(newpassword);
-    console.log(confirmedNewpassword);
+    try {
+      setUpdatePasswordLoader(true);
+      const resp = await update("user/updatePassword", {
+        password: newpassword,
+      });
+      if (resp && resp.status === "SUCCESS") {
+        toast.success("Password has been updated");
+        setNewPassword("");
+        setConfirmedNewPassword("");
+        setCurrentPassword("");
+      }
+      setUpdatePasswordLoader(false);
+    } catch (err) {
+      console.log(err);
+      toast.error("Something went wrong");
+      setUpdatePasswordLoader(false);
+    }
   };
 
   const handlePasswordChange = (inputPassword) => {
@@ -87,14 +133,29 @@ const profilePage = () => {
   const handleOpen = () => setOpenModal(true);
   const handleClose = () => setOpenModal(false);
 
-  const handleSubmitUpdateModal = () => {
-    console.log(userData);
+  const handleSubmitUpdateModal = async (e = null) => {
+    if (e) {
+      e.preventDefault();
+    }
+    setUpdateModalLoader(true);
+    const resp = await update("user", {
+      firstName: userData.firstName,
+      lastName: userData.lastName,
+      email: userData.email,
+      mobile: userData.mobile,
+    });
+    if (resp && resp.status === "SUCCESS") {
+      toast.success("User profile updated successfully");
+    } else {
+      toast.error("Something went wrong");
+    }
+    setUpdateModalLoader(false);
     handleClose();
   };
 
   return (
     <div id="profile">
-      <Header isUserLoggedIn={true} />
+      <Header />
 
       <div className="profile-page">
         <div className="profile-header">
@@ -123,7 +184,7 @@ const profilePage = () => {
                   <Box sx={{ ...modalBoxStyle }}>
                     <form
                       className="edit-data"
-                      onSubmit={(e) => handleSubmitUpdateModal()}
+                      onSubmit={(e) => handleSubmitUpdateModal(e)}
                     >
                       <div className="profile-header">
                         <div className="back-btn" onClick={() => handleClose()}>
@@ -241,7 +302,19 @@ const profilePage = () => {
                         />
                         <ButtonComponent
                           className="edit-modal-btn"
-                          buttonText="Update Profile"
+                          buttonText={
+                            updateModalLoader ? (
+                              <CircularProgress
+                                style={{
+                                  color: "white",
+                                  width: "27px",
+                                  height: "27px",
+                                }}
+                              />
+                            ) : (
+                              "Update Profile"
+                            )
+                          }
                           type="submit"
                           style={{
                             minWidth: "311px",
@@ -256,7 +329,7 @@ const profilePage = () => {
               </div>
             </div>
             <div className="details-data" id="profile-detail">
-              {Object.entries(dummyData).map(([key, value]) => (
+              {Object.entries(userData).map(([key, value]) => (
                 <div className="detail-item" key={key}>
                   <div className="item-name"> {userDataLabels[count++]} </div>
                   <div className="item-value"> {value} </div>
@@ -345,7 +418,15 @@ const profilePage = () => {
 
               <ButtonComponent
                 className="change-pass-btn"
-                buttonText="Update"
+                buttonText={
+                  updatePasswordLoader ? (
+                    <CircularProgress
+                      style={{ color: "white", width: "27px", height: "27px" }}
+                    />
+                  ) : (
+                    "Update"
+                  )
+                }
                 variant="contained"
                 onClickHandler={() => {
                   handleUpdatePassword();

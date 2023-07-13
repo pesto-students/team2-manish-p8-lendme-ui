@@ -28,12 +28,11 @@ const LoginPage = () => {
     }
     setLoading(true);
     const resp = await create("auth/login", formData);
-    console.log(resp);
     if (resp.status === "ERROR") {
       setWrongPassword("Email and Password do not match");
     } else if (resp.status === "SUCCESS") {
-      const token = resp.data.token;
-      localStorage.setItem("accessToken", token);
+      localStorage.setItem("accessToken", resp.data.token);
+      localStorage.setItem("user", JSON.stringify(resp.data.user));
       navigate(urlRoutes.loggedInLandingLoansList);
     }
     setLoading(false);
@@ -41,7 +40,7 @@ const LoginPage = () => {
 
   return (
     <div className="loginpage">
-      <Header isUserLoggedIn={false} />
+      <Header />
       <form className="log-in1" onSubmit={(e) => checkDetails(e)}>
         <div className="logo12">
           <img

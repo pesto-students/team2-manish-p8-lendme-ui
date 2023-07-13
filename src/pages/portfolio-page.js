@@ -1,14 +1,113 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Header from "../components/header";
 import "./portfolio-page.css";
-import { loanStatus, mockGetPortfolioByUserIdData } from "../constants";
+import { loanStatus, urlRoutes } from "../constants";
 import { numberWithComma, numberWithCommaINR } from "../utils/number-utils";
 import { getFullName } from "../utils/string-utils";
 import Grid from "../meterial-ui-components/grid/grid";
+import { Chart } from "react-google-charts";
+import { useNavigate } from "react-router-dom";
+import ButtonComponent from "../meterial-ui-components/Button/ButtonComponent";
+import { Box, CircularProgress, IconButton, Modal } from "@mui/material";
+import Back from "@mui/icons-material/ChevronLeft";
+import { TextField } from "@mui/material";
+import { create, read } from "../utils/axios-utils";
+import { toast } from "react-toastify";
+
 const PortfolioPage = () => {
-  const [portfolioData, setPortfolioData] = useState(
-    mockGetPortfolioByUserIdData
-  );
+  const navigate = useNavigate();
+
+  const initialPortfolioData = {
+    lentLoansCount: 0,
+    borrowedLoansCount: 0,
+    completedLoansCount: 0,
+    totalInterestGained: 0,
+    totalInterestPaid: 0,
+    emiPaidAsBorrower: 0,
+    emiPendingAsBorrower: 0,
+    emiReceivedAsLender: 0,
+    emiPendingAsLender: 0,
+    loans: [],
+  };
+
+  const [portfolioData, setPortfolioData] = useState(initialPortfolioData);
+  const [showAddMoneyModal, setShowAddMoneyModal] = useState(false);
+  const [addMoneyModalLoader, setAddMoneyModalLoader] = useState(false);
+  const [addMoneyModalValue, setAddMoneyModalValue] = useState("");
+  const [walletBalance, setWalletBalance] = useState(0);
+  const [loading, setLoading] = useState(false);
+
+  const calculateTotalInterest = (loans) => {
+    let interestValue = 0;
+    loans.forEach((loan) => {
+      loan.rps.forEach((installment) => {
+        if (installment.isPaid) {
+          interestValue += installment.interest || 0;
+        }
+      });
+    });
+    return interestValue;
+  };
+
+  const calculateEmiCount = (loans, paid) => {
+    let count = 0;
+    loans.forEach((loan) => {
+      count += loan.rps.filter((installment) => {
+        if (paid) {
+          return installment.isPaid;
+        } else {
+          return !installment.isPaid;
+        }
+      }).length;
+    });
+    return count;
+  };
+
+  const getCombinedLoans = (lentLoans, borrowedLoans) => {
+    const lent = lentLoans.map((loan) => {
+      return { ...loan, loanType: "LEND" };
+    });
+    const borrowed = borrowedLoans.map((loan) => {
+      return { ...loan, loanType: "BORROW" };
+    });
+    return [...lent, ...borrowed];
+  };
+
+  const refactorPortfolioData = (lentLoans, borrowedLoans) => {
+    setPortfolioData({
+      lentLoansCount: lentLoans.length,
+      borrowedLoansCount: borrowedLoans.length,
+      completedLoansCount: [...lentLoans, ...borrowedLoans].filter(
+        (loan) => loan.loanStatus === loanStatus.COMPLETED
+      ).length,
+      totalInterestGained: calculateTotalInterest(lentLoans),
+      totalInterestPaid: calculateTotalInterest(borrowedLoans),
+      emiPaidAsBorrower: calculateEmiCount(borrowedLoans, true),
+      emiPendingAsBorrower: calculateEmiCount(borrowedLoans, false),
+      emiReceivedAsLender: calculateEmiCount(lentLoans, true),
+      emiPendingAsLender: calculateEmiCount(lentLoans, false),
+      loans: getCombinedLoans(lentLoans, borrowedLoans),
+    });
+  };
+
+  useEffect(() => {
+    (async () => {
+      try {
+        setLoading(true);
+        const resp = await read("user/portfolio");
+        console.log(resp);
+        if (resp && resp.status === "SUCCESS") {
+          refactorPortfolioData(resp.data.user.lent, resp.data.user.borrowed);
+        } else {
+          toast.error("Error fetching user portfolio.");
+        }
+        setLoading(false);
+      } catch (err) {
+        console.log(err);
+        setLoading(false);
+      }
+    })();
+  }, []);
 
   const getLoansGridColumns = () => [
     { id: "srNo", label: "SR. NO.", minWidth: 80 },
@@ -35,9 +134,53 @@ const PortfolioPage = () => {
       );
     }
   };
+  const borrowerChartData = [
+    ["EMIs", "Count"],
+    ["Paid", portfolioData.emiPaidAsBorrower],
+    ["Unpaid", portfolioData.emiPendingAsBorrower],
+  ];
+  const lenderChartData = [
+    ["EMIs", "Count"],
+    ["Received", portfolioData.emiReceivedAsLender],
+    ["Pending", portfolioData.emiPendingAsLender],
+  ];
 
-  const getLoanStatus = (status) => {
-    if (status === loanStatus.COMPLETED) {
+  const getWalletBalance = async () => {
+    const resp = await read("user/wallet");
+    if (resp && resp.status === "SUCCESS") {
+      setWalletBalance(resp.data.wallet.amount);
+    } else {
+      toast.error("Error fetching balance");
+    }
+  };
+
+  useEffect(() => {
+    (() => {
+      getWalletBalance();
+    })();
+  }, []);
+
+  const getAgreementButton = (loan) => {
+    if ([loanStatus.COMPLETED, loanStatus.ACTIVE].includes(loan.loanStatus)) {
+      return (
+        <div
+          className="buttons6"
+          onClick={() => handleAgreementClick(loan.agreementUrl)}
+        >
+          <img className="icon8" alt="" src="/icon3.svg" />
+        </div>
+      );
+    } else {
+      return (
+        <div className="buttons6 buttons6-disabled">
+          <img className="icon8" alt="" src="/icon3.svg" />
+        </div>
+      );
+    }
+  };
+
+  const getLoanStatusBox = (status) => {
+    if ((loanStatus.COMPLETED, loanStatus.ACTIVE.includes(status))) {
       return (
         <div className="green-wrapper">
           <div className="loan-type-text">{status}</div>
@@ -49,7 +192,7 @@ const PortfolioPage = () => {
           <div className="loan-type-text">{status}</div>
         </div>
       );
-    } else if ([loanStatus.ACTIVE, loanStatus.REQUESTED].includes(status)) {
+    } else if (loanStatus.REQUESTED === status) {
       return (
         <div className="yellow-wrapper">
           <div className="loan-type-text">{status}</div>
@@ -58,476 +201,358 @@ const PortfolioPage = () => {
     }
   };
 
-  const handleAgreementClick = (url) => {
-    console.log("url");
-  };
-
-  const getAgreementButton = (url) => {
-    return (
-      <div className="buttons6" onClick={() => handleAgreementClick(url)}>
-        <img className="icon8" alt="" src="/icon3.svg" />
-        <div className="button">Download PDF Report</div>
-      </div>
-    );
-  };
-
   const prepareLoansGridData = (loans) => {
     return loans.map((loan, index) => {
       return {
+        loanId: loan.id,
+        type: loan.loanType,
+        status: loan.loanStatus,
         srNo: index + 1,
-        secondPartyName: getFullName(
-          loan.secondParty.firstName,
-          loan.secondParty.lastName
-        ),
+        secondPartyName:
+          loan.loanType === "BORROW"
+            ? loan.lenderUserId || "---"
+            : loan.borrowerUserId || "---",
         loanType: getLoanTypeBox(loan.loanType),
-        principal: numberWithCommaINR(loan.principal || 0, true),
+        principal: numberWithCommaINR(loan.amount || 0, true),
         interestRate: `${loan.interestRate || 0}%`,
-        loanStatus: getLoanStatus(loan.loanStatus),
-        agreementUrl: getAgreementButton(loan.agreementUrl),
+        loanStatus: getLoanStatusBox(loan.loanStatus),
+        agreementUrl: getAgreementButton(loan),
       };
     });
   };
 
+  const handleAgreementClick = (url) => {
+    console.log("url");
+  };
+
+  const onClickRow = (row) => {
+    if ([loanStatus.ACTIVE, loanStatus.COMPLETED].includes(row.status)) {
+      navigate(`${urlRoutes.existingLoanDetail}/${row.loanId}`, {
+        state: { source: "portfolio", loanType: row.type },
+      });
+    }
+  };
+
+  const handleAddMoneyClick = () => {
+    setShowAddMoneyModal(true);
+  };
+  const modalBoxStyle = {
+    position: "absolute",
+    top: "50%",
+    left: "50%",
+    transform: "translate(-50%, -50%)",
+    width: 500,
+    bgcolor: "background.paper",
+    border: "2px solid #000",
+    boxShadow: 24,
+    pt: 2,
+    px: 4,
+    pb: 3,
+  };
+
+  const handleCloseAddMoneyModal = () => {
+    setShowAddMoneyModal(false);
+  };
+
+  function loadScript(src) {
+    return new Promise((resolve) => {
+      const script = document.createElement("script");
+      script.src = src;
+      script.onload = () => {
+        resolve(true);
+      };
+      script.onerror = () => {
+        resolve(false);
+      };
+      document.body.appendChild(script);
+    });
+  }
+
+  const handleSubmitAddMoneyModal = async (e = null) => {
+    if (e) {
+      e.preventDefault();
+    }
+    try {
+      setAddMoneyModalLoader(true);
+      const res = await loadScript(
+        "https://checkout.razorpay.com/v1/checkout.js"
+      );
+
+      if (!res) {
+        alert("Razorpay SDK failed to load. Are you online?");
+        return;
+      }
+      const resp = await create("user/wallet/deposit", {
+        amount: parseInt(addMoneyModalValue),
+      });
+      if (resp && resp.status === "SUCCESS") {
+        const { key, name, orderId, prefill } = resp.data.order;
+
+        const options = {
+          key,
+          amount: addMoneyModalValue,
+          name,
+          description: "Test Transaction",
+          order_id: orderId,
+          prefill,
+          handler: async function (response) {
+            const result = await read(`user/wallet/deposit/status/${orderId}`);
+            if (result && result.status === "SUCCESS") {
+              await getWalletBalance();
+              setAddMoneyModalLoader(false);
+              toast.success("Money has been added to the wallet");
+              setShowAddMoneyModal(false);
+            } else {
+              toast.error("Something went wrong");
+              setAddMoneyModalLoader(false);
+            }
+          },
+        };
+        const paymentObject = new window.Razorpay(options);
+        paymentObject.open();
+      } else {
+        toast.error("Something went wrong");
+      }
+    } catch (err) {
+      console.log(err);
+      setAddMoneyModalLoader(false);
+    }
+  };
+
   return (
     <div className="portfoliopage">
-      <Header isUserLoggedIn={true} />
-      <div className="settings3">
-        <div className="top8">
-          <div className="icon-wrapper1">
-            <img className="icon8" alt="" src="/icon1.svg" />
+      <Header />
+      <Modal
+        open={showAddMoneyModal}
+        onClose={handleCloseAddMoneyModal}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
+      >
+        <Box sx={{ ...modalBoxStyle }}>
+          <form
+            className="edit-data"
+            onSubmit={(e) => handleSubmitAddMoneyModal(e)}
+          >
+            <div className="profile-header">
+              <div
+                className="back-btn"
+                onClick={() => handleCloseAddMoneyModal()}
+              >
+                <IconButton aria-label="delete" disabled color="primary">
+                  <Back />
+                </IconButton>
+              </div>
+              <h3 clasname="page-name"> Add Money </h3>
+            </div>
+
+            <div className="user-data">
+              <TextField
+                className="user-data-item"
+                color="primary"
+                variant="outlined"
+                type={"number"}
+                name="money"
+                id="money"
+                label="₹"
+                placeholder="Add money in Rupees"
+                size="medium"
+                margin="none"
+                value={addMoneyModalValue}
+                fullWidth
+                onChange={(e) => setAddMoneyModalValue(e.target.value)}
+              />
+            </div>
+
+            <div className="edit-modal-btns">
+              <ButtonComponent
+                className="edit-modal-btn"
+                buttonText="Cancel"
+                type="cancel"
+                style={{ color: "grey", backgroundColor: "#D8D1D1" }}
+                onClickHandler={() => {
+                  handleCloseAddMoneyModal();
+                }}
+              />
+              <ButtonComponent
+                className="edit-modal-btn"
+                buttonText={
+                  addMoneyModalLoader ? (
+                    <CircularProgress
+                      style={{ color: "white", width: "27px", height: "27px" }}
+                    />
+                  ) : (
+                    "Continue"
+                  )
+                }
+                type="submit"
+                style={{
+                  minWidth: "311px",
+                  backgroundColor: "#047857",
+                }}
+                disabled={
+                  !addMoneyModalValue.length ||
+                  !parseInt(addMoneyModalValue) > 0
+                }
+              />
+            </div>
+          </form>
+        </Box>
+      </Modal>
+      {loading ? (
+        <div className="loader-container">
+          <CircularProgress style={{ color: "#64748b" }} />
+        </div>
+      ) : (
+        <>
+          <div className="settings3">
+            <div className="top8">
+              <div className="portfolio5">Portfolio</div>
+            </div>
           </div>
-          <div className="portfolio5">Portfolio</div>
-        </div>
-      </div>
-      <div className="info2">
-        <div className="content23">
-          <b className="title15">{portfolioData.lentLoansCount || 0}</b>
-          <div className="subtitle18">Loans Lent</div>
-        </div>
-      </div>
-      <div className="info3">
-        <div className="content23">
-          <b className="title15">{portfolioData.borrowedLoansCount || 0}</b>
-          <div className="subtitle18">Loans Borrowed</div>
-        </div>
-      </div>
-      <div className="info4">
-        <div className="content23">
-          <b className="title15">{portfolioData.completedLoansCount || 0}</b>
-          <div className="subtitle18">Loans Completed</div>
-        </div>
-      </div>
-      <div className="stats1">
-        <div className="stat3">
-          <div className="line-parent1">
-            <div className="frame-child3" />
-            <div className="total-interest-gained-parent">
-              <div className="total-interest-gained">Total Interest Gained</div>
-              <b className="b3">
-                {numberWithCommaINR(
-                  portfolioData.totalInterestGained || 0,
-                  true
-                )}
+          <div className="info2">
+            <div className="content23">
+              <b className="title15">{portfolioData.lentLoansCount || 0}</b>
+              <div className="subtitle18">Loans Lent</div>
+            </div>
+          </div>
+          <div className="info3">
+            <div className="content23">
+              <b className="title15">{portfolioData.borrowedLoansCount || 0}</b>
+              <div className="subtitle18">Loans Borrowed</div>
+            </div>
+          </div>
+          <div className="info4">
+            <div className="content23">
+              <b className="title15">
+                {portfolioData.completedLoansCount || 0}
               </b>
+              <div className="subtitle18">Loans Completed</div>
             </div>
           </div>
-          <div className="badge3" />
-        </div>
-        <div className="stat3">
-          <div className="line-parent1">
-            <div className="frame-child3" />
-            <div className="total-interest-gained-parent">
-              <div className="total-interest-gained">{`Total Interest Paid `}</div>
-              <b className="b3">
-                {numberWithCommaINR(portfolioData.totalInterestPaid || 0, true)}
-              </b>
+          <div className="stats1">
+            <div className="stat3">
+              <div className="line-parent1">
+                <div className="frame-child3" />
+                <div className="total-interest-gained-parent">
+                  <div className="total-interest-gained">
+                    Total Interest Gained
+                  </div>
+                  <b className="b3">
+                    {numberWithCommaINR(
+                      portfolioData.totalInterestGained || 0,
+                      true
+                    )}
+                  </b>
+                </div>
+              </div>
+              <div className="badge3" />
+            </div>
+            <div className="stat3">
+              <div className="line-parent1">
+                <div className="frame-child3" />
+                <div className="total-interest-gained-parent">
+                  <div className="total-interest-gained">{`Total Interest Paid `}</div>
+                  <b className="b3">
+                    {numberWithCommaINR(
+                      portfolioData.totalInterestPaid || 0,
+                      true
+                    )}
+                  </b>
+                </div>
+              </div>
             </div>
           </div>
-        </div>
-      </div>
-      <img className="divider-icon2" alt="" src="/divider2.svg" />
-      <div className="energy-summary-parent">
-        <div className="energy-summary">
-          <div className="graphic">
-            <div className="graphic-child" />
-            <div className="graphic-item" />
-            <img className="graphic-inner" alt="" src="/ellipse-8.svg" />
-            <div className="graphic-child1" />
-            <b className="title18">Borrower</b>
+          <img className="divider-icon2" alt="" src="/divider2.svg" />
+          <div className="energy-summary-parent">
+            <div className="energy-summary">
+              <Chart
+                chartType="PieChart"
+                data={borrowerChartData}
+                options={{ colors: ["#34D399", "#FCD34D"], title: "BORROWER" }}
+                width={"400px"}
+                height={"200px"}
+              />
+              <div className="content26">
+                <div className="natonal-avg">
+                  <div className="content22">
+                    <div className="subtitle21">EMIs paid</div>
+                    <b className="title19">
+                      {portfolioData.emiPaidAsBorrower || 0}
+                    </b>
+                  </div>
+                </div>
+                <div className="natonal-avg">
+                  <div className="content22">
+                    <div className="subtitle21">EMIs unpaid</div>
+                    <b className="title19">
+                      {portfolioData.emiPendingAsBorrower || 0}
+                    </b>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div className="energy-summary1">
+              <Chart
+                chartType="PieChart"
+                data={lenderChartData}
+                options={{ colors: ["#34D399", "#FCD34D"], title: "LENDER" }}
+                width={"400px"}
+                height={"200px"}
+              />
+              <div className="content26">
+                <div className="natonal-avg">
+                  <div className="content22">
+                    <div className="subtitle21">EMIs received</div>
+                    <b className="title19">
+                      {portfolioData.emiReceivedAsLender || 0}
+                    </b>
+                  </div>
+                </div>
+                <div className="natonal-avg">
+                  <div className="content22">
+                    <div className="subtitle21">EMIs pending</div>
+                    <b className="title19">
+                      {portfolioData.emiPendingAsLender || 0}
+                    </b>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
 
-            <div className="graphic-child2" />
-            <div className="graphic-child3" />
+          <div className="table1">
+            <Grid
+              totalCount={portfolioData.loans}
+              rows={prepareLoansGridData(portfolioData.loans)}
+              columns={getLoansGridColumns()}
+              showPagination={false}
+              onClickHandler={onClickRow}
+            />
           </div>
-          <div className="content26">
-            <div className="natonal-avg">
-              <div className="content22">
-                <div className="subtitle21">EMIs paid on time</div>
-                <b className="title19">
-                  {portfolioData.emiPaidAsBorrower || 0}
+          <div className="wallet-details">Wallet Details</div>
+          <div className="loan-details1">Loan Details</div>
+          <div className="frame-parent">
+            <div className="frame-group">
+              <div className="parent">
+                <b className="b6">
+                  {numberWithCommaINR(walletBalance || 0, true)}
                 </b>
+                <div className="keep-your-wallet">
+                  {" "}
+                  Keep your wallet balance updated for your upcoming EMIs
+                </div>
               </div>
-              <div className="badge7">
-                <div className="loan-type-text">Good</div>
-              </div>
-            </div>
-            <div className="natonal-avg">
-              <div className="content22">
-                <div className="subtitle21">Pending EMIs unpaid</div>
-                <b className="title19">
-                  {portfolioData.emiPendingAsBorrower || 0}
-                </b>
-              </div>
-              <div className="badge9">
-                <div className="loan-type-text">Poor</div>
+              <div className="buttons-wrapper" onClick={handleAddMoneyClick}>
+                <div className="buttons14">
+                  <img className="icon8" alt="" src="/icon11.svg" />
+                  <div className="loan-type-text">Add Money</div>
+                </div>
               </div>
             </div>
+            <div className="frame-child6" />
           </div>
-        </div>
-        <div className="energy-summary1">
-          <div className="graphic">
-            <div className="graphic-child" />
-            <div className="graphic-item" />
-            <img className="graphic-inner" alt="" src="/ellipse-81.svg" />
-            <div className="graphic-child1" />
-            <b className="title22">Lender</b>
-
-            <div className="graphic-child7" />
-            <img className="graphic-child8" alt="" src="/ellipse-12.svg" />
-          </div>
-
-          <div className="content26">
-            <div className="natonal-avg">
-              <div className="content22">
-                <div className="subtitle21">EMIs Received on time</div>
-                <b className="title19">
-                  {portfolioData.emiReceivedAsLender || 0}
-                </b>
-              </div>
-              <div className="badge7">
-                <div className="loan-type-text">Good</div>
-              </div>
-            </div>
-            <div className="natonal-avg">
-              <div className="content22">
-                <div className="subtitle21">Pending EMIs unpaid</div>
-                <b className="title19">
-                  {portfolioData.emiPendingAsLender || 0}
-                </b>
-              </div>
-              <div className="badge9">
-                <div className="loan-type-text">Poor</div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      {/* <div className="table1">
-        <div className="column18">
-          <div className="head54">
-            <div className="sr-no1">SR. NO.</div>
-          </div>
-          <div className="head55">
-            <div className="wrapper6">
-              <div className="div96">1</div>
-            </div>
-          </div>
-          <div className="head55">
-            <div className="wrapper6">
-              <div className="div96">2</div>
-            </div>
-          </div>
-          <div className="head55">
-            <div className="wrapper6">
-              <div className="div96">3</div>
-            </div>
-          </div>
-          <div className="head55">
-            <div className="wrapper6">
-              <div className="div96">4</div>
-            </div>
-          </div>
-          <div className="head55">
-            <div className="wrapper6">
-              <div className="div96">5</div>
-            </div>
-          </div>
-          <div className="head55">
-            <div className="wrapper6">
-              <div className="div96">6</div>
-            </div>
-          </div>
-          <div className="head55">
-            <div className="wrapper6">
-              <div className="div96">7</div>
-            </div>
-          </div>
-          <div className="head55">
-            <div className="wrapper6">
-              <div className="div96">8</div>
-            </div>
-          </div>
-        </div>
-        <div className="column19">
-          <div className="head54">
-            <div className="nd-party-name">2nd PARTY NAME</div>
-          </div>
-          <div className="head55">
-            <div className="tad-muller">Tad Muller</div>
-          </div>
-          <div className="head55">
-            <div className="tad-muller">Elise Kovacek</div>
-          </div>
-          <div className="head55">
-            <div className="tad-muller">Chelsie Senger</div>
-          </div>
-          <div className="head55">
-            <div className="tad-muller">Braeden Torphy</div>
-          </div>
-          <div className="head55">
-            <div className="tad-muller">Hoyt Beahan</div>
-          </div>
-          <div className="head55">
-            <div className="tad-muller">Betty Zemlak</div>
-          </div>
-          <div className="head55">
-            <div className="tad-muller">Raymond Homenick</div>
-          </div>
-          <div className="head55">
-            <div className="tad-muller">August Ernser</div>
-          </div>
-        </div>
-        <div className="column20">
-          <div className="head72">
-            <div className="loan-type-text">LOAN TYPE</div>
-          </div>
-          <div className="head55">
-            <div className="green-wrapper">
-              <div className="loan-type-text">LEND</div>
-            </div>
-          </div>
-          <div className="head55">
-            <div className="green-wrapper">
-              <div className="loan-type-text">LEND</div>
-            </div>
-          </div>
-          <div className="head55">
-            <div className="green-wrapper">
-              <div className="loan-type-text">LEND</div>
-            </div>
-          </div>
-          <div className="head76">
-            <div className="red-wrapper">
-              <div className="loan-type-text">BORROW</div>
-            </div>
-          </div>
-          <div className="head76">
-            <div className="red-wrapper">
-              <div className="loan-type-text">BORROW</div>
-            </div>
-          </div>
-          <div className="head55">
-            <div className="green-wrapper">
-              <div className="loan-type-text">LEND</div>
-            </div>
-          </div>
-          <div className="head76">
-            <div className="red-wrapper">
-              <div className="loan-type-text">BORROW</div>
-            </div>
-          </div>
-          <div className="head76">
-            <div className="red-wrapper">
-              <div className="loan-type-text">BORROW</div>
-            </div>
-          </div>
-        </div>
-        <div className="column19">
-          <div className="head72">
-            <div className="loan-type-text">PRINCIPLE</div>
-          </div>
-          <div className="head55">
-            <div className="total-interest-gained">₹ 33,672.00</div>
-          </div>
-          <div className="head55">
-            <div className="total-interest-gained">₹ 33,672.00</div>
-          </div>
-          <div className="head55">
-            <div className="total-interest-gained">₹ 33,672.00</div>
-          </div>
-          <div className="head55">
-            <div className="total-interest-gained">₹ 33,672.00</div>
-          </div>
-          <div className="head55">
-            <div className="total-interest-gained">₹ 33,672.00</div>
-          </div>
-          <div className="head55">
-            <div className="total-interest-gained">₹ 33,672.00</div>
-          </div>
-          <div className="head55">
-            <div className="total-interest-gained">₹ 33,672.00</div>
-          </div>
-          <div className="head55">
-            <div className="total-interest-gained">₹ 33,672.00</div>
-          </div>
-        </div>
-        <div className="column19">
-          <div className="head72">
-            <div className="loan-type-text">INTEREST RATE</div>
-          </div>
-          <div className="head55">
-            <div className="total-interest-gained">5.66 %</div>
-          </div>
-          <div className="head55">
-            <div className="total-interest-gained">6.70 %</div>
-          </div>
-          <div className="head55">
-            <div className="total-interest-gained">8.32 %</div>
-          </div>
-          <div className="head55">
-            <div className="total-interest-gained">8.55 %</div>
-          </div>
-          <div className="head55">
-            <div className="total-interest-gained">4.45 %</div>
-          </div>
-          <div className="head55">
-            <div className="total-interest-gained">8.50 %</div>
-          </div>
-          <div className="head55">
-            <div className="total-interest-gained">8.50 %</div>
-          </div>
-          <div className="head55">
-            <div className="total-interest-gained">8.50 %</div>
-          </div>
-        </div>
-        <div className="column23">
-          <div className="head72">
-            <div className="loan-type-text">LOAN STATUS</div>
-          </div>
-          <div className="head100">
-            <div className="green-wrapper">
-              <div className="loan-type-text">COMPLETED</div>
-            </div>
-          </div>
-          <div className="head55">
-            <div className="in-progress-wrapper">
-              <div className="loan-type-text">IN PROGRESS</div>
-            </div>
-          </div>
-          <div className="head55">
-            <div className="in-progress-wrapper">
-              <div className="loan-type-text">IN PROGRESS</div>
-            </div>
-          </div>
-          <div className="head55">
-            <div className="in-progress-wrapper">
-              <div className="loan-type-text">IN PROGRESS</div>
-            </div>
-          </div>
-          <div className="head55">
-            <div className="in-progress-wrapper">
-              <div className="loan-type-text">IN PROGRESS</div>
-            </div>
-          </div>
-          <div className="head55">
-            <div className="in-progress-wrapper">
-              <div className="loan-type-text">IN PROGRESS</div>
-            </div>
-          </div>
-          <div className="head55">
-            <div className="in-progress-wrapper">
-              <div className="loan-type-text">IN PROGRESS</div>
-            </div>
-          </div>
-          <div className="head100">
-            <div className="green-wrapper">
-              <div className="loan-type-text">COMPLETED</div>
-            </div>
-          </div>
-        </div>
-        <div className="column19">
-          <div className="head72">
-            <div className="loan-type-text"> AGREEMENT</div>
-          </div>
-          <div className="head109">
-            <div className="buttons6">
-              <img className="icon8" alt="" src="/icon3.svg" />
-              <div className="button">Download PDF Report</div>
-            </div>
-          </div>
-          <div className="head109">
-            <div className="buttons6">
-              <img className="icon8" alt="" src="/icon4.svg" />
-              <div className="button">Download PDF Report</div>
-            </div>
-          </div>
-          <div className="head109">
-            <div className="buttons6">
-              <img className="icon8" alt="" src="/icon5.svg" />
-              <div className="button">Download PDF Report</div>
-            </div>
-          </div>
-          <div className="head109">
-            <div className="buttons6">
-              <img className="icon8" alt="" src="/icon6.svg" />
-              <div className="button">Download PDF Report</div>
-            </div>
-          </div>
-          <div className="head109">
-            <div className="buttons6">
-              <img className="icon8" alt="" src="/icon7.svg" />
-              <div className="button">Download PDF Report</div>
-            </div>
-          </div>
-          <div className="head109">
-            <div className="buttons6">
-              <img className="icon8" alt="" src="/icon8.svg" />
-              <div className="button">Download PDF Report</div>
-            </div>
-          </div>
-          <div className="head109">
-            <div className="buttons6">
-              <img className="icon8" alt="" src="/icon9.svg" />
-              <div className="button">Download PDF Report</div>
-            </div>
-          </div>
-          <div className="head109">
-            <div className="buttons6">
-              <img className="icon8" alt="" src="/icon10.svg" />
-              <div className="button">Download PDF Report</div>
-            </div>
-          </div>
-        </div>
-      </div> */}
-      <div className="table1">
-        <Grid
-          totalCount={portfolioData.loans}
-          rows={prepareLoansGridData(portfolioData.loans)}
-          columns={getLoansGridColumns()}
-          showPagination={false}
-        />
-      </div>
-      <div className="wallet-details">Wallet Details</div>
-      <div className="loan-details1">Loan Details</div>
-      <div className="frame-parent">
-        <div className="frame-group">
-          <div className="parent">
-            <b className="b6">
-              {numberWithCommaINR(portfolioData.walletBalance || 0, true)}
-            </b>
-            <div className="keep-your-wallet">
-              {" "}
-              Keep your wallet balance updated for your upcoming EMIs
-            </div>
-          </div>
-          <div className="buttons-wrapper">
-            <div className="buttons14">
-              <img className="icon8" alt="" src="/icon11.svg" />
-              <div className="loan-type-text">Add Money</div>
-            </div>
-          </div>
-        </div>
-        <div className="frame-child6" />
-      </div>
+        </>
+      )}
     </div>
   );
 };

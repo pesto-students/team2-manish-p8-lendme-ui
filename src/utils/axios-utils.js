@@ -1,16 +1,16 @@
 import axios from "axios";
-const token = localStorage.getItem("accessToken");
+import { removeItemsOnLogout } from "./local-storage-utils";
 let result;
 
 const createHeaders = () => {
   const headers = {
     "Content-Type": "application/json",
   };
-  console.log(token);
+  const token = localStorage.getItem("accessToken");
+
   if (token) {
     headers["Authorization"] = `Bearer ${token}`;
   }
-  console.log(headers);
   return headers;
 };
 
@@ -20,39 +20,62 @@ const create = async (endpoint, payload) => {
       headers: createHeaders(),
     })
     .then((response) => {
-      result = { status: "SUCCESS", data: response.data };
+      if (response.data && response.data.success) {
+        result = { status: "SUCCESS", data: response.data };
+      } else {
+        result = { status: "ERROR", data: response.data };
+      }
     })
     .catch((error) => {
+      if (error.response.status === 401) {
+        removeItemsOnLogout();
+      }
       result = { status: "ERROR", data: error };
     });
 
   return result;
 };
 
-const read = (endpoint) => {
-  axios
+const read = async (endpoint) => {
+  await axios
     .get(`http://localhost:4500/api/${endpoint}`, {
       headers: createHeaders(),
     })
     .then((response) => {
-      result = { status: "SUCCESS", data: response.data };
+      console.log(response);
+      if (response.data && response.data.success) {
+        result = { status: "SUCCESS", data: response.data };
+      } else {
+        result = { status: "ERROR", data: response.data };
+      }
     })
     .catch((error) => {
+      console.log(error);
+      if (error.response.status === 401) {
+        removeItemsOnLogout();
+      }
       result = { status: "ERROR", data: error };
     });
 
   return result;
 };
 
-const update = (endpoint, payload) => {
-  axios
-    .put(`http://localhost:4500/api/${endpoint}/${id}`, payload, {
+const update = async (endpoint, payload) => {
+  await axios
+    .put(`http://localhost:4500/api/${endpoint}`, payload, {
       headers: createHeaders(),
     })
     .then((response) => {
-      result = { status: "SUCCESS", data: response.data };
+      if (response.data && response.data.success) {
+        result = { status: "SUCCESS", data: response.data };
+      } else {
+        result = { status: "ERROR", data: response.data };
+      }
     })
     .catch((error) => {
+      if (error.response.status === 401) {
+        removeItemsOnLogout();
+      }
       result = { status: "ERROR", data: error };
     });
 
@@ -65,9 +88,16 @@ const deleteData = (endpoint) => {
       headers: createHeaders(),
     })
     .then(() => {
-      result = { status: "SUCCESS", data: response.data };
+      if (response.data && response.data.success) {
+        result = { status: "SUCCESS", data: response.data };
+      } else {
+        result = { status: "ERROR", data: response.data };
+      }
     })
     .catch((error) => {
+      if (error.response.status === 401) {
+        removeItemsOnLogout();
+      }
       result = { status: "ERROR", data: error };
     });
 

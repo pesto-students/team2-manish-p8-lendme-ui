@@ -15,9 +15,10 @@ const Grid = ({
   rows = [],
   columns = [],
   showPagination = true,
+  onClickHandler = () => {},
 }) => {
   const [page, setPage] = useState(0);
-  const [rowsPerPage, setRowsPerPage] = useState(10);
+  const [rowsPerPage, setRowsPerPage] = useState(100);
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
@@ -64,6 +65,7 @@ const Grid = ({
                             key={column.id}
                             align={column.align}
                             className="grid-data-cell"
+                            onClick={() => onClickHandler(row)}
                           >
                             {value}
                           </TableCell>

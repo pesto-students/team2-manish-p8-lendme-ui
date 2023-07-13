@@ -3,7 +3,7 @@ import "./landing-page.css";
 const LandingPage = () => {
   return (
     <div className="landingpage">
-      <Header isUserLoggedIn={false} />
+      <Header />
       <div className="fast-accurate-reliable-parent">
         <b className="fast-accurate-reliable">Fast. Accurate. Reliable</b>
         <div className="the-most-powerful">

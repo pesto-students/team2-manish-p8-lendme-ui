@@ -7,6 +7,7 @@ import {
   Checkbox,
   Radio,
   RadioGroup,
+  CircularProgress,
 } from "@mui/material";
 import "./logged-in-landing-loans-list.css";
 import Header from "../components/header";
@@ -18,6 +19,7 @@ import ButtonComponent from "../meterial-ui-components/Button/ButtonComponent";
 import { read } from "../utils/axios-utils";
 import { getFullName } from "../utils/string-utils";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 const LoggedInLandingLoansList = () => {
   const navigate = useNavigate();
   const [loans, setLoans] = useState([]);
@@ -48,10 +50,18 @@ const LoggedInLandingLoansList = () => {
   useEffect(() => {
     (async () => {
       setLoading(true);
-      const resp = await read("loan");
-      console.log(resp);
+      const resp = await read("loan?limit=100&offset=0");
       if (resp.status === "SUCCESS") {
-        setLoans(resp.data.loans);
+        const user = JSON.parse(localStorage.getItem("user"));
+        const loanList = resp.data.loans.filter(
+          (loan) =>
+            loan.loanStatus === loanStatus.REQUESTED &&
+            user.email !== loan.borrower?.email
+        );
+        console.log(loanList);
+        setLoans(loanList);
+      } else {
+        toast.error("Something went wrong");
       }
       setLoading(false);
     })();
@@ -59,7 +69,7 @@ const LoggedInLandingLoansList = () => {
 
   const onClickFindSuitableLoan = () => {
     console.log(findSuitableLoanFormData);
-    //call get loans with filters.
+    //call get loans with filters
   };
 
   const handleCheckLoanDetailsClick = (loanData) => {
@@ -68,7 +78,7 @@ const LoggedInLandingLoansList = () => {
 
   return (
     <div className="loggedinlandingloanslist">
-      <Header isUserLoggedIn={true} />
+      <Header />
       <div className="filters">
         <b className="title6">Filters</b>
         <div className="section">
@@ -300,62 +310,70 @@ const LoggedInLandingLoansList = () => {
         />
       </div>
       <div className="loggedinlandingloanslist-child">
-        {loans.map((loan) => (
-          <div className="checkout3">
-            <div className="user1">
-              <div className="space">
-                <div className="container1">
-                  <div className="content10">
-                    <div className="content-wrapper1">
-                      <div className="total">
-                        {getFullName(
-                          loan.borrower.firstName,
-                          loan.borrower.lastName
-                        )}
+        {loading ? (
+          <div className="loader-container">
+            <CircularProgress
+              style={{
+                color: "#64748b",
+              }}
+            />
+          </div>
+        ) : (
+          loans.map((loan) => (
+            <div className="checkout3">
+              <div className="user1">
+                <div className="space">
+                  <div className="container1">
+                    <div className="content10">
+                      <div className="content-wrapper1">
+                        <div className="total">
+                          {getFullName(
+                            loan.borrower.firstName,
+                            loan.borrower.lastName
+                          )}
+                        </div>
                       </div>
                     </div>
                   </div>
                 </div>
-              </div>
-              <div className="verified">
-                <img className="checkbox1" alt="" src="/icons11.svg" />
-                <div className="show-more">Verified User</div>
-              </div>
-            </div>
-            <div className="list3">
-              <div className="row18">
-                <div className="principle-amount2">Principle Amount</div>
-                <div className="div56">{numberWithCommaINR(loan.amount)}</div>
-              </div>
-              <div className="row18">
-                <div className="principle-amount2">Interest Rate</div>
-                <div className="div56">{`${loan.interestRate}%`}</div>
-              </div>
-              <div className="row18">
-                <div className="principle-amount2">Tenure</div>
-                <div className="div56">{months2years(loan.tenureMonths)}</div>
-              </div>
-              <div className="divider1" />
-              <div className="row21">
-                <div className="total">Total</div>
-                <div className="div58">
-                  {numberWithCommaINR(
-                    parseFloat(loan.amount || 0) +
-                      parseFloat(loan.interest || 0),
-                    true
-                  )}
+                <div className="verified">
+                  <img className="checkbox1" alt="" src="/icons11.svg" />
+                  <div className="show-more">Verified User</div>
                 </div>
               </div>
+              <div className="list3">
+                <div className="row18">
+                  <div className="principle-amount2">Principle Amount</div>
+                  <div className="div56">{numberWithCommaINR(loan.amount)}</div>
+                </div>
+                <div className="row18">
+                  <div className="principle-amount2">Interest Rate</div>
+                  <div className="div56">{`${loan.interestRate}%`}</div>
+                </div>
+                <div className="row18">
+                  <div className="principle-amount2">Tenure</div>
+                  <div className="div56">{months2years(loan.tenureMonths)}</div>
+                </div>
+                <div className="divider1" />
+                <div className="row21">
+                  <div className="total">Total</div>
+                  <div className="div58">
+                    {numberWithCommaINR(
+                      parseFloat(loan.amount || 0) +
+                        parseFloat(loan.interest || 0),
+                      true
+                    )}
+                  </div>
+                </div>
+              </div>
+              <ButtonComponent
+                className="cta5"
+                buttonText={"Check Loan Details"}
+                onClickHandler={() => handleCheckLoanDetailsClick(loan)}
+              ></ButtonComponent>
             </div>
-            <ButtonComponent
-              className="cta5"
-              buttonText={"Check Loan Details"}
-              onClickHandler={() => handleCheckLoanDetailsClick(loan)}
-            >
-              <div className="show-more"></div>
-            </ButtonComponent>
-          </div>
-        ))}
+          ))
+        )}
       </div>
     </div>
   );

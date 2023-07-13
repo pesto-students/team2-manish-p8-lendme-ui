@@ -1,4 +1,5 @@
 import {
+  CircularProgress,
   FormControl,
   InputLabel,
   MenuItem,
@@ -10,32 +11,66 @@ import "./loan-request-form.css";
 import ButtonComponent from "../meterial-ui-components/Button/ButtonComponent";
 import { useState } from "react";
 import { DatePicker } from "@mui/x-date-pickers";
+import moment from "moment";
+import { formatDate } from "../utils/date-utils";
+import { create } from "../utils/axios-utils";
+import { useNavigate } from "react-router-dom";
+import { urlRoutes } from "../constants";
+import { toast } from "react-toastify";
 
 const LoanRequestForm = () => {
   const initialValues = {
     principalAmount: "",
     interestRate: "",
-    repaymentFrequency: "",
+    repaymentFrequency: "Monthly",
     tenure: "",
     loanPurpose: "",
     loanRequestExpiryDate: null,
     description: "",
     emiStartDate: null,
   };
-
+  const navigate = useNavigate();
   const [formData, setFormData] = useState(initialValues);
-  const checkDetails = (e) => {
+  const [loading, setLoading] = useState(false);
+
+  const getMaturityDate = () => {
+    return moment(formData.emiStartDate).add(
+      parseInt(formData.tenure),
+      "month"
+    );
+  };
+
+  const handleLoanRequestSubmit = async (e) => {
     if (e) {
       e.preventDefault();
     }
-    console.log(formData);
-    //TODO: send data to BE
+    const payload = {
+      amount: parseFloat(formData.principalAmount),
+      interestRate: parseFloat(formData.interestRate),
+      payoutFrequency: formData.repaymentFrequency,
+      emiStartDate: formatDate(formData.emiStartDate, "YYYY-MM-DD"),
+      tenureMonths: formData.tenure,
+      maturityDate: formatDate(getMaturityDate(), "YYYY-MM-DD"),
+      purpose: formData.loanPurpose,
+      expiryDate: formatDate(formData.loanRequestExpiryDate, "YYYY-MM-DD"),
+    };
+    setLoading(true);
+
+    const resp = await create("loan", payload);
+    console.log(resp);
+    if (resp && resp.status === "SUCCESS") {
+      navigate(urlRoutes.loggedInLandingLoansList);
+      toast.success("Loan request has been successfully added");
+    } else {
+      toast.error("Something went wrong while creating loan request");
+    }
+    setLoading(false);
   };
 
   return (
     <div className="loanrequestform">
-      <Header isUserLoggedIn={true} />
-      <form className="sign-up" onSubmit={(e) => checkDetails(e)}>
+      <Header />
+      <form className="sign-up" onSubmit={(e) => handleLoanRequestSubmit(e)}>
         <div className="top">
           <div className="title">
             <div className="loan-request-form-wrapper">
@@ -126,11 +161,9 @@ const LoanRequestForm = () => {
                       repaymentFrequency: e.target.value,
                     })
                   }
+                  disabled
                 >
-                  <MenuItem value={1}>Monthly</MenuItem>
-                  <MenuItem value={2}>Quaterly</MenuItem>
-                  <MenuItem value={3}>Half-yearly</MenuItem>
-                  <MenuItem value={4}>Yearly</MenuItem>
+                  <MenuItem value={"Monthly"}>Monthly</MenuItem>
                 </Select>
               </FormControl>
               <FormControl className="firstname">
@@ -241,7 +274,15 @@ const LoanRequestForm = () => {
         <div className="bottom">
           <ButtonComponent
             className="cta14"
-            buttonText="Request a loan"
+            buttonText={
+              loading ? (
+                <CircularProgress
+                  style={{ color: "white", width: "28px", height: "28px" }}
+                />
+              ) : (
+                "Request a loan"
+              )
+            }
             type="submit"
           />
         </div>

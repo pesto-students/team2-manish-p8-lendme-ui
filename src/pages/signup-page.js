@@ -2,11 +2,13 @@ import "./signup-page.css";
 import { useCallback, useState } from "react";
 import ButtonComponent from "../meterial-ui-components/Button/ButtonComponent";
 import Header from "../components/header";
-import { FormControl, TextField } from "@mui/material";
+import { CircularProgress, FormControl, TextField } from "@mui/material";
 import isEmail from "validator/lib/isEmail";
 import validator from "validator";
 import { useNavigate } from "react-router-dom";
 import { urlRoutes } from "../constants";
+import { create } from "../utils/axios-utils";
+import { toast } from "react-toastify";
 
 const SignupPage = () => {
   const navigate = useNavigate();
@@ -15,8 +17,8 @@ const SignupPage = () => {
     lastName: "",
     email: "",
     mobile: "",
-    panNo: "",
-    aadharNo: "",
+    pan: "",
+    aadhar: "",
     password: "",
   };
   const [confirmedPassword, setConfirmedPassword] = useState("");
@@ -24,15 +26,28 @@ const SignupPage = () => {
   const [passwordError, setPasswordError] = useState("");
   const [confirmPasswordError, setConfirmPasswordError] = useState("");
   const [validEmail, setValidEmail] = useState(true);
+  const [loading, setLoading] = useState(false);
 
   const onClickLoginHere = useCallback(() => {
     navigate(urlRoutes.loginPage);
   }, [navigate]);
 
-  const checkDetails = (e) => {
+  const handleSubmitSignUp = async (e) => {
     if (e) {
       e.preventDefault();
     }
+    setLoading(true);
+
+    const resp = await create("auth/register", formData);
+    if (resp.status === "SUCCESS") {
+      localStorage.setItem("accessToken", resp.data.token);
+      localStorage.setItem("user", JSON.stringify(resp.data.user));
+      navigate(urlRoutes.loggedInLandingLoansList);
+    } else {
+      toast.error("Something went wrong");
+    }
+
+    setLoading(false);
     console.log(formData);
   };
 
@@ -62,8 +77,8 @@ const SignupPage = () => {
 
   return (
     <div className="signuppage">
-      <Header isUserLoggedIn={false} />
-      <form className="sign-up3" onSubmit={(e) => checkDetails(e)}>
+      <Header />
+      <form className="sign-up3" onSubmit={(e) => handleSubmitSignUp(e)}>
         <div className="top7">
           <div className="title9">
             <div className="sign-up-parent">
@@ -193,9 +208,9 @@ const SignupPage = () => {
                   size="medium"
                   margin="none"
                   required
-                  value={formData.panNo}
+                  value={formData.pan}
                   onChange={(e) =>
-                    setFormData({ ...formData, panNo: e.target.value })
+                    setFormData({ ...formData, pan: e.target.value })
                   }
                 />
               </FormControl>
@@ -212,9 +227,9 @@ const SignupPage = () => {
                   size="medium"
                   margin="none"
                   required
-                  value={formData.aadharNo}
+                  value={formData.aadhar}
                   onChange={(e) =>
-                    setFormData({ ...formData, aadharNo: e.target.value })
+                    setFormData({ ...formData, aadhar: e.target.value })
                   }
                 />
               </FormControl>
@@ -276,7 +291,15 @@ const SignupPage = () => {
         <div className="bottom3">
           <ButtonComponent
             className="cta14"
-            buttonText="Sign up"
+            buttonText={
+              loading ? (
+                <CircularProgress
+                  style={{ color: "white", width: "28px", height: "28px" }}
+                />
+              ) : (
+                "Sign up"
+              )
+            }
             type="submit"
           />
 

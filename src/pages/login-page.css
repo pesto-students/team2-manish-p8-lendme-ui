@@ -420,9 +420,9 @@
 .log-in1 {
   position: absolute;
   top: 169px;
-  left: 384px;
+  left: 25%;
   border-radius: 4px;
-  width: 802px;
+  width: 50%;
   height: 601px;
   display: flex;
   flex-direction: column;

@@ -1,22 +1,41 @@
-import { memo, useCallback } from "react";
+import { memo, useCallback, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "./header.css";
 import { urlRoutes } from "../constants";
+import { getFullName } from "../utils/string-utils";
+import { removeItemsOnLogout } from "../utils/local-storage-utils";
 
 const Header = memo(
-  ({
-    isUserLoggedIn = false,
-    userFullName = "abc abc",
-    userEmail = "abc@abc.abc",
-  }) => {
+  ({ userFullName = "abc abc", userEmail = "abc@abc.abc" }) => {
     const navigate = useNavigate();
-
     const handleNavigationOnclick = useCallback(
       (url) => {
         navigate(url, { replace: true });
       },
       [navigate]
     );
+
+    const [isUserLoggedIn, setIsUserLoggedIn] = useState(false);
+    const [user, setUser] = useState(null);
+
+    useEffect(() => {
+      const token = localStorage.getItem("accessToken");
+      const userObj = localStorage.getItem("user");
+      if (token && userObj) {
+        console.log(JSON.parse(userObj));
+
+        setIsUserLoggedIn(true);
+        setUser(JSON.parse(userObj));
+      } else {
+        setIsUserLoggedIn(false);
+      }
+    }, []);
+
+    const handleLogout = () => {
+      removeItemsOnLogout();
+      handleNavigationOnclick(urlRoutes.loginPage);
+    };
+
     if (isUserLoggedIn) {
       return (
         <>
@@ -79,17 +98,16 @@ const Header = memo(
           <div className="profileandlogout6">
             <div className="content-wrapper4">
               <div className="content38">
-                <div className="jenny-wilson6">{userFullName}</div>
-                <div className="jenwilsonexamplecom6">{userEmail}</div>
+                <div className="jenny-wilson6">
+                  {getFullName(user.firstName || "", user.lastName || "")}
+                </div>
+                <div className="jenwilsonexamplecom6">{user.email}</div>
               </div>
             </div>
             <div className="log-out6">
               <img className="left-icon5" alt="" src="/left-icon.svg" />
               <div className="layout6">
-                <div
-                  className="label30"
-                  onClick={() => handleNavigationOnclick(urlRoutes.loginPage)}
-                >
+                <div className="label30" onClick={handleLogout}>
                   Log out
                 </div>
               </div>
@@ -113,7 +131,7 @@ const Header = memo(
               </div>
               <div className="item41">Personal Loan</div>
               <div className="item42">Investment</div>
-              <div className="item42">How it works</div>
+              <div className="item41">How it works</div>
               <div className="item42">About us</div>
               <div className="item42">Contact us</div>
             </div>
