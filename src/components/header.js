@@ -36,6 +36,13 @@ const Header = memo(
       handleNavigationOnclick(urlRoutes.loginPage);
     };
 
+    const navigateToElement = (id) => {
+      var elmntToView = document.getElementById(id);
+
+      if(elmntToView){
+        elmntToView.scrollIntoView({behavior: "smooth"}); 
+      }
+    }
     if (isUserLoggedIn) {
       return (
         <>
@@ -129,11 +136,11 @@ const Header = memo(
                   />
                 </div>
               </div>
-              <div className="item41">Personal Loan</div>
-              <div className="item42">Investment</div>
-              <div className="item41">How it works</div>
-              <div className="item42">About us</div>
-              <div className="item42">Contact us</div>
+              <div className="item41" onClick={() => navigateToElement("introduction")}>Introduction</div>
+              <div className="item42" onClick={() => navigateToElement("features")} >features</div>
+              <div className="item41" onClick={() => navigateToElement("why-choose-us")} >Why choose us</div>
+              <div className="item42" onClick={() => navigateToElement("about")}>About us</div>
+              <div className="item42" onClick={() => navigateToElement("contact-us")}>Contact us</div>
             </div>
             <div
               className="logo13"

@@ -7,12 +7,14 @@ const LandingPage = () => {
       <div className="fast-accurate-reliable-parent">
         <b className="fast-accurate-reliable">Fast. Accurate. Reliable</b>
         <div className="the-most-powerful">
-          The most powerful finance software that connects with your financial
-          accounts. Track spending and categorize expenses so you can see where
-          your money is going.
+            The application which offers registered users a choice of loans, depending on their financial 
+            situation also for those users who wants to invest into a loan. Users can browse through a range of 
+            loan requests, filter by interest rates and choose the one that suits their needs best. LendMe 
+            also offers a money transfer service so that users can get money sent to them electronically through 
+            their application wallet
         </div>
       </div>
-      <div className="card-parent">
+      <div id="features" className="card-parent">
         <div className="card1">
           <div className="icon4">
             <img
@@ -23,11 +25,11 @@ const LandingPage = () => {
           </div>
           <div className="content19">
             <div className="fax">Accounts</div>
-            <b className="title12">Advanced Account Managament</b>
+            <b className="title12">Monitor data</b>
           </div>
           <div className="text28">
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit ut aliquam,
-            purus sit amet luctus venenatis, lectus magna fringilla urna
+            where an individual has invested in loans or borrowed money from lenders. 
+            It involves monitoring the status of these loans to track details
           </div>
         </div>
         <div className="card1">
@@ -46,9 +48,8 @@ const LandingPage = () => {
           </div>
           <div className="paragraph1">
             <div className="text29">
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit ut
-              aliquam, purus sit amet luctus venenatis, lectus magna fringilla
-              urna
+            Encrypting data is an important security measure to protect sensitive information,
+             By encrypting your data.
             </div>
           </div>
         </div>
@@ -63,14 +64,13 @@ const LandingPage = () => {
           <div className="header9">
             <div className="content19">
               <div className="fax">Analytics</div>
-              <b className="title12">Interpret Data Quickly</b>
+              <b className="title12">Aggrement generation</b>
             </div>
           </div>
           <div className="paragraph1">
             <div className="text29">
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit ut
-              aliquam, purus sit amet luctus venenatis, lectus magna fringilla
-              urna
+                This application generated pdf of aggrement between borrower and lender
+                for trust worthy operations
             </div>
           </div>
         </div>
@@ -80,7 +80,7 @@ const LandingPage = () => {
           <div className="menu">
             <div className="newsletter1">Newsletter</div>
             <div className="be-the-first">
-              Be the first one to know about discounts, offers and events
+              Be the first one to know about investments and raising loan requests
             </div>
           </div>
           <div className="colornewsletter">
@@ -93,27 +93,27 @@ const LandingPage = () => {
             </div>
           </div>
         </div>
-        <div className="left1">
+        <div id="introduction" className="left1">
           <div className="introduction1">
             <b className="fax">LendMe</b>
             <div className="we-ara-a-container">
-              <span>{`We ara a lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat... `}</span>
+              <span>{`LendMe application offers registered users a choice of loans, depending on their financial situation also for those users who wants to invest into a loan. Users can browse through a range of loan requests, filter by interest rates and choose the one that suits their needs best. LendMe also offers a money transfer service so that users can get money sent to them electronically through their application wallet.`}</span>
               <span className="read-more">Read More</span>
             </div>
           </div>
-          <div className="contact1">
+          <div id="contact-us" className="contact1">
             <div className="lightfax">
               <img className="icons30" alt="" src="/icons15.svg" />
               <div className="text31">
-                <div className="fax">Tel</div>
-                <div className="div83">310-437-2766</div>
+                <div className="fax">Contact</div>
+                <div className="div83">7769854309</div>
               </div>
             </div>
             <div className="lightfax">
               <img className="icons30" alt="" src="/icons16.svg" />
               <div className="text31">
                 <div className="fax">Mail</div>
-                <div className="div83">unreal@outlook.com</div>
+                <div className="div83">lendme.p2p@gmail.com</div>
               </div>
             </div>
             <div className="lightfax">
@@ -121,7 +121,7 @@ const LandingPage = () => {
               <div className="text31">
                 <div className="fax">Address</div>
                 <div className="campfire-ave-meriden1">
-                  706 Campfire Ave. Meriden, CT 06450
+                  White field, Bangalore
                 </div>
               </div>
             </div>
@@ -129,14 +129,14 @@ const LandingPage = () => {
               <img className="lighticon4" alt="" src="/lighticon4.svg" />
               <div className="text34">
                 <div className="fax">Fax</div>
-                <div className="div83">+1-000-0000</div>
+                <div className="div83">XPMP+8PV</div>
               </div>
             </div>
           </div>
         </div>
         <div className="menus">
           <div className="menu1">
-            <b className="about">About</b>
+            <b id="about">About</b>
             <div className="items">
               <div className="about">About us</div>
               <div className="about">Blog</div>
@@ -209,7 +209,7 @@ const LandingPage = () => {
           </div>
         </div>
       </div>
-      <div className="chart-parent">
+      <div id="why-choose-us" className="chart-parent">
         <div className="chart">
           <div className="heading">
             <b className="fax">Store Metrics</b>
@@ -409,10 +409,7 @@ const LandingPage = () => {
           </div>
         </div>
         <div className="lorem-ipsum-dolor">
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit ut aliquam,
-          purus sit amet luctus venenatis, lectus magna fringilla urna,
-          porttitor rhoncus dolor purus non enim praesent elementum facilisis
-          leo.
+          Where an individual has invested in loans or borrowed money from lenders. It involves monitoring the status of these loans to track details
         </div>
         <div className="buttons5">
           <div className="label27">Learn More</div>
