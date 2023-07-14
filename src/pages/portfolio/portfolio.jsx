@@ -13,6 +13,7 @@ import { TextField } from "@mui/material";
 import { create, read } from "../../utils/axios-utils";
 import { toast } from "react-toastify";
 import { HOST_URL } from "../../config";
+import { getFullName } from "../../utils/string-utils";
 
 const PortfolioPage = () => {
   const navigate = useNavigate();
@@ -203,8 +204,11 @@ const PortfolioPage = () => {
         srNo: index + 1,
         secondPartyName:
           loan.loanType === "BORROW"
-            ? loan.lenderUserId || "---"
-            : loan.borrowerUserId || "---",
+            ? loan.lender
+              ? getFullName(loan.lender.firstName, loan.lender.lastName)
+              : "---"
+            : getFullName(loan.borrower.firstName, loan.borrower.lastName) ||
+              "---",
         loanType: getLoanTypeBox(loan.loanType),
         principal: numberWithCommaINR(loan.amount || 0, true),
         interestRate: `${loan.interestRate || 0}%`,

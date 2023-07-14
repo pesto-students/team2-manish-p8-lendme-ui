@@ -1,6 +1,6 @@
 import axios from "axios";
 import { removeItemsOnLogout } from "./local-storage-utils";
-import { HOST_URL } from "../config";
+import { urlRoutes } from "../constants";
 let result;
 
 const createHeaders = () => {
@@ -17,7 +17,7 @@ const createHeaders = () => {
 
 const create = async (endpoint, payload) => {
   await axios
-    .post(`${HOST_URL}/${endpoint}`, payload, {
+    .post(`${process.env.REACT_APP_HOST_URL}/${endpoint}`, payload, {
       headers: createHeaders(),
     })
     .then((response) => {
@@ -30,6 +30,7 @@ const create = async (endpoint, payload) => {
     .catch((error) => {
       if (error.response.status === 401) {
         removeItemsOnLogout();
+        window.location.replace(urlRoutes.loginPage);
       }
       result = { status: "ERROR", data: error };
     });
@@ -39,11 +40,10 @@ const create = async (endpoint, payload) => {
 
 const read = async (endpoint) => {
   await axios
-    .get(`${HOST_URL}/${endpoint}`, {
+    .get(`${process.env.REACT_APP_HOST_URL}/${endpoint}`, {
       headers: createHeaders(),
     })
     .then((response) => {
-      console.log(response);
       if (response.data && response.data.success) {
         result = { status: "SUCCESS", data: response.data };
       } else {
@@ -54,6 +54,7 @@ const read = async (endpoint) => {
       console.log(error);
       if (error.response.status === 401) {
         removeItemsOnLogout();
+        window.location.replace(urlRoutes.loginPage);
       }
       result = { status: "ERROR", data: error };
     });
@@ -63,7 +64,7 @@ const read = async (endpoint) => {
 
 const update = async (endpoint, payload) => {
   await axios
-    .put(`${HOST_URL}/${endpoint}`, payload, {
+    .put(`${process.env.REACT_APP_HOST_URL}/${endpoint}`, payload, {
       headers: createHeaders(),
     })
     .then((response) => {
@@ -85,7 +86,7 @@ const update = async (endpoint, payload) => {
 
 const deleteData = (endpoint) => {
   axios
-    .delete(`${HOST_URL}/${endpoint}/${id}`, {
+    .delete(`${process.env.REACT_APP_HOST_URL}/${endpoint}/${id}`, {
       headers: createHeaders(),
     })
     .then(() => {
@@ -98,6 +99,7 @@ const deleteData = (endpoint) => {
     .catch((error) => {
       if (error.response.status === 401) {
         removeItemsOnLogout();
+        window.location.replace(urlRoutes.loginPage);
       }
       result = { status: "ERROR", data: error };
     });
