@@ -9,7 +9,7 @@ import LandingPage from "./pages/landing/landing";
 import LoanRequestForm from "./pages/loan-request-form/loan-request-form";
 import ProfilePage from "./pages/profile/profile";
 import LoanDetailPage from "./pages/loan-detail/loan-detail";
-import LoggedInLandingLoansList from "./pages/loans-list/loans-list";
+import LoansList from "./pages/loans-list/loans-list";
 import SignupPage from "./pages/signup/signup";
 import LoginPage from "./pages/login/login";
 import PortfolioPage from "./pages/portfolio/portfolio";
@@ -63,7 +63,7 @@ function App() {
         />
         <Route
           path={urlRoutes.loggedInLandingLoansList}
-          element={<LoggedInLandingLoansList />}
+          element={<LoansList />}
         />
         <Route path={urlRoutes.signupPage} element={<SignupPage />} />
         <Route path={urlRoutes.loginPage} element={<LoginPage />} />

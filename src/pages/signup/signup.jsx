@@ -78,7 +78,11 @@ const SignupPage = () => {
   return (
     <div className="signuppage">
       <Header />
-      <form className="sign-up3" onSubmit={(e) => handleSubmitSignUp(e)}>
+      <form
+        className="sign-up3"
+        onSubmit={(e) => handleSubmitSignUp(e)}
+        data-testid="signup-title"
+      >
         <div className="top7">
           <div className="title9">
             <div className="sign-up-parent">

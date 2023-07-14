@@ -51,7 +51,9 @@ const LoginPage = () => {
           <div className="lendme">LendMe</div>
         </div>
         <div className="header7">
-          <b className="keep-me-signed">Login</b>
+          <b className="keep-me-signed" data-testid="login-title">
+            Login
+          </b>
           <div className="subtitle14">
             Welcome back. Enter your credentials to access your account
           </div>

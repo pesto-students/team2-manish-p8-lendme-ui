@@ -12,7 +12,6 @@ import Back from "@mui/icons-material/ChevronLeft";
 import { TextField } from "@mui/material";
 import { create, read } from "../../utils/axios-utils";
 import { toast } from "react-toastify";
-import { HOST_URL } from "../../config";
 import { getFullName } from "../../utils/string-utils";
 
 const PortfolioPage = () => {
@@ -223,7 +222,7 @@ const PortfolioPage = () => {
     try {
       setAgreementLoaderLoanId(loan.id);
       const token = localStorage.getItem("accessToken");
-      const url = `${HOST_URL}/loan/${loan.id}/agreement?render=1`;
+      const url = `${process.env.REACT_APP_HOST_URL}/loan/${loan.id}/agreement?render=1`;
       const options = {
         headers: {
           Authorization: `Bearer ${token}`,

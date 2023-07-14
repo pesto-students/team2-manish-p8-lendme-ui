@@ -20,10 +20,10 @@ import { read } from "../../utils/axios-utils";
 import { getFullName } from "../../utils/string-utils";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
-const LoggedInLandingLoansList = () => {
+const LoansList = () => {
   const navigate = useNavigate();
   const [loans, setLoans] = useState([]);
-
+  const [filteredLoans, setFilteredLoans] = useState([]);
   const [findSuitableLoanFormData, setFindSuitableLoanFormData] = useState({
     principleAmount: "",
     tenure: "",
@@ -38,6 +38,7 @@ const LoggedInLandingLoansList = () => {
   });
 
   const [interestRateFilterData, setInterestRateFilterData] = useState({
+    zero: false,
     one: false,
     two: false,
     three: false,
@@ -49,27 +50,31 @@ const LoggedInLandingLoansList = () => {
 
   useEffect(() => {
     (async () => {
-      setLoading(true);
-      const resp = await read("loan?limit=100&offset=0");
-      if (resp.status === "SUCCESS") {
-        const user = JSON.parse(localStorage.getItem("user"));
-        const loanList = resp.data.loans.filter(
-          (loan) =>
-            loan.loanStatus === loanStatus.REQUESTED &&
-            user.email !== loan.borrower?.email
-        );
-        console.log(loanList);
-        setLoans(loanList);
-      } else {
+      try {
+        setLoading(true);
+        const resp = await read("loan?limit=100&offset=0");
+        if (resp.status === "SUCCESS") {
+          const user = JSON.parse(localStorage.getItem("user"));
+          const loanList = resp.data.loans.filter(
+            (loan) =>
+              loan.loanStatus === loanStatus.REQUESTED &&
+              user.email !== loan.borrower?.email
+          );
+          setLoans(loanList);
+          setFilteredLoans(loanList);
+        } else {
+          toast.error("Something went wrong");
+        }
+        setLoading(false);
+      } catch (err) {
+        setLoading(false);
         toast.error("Something went wrong");
       }
-      setLoading(false);
     })();
   }, []);
 
   const onClickFindSuitableLoan = () => {
     console.log(findSuitableLoanFormData);
-    //call get loans with filters
   };
 
   const handleCheckLoanDetailsClick = (loanData) => {
@@ -80,7 +85,9 @@ const LoggedInLandingLoansList = () => {
     <div className="loggedinlandingloanslist">
       <Header />
       <div className="filters">
-        <b className="title6">Filters</b>
+        <b className="title6" data-testid="filters">
+          Filters
+        </b>
         <div className="section">
           <div className="section-title">
             <div className="principle-amount1">Principle amount</div>
@@ -140,9 +147,26 @@ const LoggedInLandingLoansList = () => {
           </div>
           <div className="scale-option-parent">
             <Radio
+              checked={interestRateFilterData.zero}
+              onChange={() => {
+                setInterestRateFilterData({
+                  zero: true,
+                  one: false,
+                  two: false,
+                  three: false,
+                  four: false,
+                  five: false,
+                });
+              }}
+            />
+            <div className="less-than">{`Any`}</div>
+          </div>
+          <div className="scale-option-parent">
+            <Radio
               checked={interestRateFilterData.one}
               onChange={() => {
                 setInterestRateFilterData({
+                  zero: false,
                   one: true,
                   two: false,
                   three: false,
@@ -158,6 +182,7 @@ const LoggedInLandingLoansList = () => {
               checked={interestRateFilterData.two}
               onChange={() => {
                 setInterestRateFilterData({
+                  zero: false,
                   one: false,
                   two: true,
                   three: false,
@@ -173,6 +198,7 @@ const LoggedInLandingLoansList = () => {
               checked={interestRateFilterData.three}
               onChange={() => {
                 setInterestRateFilterData({
+                  zero: false,
                   one: false,
                   two: false,
                   three: true,
@@ -188,6 +214,7 @@ const LoggedInLandingLoansList = () => {
               checked={interestRateFilterData.four}
               onChange={() => {
                 setInterestRateFilterData({
+                  zero: false,
                   one: false,
                   two: false,
                   three: false,
@@ -204,6 +231,7 @@ const LoggedInLandingLoansList = () => {
                 checked={interestRateFilterData.five}
                 onChange={() => {
                   setInterestRateFilterData({
+                    zero: false,
                     one: false,
                     two: false,
                     three: false,
@@ -217,7 +245,7 @@ const LoggedInLandingLoansList = () => {
           </div>
         </RadioGroup>
       </div>
-      <div className="searchbar">
+      <div className="searchbar" data-testid="search-bar-section">
         <div className="section2">
           <FormControl
             className="content7"
@@ -237,6 +265,7 @@ const LoggedInLandingLoansList = () => {
                 })
               }
             >
+              <MenuItem value="">Any</MenuItem>
               <MenuItem value={"1000-100000"}>{`${numberWithCommaINR(
                 1000
               )} - ${numberWithCommaINR(100000)}`}</MenuItem>
@@ -246,7 +275,7 @@ const LoggedInLandingLoansList = () => {
               <MenuItem value={"500000-5000000"}>{`${numberWithCommaINR(
                 500000
               )} - ${numberWithCommaINR(5000000)}`}</MenuItem>
-              <MenuItem value={"5000000"}>{`${numberWithCommaINR(
+              <MenuItem value={"5000000-MAX"}>{`${numberWithCommaINR(
                 5000000
               )}+`}</MenuItem>
             </Select>
@@ -268,10 +297,11 @@ const LoggedInLandingLoansList = () => {
                 })
               }
             >
+              <MenuItem value="">Any</MenuItem>
               <MenuItem value={"0-12"}>Less than an year</MenuItem>
               <MenuItem value={"12-36"}>1-3 years</MenuItem>
               <MenuItem value={"36-60"}>3-5 years</MenuItem>
-              <MenuItem value={"60"}>5+ years</MenuItem>
+              <MenuItem value={"60-MAX"}>5+ years</MenuItem>
             </Select>
           </FormControl>
         </div>
@@ -295,11 +325,12 @@ const LoggedInLandingLoansList = () => {
                 })
               }
             >
+              <MenuItem value="">Any</MenuItem>
               <MenuItem value={"0-5"}>0% to 5%</MenuItem>
               <MenuItem value={"5-10"}>5% to 10%</MenuItem>
               <MenuItem value={"10-15"}>10% to 15%</MenuItem>
               <MenuItem value={"15-20"}>15% to 20%</MenuItem>
-              <MenuItem value={"20"}>20% +</MenuItem>
+              <MenuItem value={"20-MAX"}>20% +</MenuItem>
             </Select>
           </FormControl>
         </div>
@@ -309,7 +340,10 @@ const LoggedInLandingLoansList = () => {
           onClickHandler={onClickFindSuitableLoan}
         />
       </div>
-      <div className="loggedinlandingloanslist-child">
+      <div
+        className="loggedinlandingloanslist-child"
+        data-testid="loans-listing"
+      >
         {loading ? (
           <div className="loader-container">
             <CircularProgress
@@ -319,7 +353,7 @@ const LoggedInLandingLoansList = () => {
             />
           </div>
         ) : (
-          loans.map((loan) => (
+          filteredLoans.map((loan) => (
             <div className="checkout3">
               <div className="user1">
                 <div className="space">
@@ -335,10 +369,6 @@ const LoggedInLandingLoansList = () => {
                       </div>
                     </div>
                   </div>
-                </div>
-                <div className="verified">
-                  <img className="checkbox1" alt="" src="/icons11.svg" />
-                  <div className="show-more">Verified User</div>
                 </div>
               </div>
               <div className="list3">
@@ -379,4 +409,4 @@ const LoggedInLandingLoansList = () => {
   );
 };
 
-export default LoggedInLandingLoansList;
+export default LoansList;
