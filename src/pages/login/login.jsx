@@ -1,12 +1,12 @@
 import { useCallback, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import "./login-page.scss";
-import Header from "../components/header/header";
-import ButtonComponent from "../components/material-ui-components/button/button-component";
+import "./login.scss";
+import Header from "../../components/header/header";
+import ButtonComponent from "../../components/material-ui-components/button/button-component";
 import { CircularProgress, FormControl, TextField } from "@mui/material";
 import isEmail from "validator/lib/isEmail";
-import { create } from "../utils/axios-utils";
-import { urlRoutes } from "../constants";
+import { create } from "../../utils/axios-utils";
+import { urlRoutes } from "../../constants";
 const LoginPage = () => {
   const navigate = useNavigate();
   const initialValues = {

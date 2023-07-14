@@ -1,18 +1,18 @@
 import { useEffect, useState } from "react";
-import Header from "../components/header/header";
-import "./portfolio-page.scss";
-import { loanStatus, urlRoutes } from "../constants";
-import { numberWithComma, numberWithCommaINR } from "../utils/number-utils";
-import Grid from "../components/material-ui-components/grid/grid";
+import Header from "../../components/header/header";
+import "./portfolio.scss";
+import { loanStatus, urlRoutes } from "../../constants";
+import { numberWithComma, numberWithCommaINR } from "../../utils/number-utils";
+import Grid from "../../components/material-ui-components/grid/grid";
 import { Chart } from "react-google-charts";
 import { useNavigate } from "react-router-dom";
-import ButtonComponent from "../components/material-ui-components/button/button-component";
+import ButtonComponent from "../../components/material-ui-components/button/button-component";
 import { Box, CircularProgress, IconButton, Modal } from "@mui/material";
 import Back from "@mui/icons-material/ChevronLeft";
 import { TextField } from "@mui/material";
-import { create, read } from "../utils/axios-utils";
+import { create, read } from "../../utils/axios-utils";
 import { toast } from "react-toastify";
-import { HOST_URL } from "../config";
+import { HOST_URL } from "../../config";
 
 const PortfolioPage = () => {
   const navigate = useNavigate();

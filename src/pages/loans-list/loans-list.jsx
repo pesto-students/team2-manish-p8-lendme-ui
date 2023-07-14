@@ -9,15 +9,15 @@ import {
   RadioGroup,
   CircularProgress,
 } from "@mui/material";
-import "./logged-in-landing-loans-list.scss";
-import Header from "../components/header/header";
+import "./loans-list.scss";
+import Header from "../../components/header/header";
 import { useEffect, useState } from "react";
-import { loanStatus, urlRoutes } from "../constants";
-import { numberWithCommaINR } from "../utils/number-utils";
-import { months2years } from "../utils/date-utils";
-import ButtonComponent from "../components/material-ui-components/button/button-component";
-import { read } from "../utils/axios-utils";
-import { getFullName } from "../utils/string-utils";
+import { loanStatus, urlRoutes } from "../../constants";
+import { numberWithCommaINR } from "../../utils/number-utils";
+import { months2years } from "../../utils/date-utils";
+import ButtonComponent from "../../components/material-ui-components/button/button-component";
+import { read } from "../../utils/axios-utils";
+import { getFullName } from "../../utils/string-utils";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 const LoggedInLandingLoansList = () => {

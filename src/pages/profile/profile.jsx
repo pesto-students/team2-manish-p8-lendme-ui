@@ -1,15 +1,15 @@
-import "./profile-page.scss";
-import Header from "../components/header/header";
+import "./profile.scss";
+import Header from "../../components/header/header";
 import IconButton from "@mui/material/IconButton";
 import Back from "@mui/icons-material/ChevronLeft";
-import ButtonComponent from "../components/material-ui-components/button/button-component";
+import ButtonComponent from "../../components/material-ui-components/button/button-component";
 import Modal from "@mui/material/Modal";
 import Box from "@mui/material/Box";
 import { useEffect, useState } from "react";
 import validator from "validator";
 import { CircularProgress, TextField } from "@mui/material";
 import isEmail from "validator/lib/isEmail";
-import { read, update } from "../utils/axios-utils";
+import { read, update } from "../../utils/axios-utils";
 import { toast } from "react-toastify";
 
 const profilePage = () => {

@@ -1,13 +1,13 @@
-import "./signup-page.scss";
+import "./signup.scss";
 import { useCallback, useState } from "react";
-import ButtonComponent from "../components/material-ui-components/button/button-component";
-import Header from "../components/header/header";
+import ButtonComponent from "../../components/material-ui-components/button/button-component";
+import Header from "../../components/header/header";
 import { CircularProgress, FormControl, TextField } from "@mui/material";
 import isEmail from "validator/lib/isEmail";
 import validator from "validator";
 import { useNavigate } from "react-router-dom";
-import { urlRoutes } from "../constants";
-import { create } from "../utils/axios-utils";
+import { urlRoutes } from "../../constants";
+import { create } from "../../utils/axios-utils";
 import { toast } from "react-toastify";
 
 const SignupPage = () => {

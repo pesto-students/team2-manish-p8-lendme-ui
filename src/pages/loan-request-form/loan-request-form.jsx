@@ -6,16 +6,16 @@ import {
   Select,
   TextField,
 } from "@mui/material";
-import Header from "../components/header/header";
+import Header from "../../components/header/header";
 import "./loan-request-form.scss";
-import ButtonComponent from "../components/material-ui-components/button/button-component";
+import ButtonComponent from "../../components/material-ui-components/button/button-component";
 import { useState } from "react";
 import { DatePicker } from "@mui/x-date-pickers";
 import moment from "moment";
-import { formatDate } from "../utils/date-utils";
-import { create } from "../utils/axios-utils";
+import { formatDate } from "../../utils/date-utils";
+import { create } from "../../utils/axios-utils";
 import { useNavigate } from "react-router-dom";
-import { urlRoutes } from "../constants";
+import { urlRoutes } from "../../constants";
 import { toast } from "react-toastify";
 
 const LoanRequestForm = () => {

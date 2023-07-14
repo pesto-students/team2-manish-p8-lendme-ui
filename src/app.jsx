@@ -5,21 +5,21 @@ import {
   useLocation,
   useNavigate,
 } from "react-router-dom";
-import LandingPage from "./pages/landing-page";
-import LoanRequestForm from "./pages/loan-request-form";
-import ProfilePage from "./pages/profile-page";
-import LoanDetailPage from "./pages/loan-detail-page";
-import LoggedInLandingLoansList from "./pages/logged-in-landing-loans-list";
-import SignupPage from "./pages/signup-page";
-import LoginPage from "./pages/login-page";
-import PortfolioPage from "./pages/portfolio-page";
+import LandingPage from "./pages/landing/landing";
+import LoanRequestForm from "./pages/loan-request-form/loan-request-form";
+import ProfilePage from "./pages/profile/profile";
+import LoanDetailPage from "./pages/loan-detail/loan-detail";
+import LoggedInLandingLoansList from "./pages/loans-list/loans-list";
+import SignupPage from "./pages/signup/signup";
+import LoginPage from "./pages/login/login";
+import PortfolioPage from "./pages/portfolio/portfolio";
 import { useEffect } from "react";
 import { LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterMoment } from "@mui/x-date-pickers/AdapterMoment";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { urlRoutes } from "./constants";
-import ExistingLoanDetail from "./pages/existing-loan-detail";
+import ExistingLoanDetail from "./pages/existing-loan-detail/existing-loan-detail";
 
 function App() {
   const action = useNavigationType();
