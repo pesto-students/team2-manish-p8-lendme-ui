@@ -1,13 +1,13 @@
 export const urlRoutes = {
   landingPage: "/",
-  loanRequestForm: "/loanrequestform",
-  profilePage: "/profilepage",
-  loanDetailPage: "/loandetailpage",
-  loggedInLandingLoansList: "/loggedinlandingloanslist",
-  signupPage: "/signuppage",
-  loginPage: "/loginpage",
-  portfolioPage: "/portfoliopage",
-  existingLoanDetail: "/existingLoanDetail",
+  loanRequestForm: "/loan-request",
+  profilePage: "/profile",
+  loanDetailPage: "/loan-detail",
+  loggedInLandingLoansList: "/loans-list",
+  signupPage: "/signup",
+  loginPage: "/login",
+  portfolioPage: "/portfolio",
+  existingLoanDetail: "/existing-loan-detail",
 };
 
 export const loanStatus = {

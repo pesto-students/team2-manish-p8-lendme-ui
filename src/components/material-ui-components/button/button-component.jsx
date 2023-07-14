@@ -1,10 +1,10 @@
 import { Button } from "@mui/material";
 import React from "react";
+import "./button-component.scss";
 
 export default function ButtonComponent({
   className,
   buttonText,
-  buttonImage,
   onClickHandler = () => {},
   type = "",
   disabled = false,

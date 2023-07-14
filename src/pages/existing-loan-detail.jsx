@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
-import Header from "../components/header";
-import Grid from "../meterial-ui-components/grid/grid";
-import "./existing-loan-detail.css";
+import Header from "../components/header/header";
+import Grid from "../components/material-ui-components/grid/grid";
+import "./existing-loan-detail.scss";
 import { urlRoutes } from "../constants";
 import { numberWithCommaINR } from "../utils/number-utils";
 import { formatDate, months2years } from "../utils/date-utils";

@@ -1,5 +1,5 @@
-import Header from "../components/header";
-import "./landing-page.css";
+import Header from "../components/header/header";
+import "./landing-page.scss";
 const LandingPage = () => {
   return (
     <div className="landingpage">
@@ -7,11 +7,13 @@ const LandingPage = () => {
       <div className="fast-accurate-reliable-parent">
         <b className="fast-accurate-reliable">Fast. Accurate. Reliable</b>
         <div className="the-most-powerful">
-            The application which offers registered users a choice of loans, depending on their financial 
-            situation also for those users who wants to invest into a loan. Users can browse through a range of 
-            loan requests, filter by interest rates and choose the one that suits their needs best. LendMe 
-            also offers a money transfer service so that users can get money sent to them electronically through 
-            their application wallet
+          The application which offers registered users a choice of loans,
+          depending on their financial situation also for those users who wants
+          to invest into a loan. Users can browse through a range of loan
+          requests, filter by interest rates and choose the one that suits their
+          needs best. LendMe also offers a money transfer service so that users
+          can get money sent to them electronically through their application
+          wallet
         </div>
       </div>
       <div id="features" className="card-parent">
@@ -28,8 +30,9 @@ const LandingPage = () => {
             <b className="title12">Monitor data</b>
           </div>
           <div className="text28">
-            where an individual has invested in loans or borrowed money from lenders. 
-            It involves monitoring the status of these loans to track details
+            where an individual has invested in loans or borrowed money from
+            lenders. It involves monitoring the status of these loans to track
+            details
           </div>
         </div>
         <div className="card1">
@@ -48,8 +51,8 @@ const LandingPage = () => {
           </div>
           <div className="paragraph1">
             <div className="text29">
-            Encrypting data is an important security measure to protect sensitive information,
-             By encrypting your data.
+              Encrypting data is an important security measure to protect
+              sensitive information, By encrypting your data.
             </div>
           </div>
         </div>
@@ -69,8 +72,8 @@ const LandingPage = () => {
           </div>
           <div className="paragraph1">
             <div className="text29">
-                This application generated pdf of aggrement between borrower and lender
-                for trust worthy operations
+              This application generated pdf of aggrement between borrower and
+              lender for trust worthy operations
             </div>
           </div>
         </div>
@@ -80,7 +83,8 @@ const LandingPage = () => {
           <div className="menu">
             <div className="newsletter1">Newsletter</div>
             <div className="be-the-first">
-              Be the first one to know about investments and raising loan requests
+              Be the first one to know about investments and raising loan
+              requests
             </div>
           </div>
           <div className="colornewsletter">
@@ -409,7 +413,9 @@ const LandingPage = () => {
           </div>
         </div>
         <div className="lorem-ipsum-dolor">
-          Where an individual has invested in loans or borrowed money from lenders. It involves monitoring the status of these loans to track details
+          Where an individual has invested in loans or borrowed money from
+          lenders. It involves monitoring the status of these loans to track
+          details
         </div>
         <div className="buttons5">
           <div className="label27">Learn More</div>

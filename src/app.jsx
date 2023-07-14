@@ -54,19 +54,22 @@ function App() {
   return (
     <LocalizationProvider dateAdapter={AdapterMoment}>
       <Routes>
-        <Route path="/" element={<LandingPage />} />
-        <Route path="/loanrequestform" element={<LoanRequestForm />} />
-        <Route path="/profilepage" element={<ProfilePage />} />
-        <Route path="/loandetailpage/:id" element={<LoanDetailPage />} />
+        <Route path={urlRoutes.landingPage} element={<LandingPage />} />
+        <Route path={urlRoutes.loanRequestForm} element={<LoanRequestForm />} />
+        <Route path={urlRoutes.profilePage} element={<ProfilePage />} />
         <Route
-          path="/loggedinlandingloanslist"
+          path={`${urlRoutes.loanDetailPage}/:id`}
+          element={<LoanDetailPage />}
+        />
+        <Route
+          path={urlRoutes.loggedInLandingLoansList}
           element={<LoggedInLandingLoansList />}
         />
-        <Route path="/signuppage" element={<SignupPage />} />
-        <Route path="/loginpage" element={<LoginPage />} />
-        <Route path="/portfoliopage" element={<PortfolioPage />} />
+        <Route path={urlRoutes.signupPage} element={<SignupPage />} />
+        <Route path={urlRoutes.loginPage} element={<LoginPage />} />
+        <Route path={urlRoutes.portfolioPage} element={<PortfolioPage />} />
         <Route
-          path="/existingLoanDetail/:id"
+          path={`${urlRoutes.existingLoanDetail}/:id`}
           element={<ExistingLoanDetail />}
         />
       </Routes>
