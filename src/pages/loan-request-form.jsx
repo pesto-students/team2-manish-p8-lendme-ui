@@ -6,9 +6,9 @@ import {
   Select,
   TextField,
 } from "@mui/material";
-import Header from "../components/header";
-import "./loan-request-form.css";
-import ButtonComponent from "../meterial-ui-components/Button/ButtonComponent";
+import Header from "../components/header/header";
+import "./loan-request-form.scss";
+import ButtonComponent from "../components/material-ui-components/button/button-component";
 import { useState } from "react";
 import { DatePicker } from "@mui/x-date-pickers";
 import moment from "moment";

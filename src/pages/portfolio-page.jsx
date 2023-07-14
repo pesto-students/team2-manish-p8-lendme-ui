@@ -1,41 +1,40 @@
 import { useEffect, useState } from "react";
-import Header from "../components/header";
-import "./portfolio-page.css";
+import Header from "../components/header/header";
+import "./portfolio-page.scss";
 import { loanStatus, urlRoutes } from "../constants";
 import { numberWithComma, numberWithCommaINR } from "../utils/number-utils";
-import { getFullName } from "../utils/string-utils";
-import Grid from "../meterial-ui-components/grid/grid";
+import Grid from "../components/material-ui-components/grid/grid";
 import { Chart } from "react-google-charts";
 import { useNavigate } from "react-router-dom";
-import ButtonComponent from "../meterial-ui-components/Button/ButtonComponent";
+import ButtonComponent from "../components/material-ui-components/button/button-component";
 import { Box, CircularProgress, IconButton, Modal } from "@mui/material";
 import Back from "@mui/icons-material/ChevronLeft";
 import { TextField } from "@mui/material";
 import { create, read } from "../utils/axios-utils";
 import { toast } from "react-toastify";
+import { HOST_URL } from "../config";
 
 const PortfolioPage = () => {
   const navigate = useNavigate();
 
-  const initialPortfolioData = {
-    lentLoansCount: 0,
-    borrowedLoansCount: 0,
-    completedLoansCount: 0,
-    totalInterestGained: 0,
-    totalInterestPaid: 0,
-    emiPaidAsBorrower: 0,
-    emiPendingAsBorrower: 0,
-    emiReceivedAsLender: 0,
-    emiPendingAsLender: 0,
-    loans: [],
-  };
-
-  const [portfolioData, setPortfolioData] = useState(initialPortfolioData);
+  const [portfolioData, setPortfolioData] = useState(null);
   const [showAddMoneyModal, setShowAddMoneyModal] = useState(false);
   const [addMoneyModalLoader, setAddMoneyModalLoader] = useState(false);
   const [addMoneyModalValue, setAddMoneyModalValue] = useState("");
   const [walletBalance, setWalletBalance] = useState(0);
   const [loading, setLoading] = useState(false);
+  const [agreementLoaderLoanId, setAgreementLoaderLoanId] = useState(-1);
+
+  const borrowerChartData = [
+    ["EMIs", "Count"],
+    ["Paid", portfolioData?.emiPaidAsBorrower || 0],
+    ["Unpaid", portfolioData?.emiPendingAsBorrower || 0],
+  ];
+  const lenderChartData = [
+    ["EMIs", "Count"],
+    ["Received", portfolioData?.emiReceivedAsLender || 0],
+    ["Pending", portfolioData?.emiPendingAsLender || 0],
+  ];
 
   const calculateTotalInterest = (loans) => {
     let interestValue = 0;
@@ -91,6 +90,9 @@ const PortfolioPage = () => {
   };
 
   useEffect(() => {
+    (() => {
+      getWalletBalance();
+    })();
     (async () => {
       try {
         setLoading(true);
@@ -134,16 +136,6 @@ const PortfolioPage = () => {
       );
     }
   };
-  const borrowerChartData = [
-    ["EMIs", "Count"],
-    ["Paid", portfolioData.emiPaidAsBorrower],
-    ["Unpaid", portfolioData.emiPendingAsBorrower],
-  ];
-  const lenderChartData = [
-    ["EMIs", "Count"],
-    ["Received", portfolioData.emiReceivedAsLender],
-    ["Pending", portfolioData.emiPendingAsLender],
-  ];
 
   const getWalletBalance = async () => {
     const resp = await read("user/wallet");
@@ -154,20 +146,21 @@ const PortfolioPage = () => {
     }
   };
 
-  useEffect(() => {
-    (() => {
-      getWalletBalance();
-    })();
-  }, []);
-
   const getAgreementButton = (loan) => {
     if ([loanStatus.COMPLETED, loanStatus.ACTIVE].includes(loan.loanStatus)) {
       return (
         <div
           className="buttons6"
-          onClick={() => handleAgreementClick(loan.agreementUrl)}
+          onClick={(e) => handleAgreementClick(e, loan)}
         >
-          <img className="icon8" alt="" src="/icon3.svg" />
+          {" "}
+          {agreementLoaderLoanId === loan.id ? (
+            <CircularProgress
+              style={{ color: "white", width: "20px", height: "20px" }}
+            />
+          ) : (
+            <img className="icon8" alt="" src="/icon3.svg" />
+          )}
         </div>
       );
     } else {
@@ -221,8 +214,27 @@ const PortfolioPage = () => {
     });
   };
 
-  const handleAgreementClick = (url) => {
-    console.log("url");
+  const handleAgreementClick = async (e, loan) => {
+    e.stopPropagation();
+    try {
+      setAgreementLoaderLoanId(loan.id);
+      const token = localStorage.getItem("accessToken");
+      const url = `${HOST_URL}/loan/${loan.id}/agreement?render=1`;
+      const options = {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      };
+      await fetch(url, options)
+        .then((res) => res.blob())
+        .then((blob) => {
+          var file = window.URL.createObjectURL(blob);
+          window.open(file);
+        });
+      setAgreementLoaderLoanId(-1);
+    } catch (err) {
+      toast.error("Error downloading agreement");
+    }
   };
 
   const onClickRow = (row) => {
@@ -402,7 +414,7 @@ const PortfolioPage = () => {
         <div className="loader-container">
           <CircularProgress style={{ color: "#64748b" }} />
         </div>
-      ) : (
+      ) : portfolioData ? (
         <>
           <div className="settings3">
             <div className="top8">
@@ -492,13 +504,15 @@ const PortfolioPage = () => {
               </div>
             </div>
             <div className="energy-summary1">
-              <Chart
-                chartType="PieChart"
-                data={lenderChartData}
-                options={{ colors: ["#34D399", "#FCD34D"], title: "LENDER" }}
-                width={"400px"}
-                height={"200px"}
-              />
+              <div>
+                <Chart
+                  chartType="PieChart"
+                  data={lenderChartData}
+                  options={{ colors: ["#34D399", "#FCD34D"], title: "LENDER" }}
+                  width={"400px"}
+                  height={"200px"}
+                />
+              </div>
               <div className="content26">
                 <div className="natonal-avg">
                   <div className="content22">
@@ -552,6 +566,8 @@ const PortfolioPage = () => {
             <div className="frame-child6" />
           </div>
         </>
+      ) : (
+        <></>
       )}
     </div>
   );

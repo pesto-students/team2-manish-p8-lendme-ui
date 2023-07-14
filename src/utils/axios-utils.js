@@ -1,5 +1,6 @@
 import axios from "axios";
 import { removeItemsOnLogout } from "./local-storage-utils";
+import { HOST_URL } from "../config";
 let result;
 
 const createHeaders = () => {
@@ -16,7 +17,7 @@ const createHeaders = () => {
 
 const create = async (endpoint, payload) => {
   await axios
-    .post(`http://localhost:4500/api/${endpoint}`, payload, {
+    .post(`${HOST_URL}/${endpoint}`, payload, {
       headers: createHeaders(),
     })
     .then((response) => {
@@ -38,7 +39,7 @@ const create = async (endpoint, payload) => {
 
 const read = async (endpoint) => {
   await axios
-    .get(`http://localhost:4500/api/${endpoint}`, {
+    .get(`${HOST_URL}/${endpoint}`, {
       headers: createHeaders(),
     })
     .then((response) => {
@@ -62,7 +63,7 @@ const read = async (endpoint) => {
 
 const update = async (endpoint, payload) => {
   await axios
-    .put(`http://localhost:4500/api/${endpoint}`, payload, {
+    .put(`${HOST_URL}/${endpoint}`, payload, {
       headers: createHeaders(),
     })
     .then((response) => {
@@ -84,7 +85,7 @@ const update = async (endpoint, payload) => {
 
 const deleteData = (endpoint) => {
   axios
-    .delete(`http://localhost:4500/api/${endpoint}/${id}`, {
+    .delete(`${HOST_URL}/${endpoint}/${id}`, {
       headers: createHeaders(),
     })
     .then(() => {

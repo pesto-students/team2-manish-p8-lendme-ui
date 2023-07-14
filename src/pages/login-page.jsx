@@ -1,8 +1,8 @@
 import { useCallback, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import "./login-page.css";
-import Header from "../components/header";
-import ButtonComponent from "../meterial-ui-components/Button/ButtonComponent";
+import "./login-page.scss";
+import Header from "../components/header/header";
+import ButtonComponent from "../components/material-ui-components/button/button-component";
 import { CircularProgress, FormControl, TextField } from "@mui/material";
 import isEmail from "validator/lib/isEmail";
 import { create } from "../utils/axios-utils";
@@ -87,15 +87,10 @@ const LoginPage = () => {
         </div>
         <div className="email6">
           <FormControl className="email6">
-            <div className="label24">
-              <div className="left-text"></div>
-              <b className="forgot-password">Forgot Password</b>
-            </div>
             <TextField
               className="bar4"
               color="primary"
               variant="outlined"
-              defaultValue="password"
               type="password"
               name="password"
               id="password"

@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
-import Header from "../components/header";
-import Grid from "../meterial-ui-components/grid/grid";
-import "./loan-detail-page.css";
+import Header from "../components/header/header";
+import Grid from "../components/material-ui-components/grid/grid";
+import "./loan-detail-page.scss";
 import { loanStatus, urlRoutes } from "../constants";
 import { numberWithCommaINR } from "../utils/number-utils";
 import { formatDate, months2years } from "../utils/date-utils";
@@ -11,7 +11,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
 import { Box, CircularProgress, IconButton, Modal } from "@mui/material";
 import Back from "@mui/icons-material/ChevronLeft";
-import ButtonComponent from "../meterial-ui-components/Button/ButtonComponent";
+import ButtonComponent from "../components/material-ui-components/button/button-component";
 
 const LoanDetailPage = () => {
   const navigate = useNavigate();
