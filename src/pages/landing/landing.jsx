@@ -5,7 +5,9 @@ const LandingPage = () => {
     <div className="landingpage">
       <Header />
       <div className="fast-accurate-reliable-parent">
-        <b className="fast-accurate-reliable">Fast. Accurate. Reliable</b>
+        <b className="fast-accurate-reliable" data-testid="heading">
+          Fast. Accurate. Reliable
+        </b>
         <div className="the-most-powerful">
           The application which offers registered users a choice of loans,
           depending on their financial situation also for those users who wants
@@ -16,7 +18,7 @@ const LandingPage = () => {
           wallet
         </div>
       </div>
-      <div id="features" className="card-parent">
+      <div id="features" className="card-parent" data-testid="cards">
         <div className="card1">
           <div className="icon4">
             <img
@@ -78,7 +80,7 @@ const LandingPage = () => {
           </div>
         </div>
       </div>
-      <div className="footer">
+      <div className="footer" data-testid="footer">
         <div className="newsletter">
           <div className="menu">
             <div className="newsletter1">Newsletter</div>

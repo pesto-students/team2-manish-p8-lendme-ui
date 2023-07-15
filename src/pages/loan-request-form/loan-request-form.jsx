@@ -53,7 +53,7 @@ const LoanRequestForm = () => {
       maturityDate: formatDate(getMaturityDate(), "YYYY-MM-DD"),
       purpose: formData.loanPurpose,
       expiryDate: formatDate(formData.loanRequestExpiryDate, "YYYY-MM-DD"),
-      description: formData.description
+      description: formData.description,
     };
     setLoading(true);
 
@@ -75,14 +75,19 @@ const LoanRequestForm = () => {
         <div className="top">
           <div className="title">
             <div className="loan-request-form-wrapper">
-              <div className="loan-request-form">Loan Request Form</div>
+              <div
+                className="loan-request-form"
+                data-testid="loan-request-form"
+              >
+                Loan Request Form
+              </div>
             </div>
           </div>
         </div>
         <div className="middle">
           <div className="inputs">
             <div className="name">
-              <FormControl className="firstname">
+              <FormControl className="firstname" data-testid="principle-amount">
                 <TextField
                   className="loan-request-form-field"
                   color="primary"
@@ -259,7 +264,7 @@ const LoanRequestForm = () => {
                   label="EMI Start Date"
                   value={formData.emiStartDate}
                   required={true}
-                  minDate={moment().add(1, "months")}                  
+                  minDate={moment().add(1, "months")}
                   onChange={(e) => {
                     setFormData({ ...formData, emiStartDate: e });
                   }}

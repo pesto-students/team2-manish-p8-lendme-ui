@@ -1,25 +1,19 @@
 import { render, screen } from "@testing-library/react";
 import SignupPage from "../signup/signup";
 import { BrowserRouter } from "react-router-dom";
+import LoanDetailPage from "../loan-detail/loan-detail";
 
 const renderComponent = () => {
   render(
     <BrowserRouter>
-      <SignupPage />
+      <LoanDetailPage />
     </BrowserRouter>
   );
 };
 
-test("render sign-up page", () => {
+test("render loan detail page", () => {
   renderComponent();
 
-  const signupTitle = screen.getByTestId("signup-title");
+  const signupTitle = screen.getByTestId("loan-detail");
   expect(signupTitle).toBeTruthy();
-});
-
-test("first-name input field exists", () => {
-  renderComponent();
-
-  const firstNameFormControl = screen.getByTestId("first-name");
-  expect(firstNameFormControl).toBeTruthy();
 });

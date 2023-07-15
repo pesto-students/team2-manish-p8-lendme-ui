@@ -97,7 +97,7 @@ const SignupPage = () => {
         <div className="middle1">
           <div className="inputs3">
             <div className="name11">
-              <FormControl className="firstname">
+              <FormControl className="firstname" data-testid="first-name">
                 <TextField
                   className="firstname1"
                   color="primary"
@@ -232,14 +232,13 @@ const SignupPage = () => {
                   margin="none"
                   required
                   value={formData.aadhar}
-                  onChange={(e) =>{
+                  onChange={(e) => {
                     const val = e.target.value;
                     if (val.length > 12) {
                       return;
                     }
-                    setFormData({ ...formData, aadhar: val }
-                  )}
-                  }
+                    setFormData({ ...formData, aadhar: val });
+                  }}
                 />
               </FormControl>
             </div>

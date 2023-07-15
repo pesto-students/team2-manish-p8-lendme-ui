@@ -12,7 +12,7 @@ import isEmail from "validator/lib/isEmail";
 import { read, update } from "../../utils/axios-utils";
 import { toast } from "react-toastify";
 
-const profilePage = () => {
+const ProfilePage = () => {
   const initialUserData = {
     firstName: "",
     lastName: "",
@@ -162,7 +162,10 @@ const profilePage = () => {
 
       <div className="profile-page">
         <div className="profile-header">
-          <h2 clasname="page-name"> Profile </h2>
+          <h2 clasname="page-name" data-testid="profile-title">
+            {" "}
+            Profile{" "}
+          </h2>
         </div>
         {!loading ? (
           <div className="profile-data">
@@ -468,4 +471,4 @@ const profilePage = () => {
   );
 };
 
-export default profilePage;
+export default ProfilePage;

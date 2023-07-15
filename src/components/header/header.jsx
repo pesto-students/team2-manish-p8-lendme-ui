@@ -94,7 +94,12 @@ const Header = memo(() => {
             >
               <b className="investment9">LendMe</b>
             </div>
-            <img className="vector-icon9" alt="" src="/vector.svg" />
+            <img
+              className="vector-icon9"
+              onClick={() => handleNavigationOnclick(urlRoutes.landingPage)}
+              alt=""
+              src="/vector.svg"
+            />
           </div>
         </div>
         <div className="profileandlogout6">
@@ -166,7 +171,12 @@ const Header = memo(() => {
           >
             <b>LendMe</b>
           </div>
-          <img className="vector-icon6" alt="" src="/vector4.svg" />
+          <img
+            className="vector-icon6"
+            alt=""
+            src="/black-and-white-collection-15.svg"
+            onClick={() => handleNavigationOnclick(urlRoutes.landingPage)}
+          />
         </div>
         <div className="buttons3">
           <div

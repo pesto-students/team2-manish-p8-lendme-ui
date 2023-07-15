@@ -39,12 +39,17 @@ const LoanDetailPage = () => {
 
   useEffect(() => {
     (async () => {
-      setLoading(true);
-      const resp = await read(`loan/${id}`);
-      if (resp && resp.status === "SUCCESS") {
-        setLoan(resp.data.loan);
-        setLoading(false);
-      } else {
+      try {
+        setLoading(true);
+        const resp = await read(`loan/${id}`);
+        if (resp && resp.status === "SUCCESS") {
+          setLoan(resp.data.loan);
+          setLoading(false);
+        } else {
+          toast.error("Something went wrong");
+          setLoading(false);
+        }
+      } catch (err) {
         toast.error("Something went wrong");
         setLoading(false);
       }
@@ -159,7 +164,9 @@ const LoanDetailPage = () => {
           <div className="icon-frame" onClick={onClickBackIcon}>
             <img className="icon3" alt="" src="/icon1.svg" />
           </div>
-          <div className="loan-details">Loan Details</div>
+          <div className="loan-details" data-testid="loan-detail">
+            Loan Details
+          </div>
         </div>
       </div>
       {loan && !loading ? (
