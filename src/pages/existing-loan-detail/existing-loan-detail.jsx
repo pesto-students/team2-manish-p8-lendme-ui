@@ -212,18 +212,6 @@ const ExistingLoanDetail = () => {
                 </div>
               </div>
             </div>
-            <div className="info">
-              <div className="content4">
-                <b className="title4">11</b>
-                <div className="subtitle1">Loans lent</div>
-              </div>
-            </div>
-            <div className="info1">
-              <div className="content4">
-                <b className="title4">5</b>
-                <div className="subtitle2">Loans borrowed</div>
-              </div>
-            </div>
             <div className="left">
               <div className="introduction" />
               <div className="contact">

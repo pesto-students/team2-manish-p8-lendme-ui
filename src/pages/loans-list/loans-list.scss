@@ -174,7 +174,6 @@
 .title6 {
   position: relative;
   display: -webkit-inline-box;
-  overflow: hidden;
   text-overflow: ellipsis;
   -webkit-box-orient: vertical;
 }
@@ -273,8 +272,6 @@
   position: relative;
   font-weight: 600;
   display: -webkit-inline-box;
-  overflow: hidden;
-  text-overflow: ellipsis;
   -webkit-line-clamp: 20;
   -webkit-box-orient: vertical;
 }
@@ -454,8 +451,8 @@
   width: 69%;
   display: flex;
   flex-wrap: wrap;
-  justify-content: space-between;
-  padding: 15px 25px;
+  justify-content: flex-start;
+  padding: 15px;
   min-height: 500px;
   height: 600px;
   overflow-y: scroll;
@@ -601,7 +598,7 @@
   flex-direction: column;
   padding: 10px 16px;
   gap: 25px;
-  margin: 15px 0px;
+  margin: 15px 6px;
   max-width: 310px;
 }
 
