@@ -53,6 +53,7 @@ const LoanRequestForm = () => {
       maturityDate: formatDate(getMaturityDate(), "YYYY-MM-DD"),
       purpose: formData.loanPurpose,
       expiryDate: formatDate(formData.loanRequestExpiryDate, "YYYY-MM-DD"),
+      description: formData.description
     };
     setLoading(true);
 
@@ -221,6 +222,7 @@ const LoanRequestForm = () => {
                   label="Loan Request Expiry Date"
                   value={formData.loanRequestExpiryDate}
                   required={true}
+                  disablePast
                   onChange={(e) => {
                     setFormData({ ...formData, loanRequestExpiryDate: e });
                   }}
@@ -257,6 +259,7 @@ const LoanRequestForm = () => {
                   label="EMI Start Date"
                   value={formData.emiStartDate}
                   required={true}
+                  minDate={moment().add(1, "months")}                  
                   onChange={(e) => {
                     setFormData({ ...formData, emiStartDate: e });
                   }}

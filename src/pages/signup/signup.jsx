@@ -223,7 +223,7 @@ const SignupPage = () => {
                   className="firstname1"
                   color="primary"
                   variant="outlined"
-                  type="text"
+                  type="number"
                   name="aadhar-no"
                   id="aadhar-no"
                   label="Aadhar No."
@@ -232,8 +232,13 @@ const SignupPage = () => {
                   margin="none"
                   required
                   value={formData.aadhar}
-                  onChange={(e) =>
-                    setFormData({ ...formData, aadhar: e.target.value })
+                  onChange={(e) =>{
+                    const val = e.target.value;
+                    if (val.length > 12) {
+                      return;
+                    }
+                    setFormData({ ...formData, aadhar: val }
+                  )}
                   }
                 />
               </FormControl>
