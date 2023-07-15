@@ -28,7 +28,10 @@ const create = async (endpoint, payload) => {
       }
     })
     .catch((error) => {
-      if (error.response.status === 401) {
+      if (
+        (error.code || error.response.status === 401) &&
+        window.location.pathname !== urlRoutes.loginPage
+      ) {
         removeItemsOnLogout();
         window.location.replace(urlRoutes.loginPage);
       }
@@ -52,7 +55,10 @@ const read = async (endpoint) => {
     })
     .catch((error) => {
       console.log(error);
-      if (error.response.status === 401) {
+      if (
+        (error.code || error.response.status === 401) &&
+        window.location.pathname !== urlRoutes.loginPage
+      ) {
         removeItemsOnLogout();
         window.location.replace(urlRoutes.loginPage);
       }
@@ -75,7 +81,10 @@ const update = async (endpoint, payload) => {
       }
     })
     .catch((error) => {
-      if (error.response.status === 401) {
+      if (
+        (error.code || error.response.status === 401) &&
+        window.location.pathname !== urlRoutes.loginPage
+      ) {
         removeItemsOnLogout();
       }
       result = { status: "ERROR", data: error };
@@ -97,7 +106,10 @@ const deleteData = (endpoint) => {
       }
     })
     .catch((error) => {
-      if (error.response.status === 401) {
+      if (
+        (error.code || error.response.status === 401) &&
+        window.location.pathname !== urlRoutes.loginPage
+      ) {
         removeItemsOnLogout();
         window.location.replace(urlRoutes.loginPage);
       }
