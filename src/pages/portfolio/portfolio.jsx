@@ -24,6 +24,7 @@ const PortfolioPage = () => {
   const [walletBalance, setWalletBalance] = useState(0);
   const [loading, setLoading] = useState(false);
   const [agreementLoaderLoanId, setAgreementLoaderLoanId] = useState(-1);
+  const [makingMillionaire, setMakingMillionaire] = useState(false);
 
   const borrowerChartData = [
     ["EMIs", "Count"],
@@ -144,6 +145,18 @@ const PortfolioPage = () => {
       toast.error("Error fetching balance");
     }
   };
+
+  const makeMeMillionare = async () => {
+    setMakingMillionaire(true);
+    const resp = await create("user/wallet/deposit/make-me-millionaire");
+    if (resp && resp.status === "SUCCESS") {
+      await getWalletBalance();
+      toast.success(resp.data.message);
+    } else {
+      toast.error("Error fetching balance");
+    }
+    setMakingMillionaire(false);
+  }
 
   const getAgreementButton = (loan) => {
     if ([loanStatus.COMPLETED, loanStatus.ACTIVE].includes(loan.loanStatus)) {
@@ -359,6 +372,7 @@ const PortfolioPage = () => {
               <h3 clasname="page-name"> Add Money </h3>
             </div>
 
+
             <div className="user-data">
               <TextField
                 className="user-data-item"
@@ -564,7 +578,18 @@ const PortfolioPage = () => {
                   <div className="loan-type-text">Add Money</div>
                 </div>
               </div>
+              
             </div>
+            <div className="buttons-wrapper" style={{margin: 'auto'}} onClick={makeMeMillionare}>
+                <div className="buttons14">
+                {makingMillionaire ? (
+                    <CircularProgress
+                      style={{ color: "white", width: "20px", height: "20px" }}
+                    />
+                  ) : <></>}
+                  <div className="loan-type-text">Make me millionaire!</div>
+                </div>
+              </div>
             <div className="frame-child6" />
           </div>
         </>
