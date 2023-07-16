@@ -580,7 +580,7 @@ const PortfolioPage = () => {
               </div>
               
             </div>
-            <div className="buttons-wrapper" style={{margin: 'auto'}} onClick={makeMeMillionare}>
+            {/* <div className="buttons-wrapper" style={{margin: 'auto'}} onClick={makeMeMillionare}>
                 <div className="buttons14">
                 {makingMillionaire ? (
                     <CircularProgress
@@ -589,7 +589,7 @@ const PortfolioPage = () => {
                   ) : <></>}
                   <div className="loan-type-text">Make me millionaire!</div>
                 </div>
-              </div>
+              </div> */}
             <div className="frame-child6" />
           </div>
         </>
