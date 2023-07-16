@@ -202,10 +202,15 @@ const ExistingLoanDetail = () => {
                 <div className="content3">
                   <div className="content-frame">
                     <div className="maturity-amount">
-                      {getFullName(
-                        loan.borrower.firstName,
-                        loan.borrower.lastName
-                      )}
+                      {loanType === "LEND"
+                        ? getFullName(
+                            loan.borrower.firstName,
+                            loan.borrower.lastName
+                          )
+                        : getFullName(
+                            loan.lender?.firstName || "---",
+                            loan.lender?.lastName || ""
+                          )}
                     </div>
                   </div>
                   <div className="subtitle">Name</div>
@@ -220,7 +225,9 @@ const ExistingLoanDetail = () => {
                   <div className="text6">
                     <div className="tel">Tel</div>
                     <div className="unrealoutlookcom">
-                      {loan.borrower.mobile}
+                      {loanType === "LEND"
+                        ? loan.borrower.mobile
+                        : loan.lender.mobile}
                     </div>
                   </div>
                 </div>
@@ -229,7 +236,9 @@ const ExistingLoanDetail = () => {
                   <div className="text6">
                     <div className="tel">Mail</div>
                     <div className="unrealoutlookcom">
-                      {loan.borrower.email}
+                      {loanType === "LEND"
+                        ? loan.borrower.email
+                        : loan.lender.email}
                     </div>
                   </div>
                 </div>
