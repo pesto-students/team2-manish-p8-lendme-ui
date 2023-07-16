@@ -89,7 +89,6 @@ const LoanDetailPage = () => {
     }
     setInvestModalLoader(true);
     const resp = await create(`loan/${id}/invest`);
-    console.log(resp);
     if (resp && resp.status === "SUCCESS") {
       navigate(urlRoutes.loggedInLandingLoansList);
       toast.success(

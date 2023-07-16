@@ -48,7 +48,6 @@ const SignupPage = () => {
     }
 
     setLoading(false);
-    console.log(formData);
   };
 
   const handlePasswordChange = (inputPassword) => {

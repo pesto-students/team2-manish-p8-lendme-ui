@@ -58,7 +58,6 @@ const LoanRequestForm = () => {
     setLoading(true);
 
     const resp = await create("loan", payload);
-    console.log(resp);
     if (resp && resp.status === "SUCCESS") {
       navigate(urlRoutes.loggedInLandingLoansList);
       toast.success("Loan request has been successfully added");

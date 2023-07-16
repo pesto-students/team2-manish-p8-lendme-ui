@@ -97,7 +97,6 @@ const PortfolioPage = () => {
       try {
         setLoading(true);
         const resp = await read("user/portfolio");
-        console.log(resp);
         if (resp && resp.status === "SUCCESS") {
           refactorPortfolioData(resp.data.user.lent, resp.data.user.borrowed);
         } else {
@@ -173,7 +172,7 @@ const PortfolioPage = () => {
   };
 
   const getLoanStatusBox = (status) => {
-    if ((loanStatus.COMPLETED, loanStatus.ACTIVE.includes(status))) {
+    if ([loanStatus.COMPLETED, loanStatus.ACTIVE].includes(status)) {
       return (
         <div className="green-wrapper">
           <div className="loan-type-text">{status}</div>

@@ -1,17 +1,7 @@
-import {
-  FormControl,
-  InputLabel,
-  MenuItem,
-  FormHelperText,
-  Select,
-  Checkbox,
-  Radio,
-  RadioGroup,
-  CircularProgress,
-} from "@mui/material";
+import { Radio, RadioGroup, CircularProgress } from "@mui/material";
 import "./loans-list.scss";
 import Header from "../../components/header/header";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { loanStatus, urlRoutes } from "../../constants";
 import { numberWithCommaINR } from "../../utils/number-utils";
 import { months2years } from "../../utils/date-utils";
@@ -23,59 +13,139 @@ import { toast } from "react-toastify";
 const LoansList = () => {
   const navigate = useNavigate();
   const [loans, setLoans] = useState([]);
-  const [filteredLoans, setFilteredLoans] = useState([]);
-  const [findSuitableLoanFormData, setFindSuitableLoanFormData] = useState({
-    principleAmount: "",
-    tenure: "",
-    interestRate: "",
-  });
+  const [interestQuery, setInterestQuery] = useState("");
+  const [tenureQuery, setTenureQuery] = useState("");
+  const [principalAmountQuery, setPrincipalAmountQuery] = useState("");
 
   const [principleAmountFilterData, setPrincipleAmountFilterData] = useState({
+    zero: true,
     one: false,
     two: false,
     three: false,
-    four: false,
   });
 
   const [interestRateFilterData, setInterestRateFilterData] = useState({
-    zero: false,
+    zero: true,
     one: false,
     two: false,
     three: false,
-    four: false,
-    five: false,
   });
+
+  const [tenureFilterData, setTenureFilterData] = useState({
+    zero: true,
+    one: false,
+    two: false,
+    three: false,
+  });
+
+  //interest
+  const interestQueryObj = {
+    zero: "",
+    one: "interestLte=10",
+    two: "interestGte=10&interestLte=15",
+    three: "interestGte=15",
+  };
+
+  const getInterestQuery = () => {
+    const key = Object.entries(interestRateFilterData).find((entry) => {
+      return entry[1];
+    });
+    if (key) {
+      return interestQueryObj[key[0]];
+    }
+  };
+
+  useEffect(() => {
+    if (Object.keys(interestRateFilterData).find((val) => val)) {
+      const query = getInterestQuery();
+      setInterestQuery(query);
+    }
+  }, [interestRateFilterData]);
+
+  //tenure
+  const tenureQueryObj = {
+    zero: "",
+    one: "tenureLte=12",
+    two: "tenureGte=12&tenureLte=24",
+    three: "tenureGte=24",
+  };
+
+  const getTenureQuery = () => {
+    const key = Object.entries(tenureFilterData).find((entry) => {
+      return entry[1];
+    });
+    if (key) {
+      return tenureQueryObj[key[0]];
+    }
+  };
+
+  useEffect(() => {
+    if (Object.keys(tenureFilterData).find((val) => val)) {
+      const query = getTenureQuery();
+      setTenureQuery(query);
+    }
+  }, [tenureFilterData]);
+
+  //principal amount
+  const principalAmountQueryObj = {
+    zero: "",
+    one: "amountLte=100000",
+    two: "amountGte=100000&amountLte=1000000",
+    three: "amountGte=1000000",
+  };
+
+  const getPrincipalAmountQuery = () => {
+    const key = Object.entries(principleAmountFilterData).find((entry) => {
+      return entry[1];
+    });
+    if (key) {
+      return principalAmountQueryObj[key[0]];
+    }
+  };
+
+  useEffect(() => {
+    if (Object.keys(principleAmountFilterData).find((val) => val)) {
+      const query = getPrincipalAmountQuery();
+      setPrincipalAmountQuery(query);
+    }
+  }, [principleAmountFilterData]);
+
+  const firstRender = useRef(true);
+
+  useEffect(() => {
+    if (firstRender.current) {
+      firstRender.current = false;
+      return;
+    }
+    getLoans([interestQuery, tenureQuery, principalAmountQuery].join("&"));
+  }, [interestQuery, tenureQuery, principalAmountQuery]);
 
   const [loading, setLoading] = useState(false);
 
-  useEffect(() => {
-    (async () => {
-      try {
-        setLoading(true);
-        const resp = await read("loan?limit=100&offset=0");
-        if (resp.status === "SUCCESS") {
-          const user = JSON.parse(localStorage.getItem("user"));
-          const loanList = resp.data.loans.filter(
-            (loan) =>
-              loan.loanStatus === loanStatus.REQUESTED &&
-              user.email !== loan.borrower?.email
-          );
-          setLoans(loanList);
-          setFilteredLoans(loanList);
-        } else {
-          toast.error("Something went wrong");
-        }
-        setLoading(false);
-      } catch (err) {
-        setLoading(false);
+  const getLoans = async (query = "") => {
+    try {
+      setLoading(true);
+      const resp = await read(`loan?limit=100&offset=0&${query}`);
+      if (resp.status === "SUCCESS") {
+        const user = JSON.parse(localStorage.getItem("user"));
+        const loanList = resp.data.loans.filter(
+          (loan) =>
+            loan.loanStatus === loanStatus.REQUESTED &&
+            user.email !== loan.borrower?.email
+        );
+        setLoans(loanList);
+      } else {
         toast.error("Something went wrong");
       }
-    })();
-  }, []);
-
-  const onClickFindSuitableLoan = () => {
-    console.log(findSuitableLoanFormData);
+      setLoading(false);
+    } catch (err) {
+      setLoading(false);
+      toast.error("Something went wrong");
+    }
   };
+  useEffect(() => {
+    getLoans();
+  }, []);
 
   const handleCheckLoanDetailsClick = (loanData) => {
     navigate(`${urlRoutes.loanDetailPage}/${loanData.id}`);
@@ -88,59 +158,67 @@ const LoansList = () => {
         <b className="title6" data-testid="filters">
           Filters
         </b>
-        <div className="section">
-          <div className="section-title">
-            <div className="principle-amount1">Principle amount</div>
+        <RadioGroup className="section">
+          <div className="section-title1">
+            <div className="annual-interest-rate">Principal amount</div>
           </div>
-          <div className="item24">
-            <Checkbox
+          <div className="scale-option-parent">
+            <Radio
+              checked={principleAmountFilterData.zero}
+              onChange={() => {
+                setPrincipleAmountFilterData({
+                  zero: true,
+                  one: false,
+                  two: false,
+                  three: false,
+                });
+              }}
+            />
+            <div className="less-than">{`Any`}</div>
+          </div>
+          <div className="scale-option-parent">
+            <Radio
               checked={principleAmountFilterData.one}
               onChange={() => {
                 setPrincipleAmountFilterData({
-                  ...principleAmountFilterData,
-                  one: !principleAmountFilterData.one,
+                  zero: false,
+                  one: true,
+                  two: false,
+                  three: false,
                 });
               }}
             />
-            <div className="less-than">Less than ₹ 50,000</div>
+            <div className="less-than">{`< ₹ 1 Lakh`}</div>
           </div>
-          <div className="item24">
-            <Checkbox
+          <div className="scale-option-parent">
+            <Radio
               checked={principleAmountFilterData.two}
               onChange={() => {
                 setPrincipleAmountFilterData({
-                  ...principleAmountFilterData,
-                  two: !principleAmountFilterData.two,
+                  zero: false,
+                  one: false,
+                  two: true,
+                  three: false,
                 });
               }}
             />
-            <div className="less-than">₹ 50,000 - ₹ 1Lakh</div>
+            <div className="less-than">1 Lakh - 10 Lakhs</div>
           </div>
-          <div className="item24">
-            <Checkbox
+          <div className="scale-option-parent">
+            <Radio
               checked={principleAmountFilterData.three}
               onChange={() => {
                 setPrincipleAmountFilterData({
-                  ...principleAmountFilterData,
-                  three: !principleAmountFilterData.three,
+                  zero: false,
+                  one: false,
+                  two: false,
+                  three: true,
                 });
               }}
             />
-            <div className="less-than">₹ 1Lakh - ₹ 10Lakhs</div>
+            <div className="less-than">{`> 10 Lakhs`}</div>
           </div>
-          <div className="item24">
-            <Checkbox
-              checked={principleAmountFilterData.four}
-              onChange={() => {
-                setPrincipleAmountFilterData({
-                  ...principleAmountFilterData,
-                  four: !principleAmountFilterData.four,
-                });
-              }}
-            />
-            <div className="less-than">Greater than ₹ 10Lakhs</div>
-          </div>
-        </div>
+        </RadioGroup>
         <RadioGroup className="section">
           <div className="section-title1">
             <div className="annual-interest-rate">Annual Interest Rate</div>
@@ -154,8 +232,6 @@ const LoansList = () => {
                   one: false,
                   two: false,
                   three: false,
-                  four: false,
-                  five: false,
                 });
               }}
             />
@@ -170,12 +246,10 @@ const LoansList = () => {
                   one: true,
                   two: false,
                   three: false,
-                  four: false,
-                  five: false,
                 });
               }}
             />
-            <div className="less-than">{`< 5%`}</div>
+            <div className="less-than">{`< 10%`}</div>
           </div>
           <div className="scale-option-parent">
             <Radio
@@ -186,12 +260,10 @@ const LoansList = () => {
                   one: false,
                   two: true,
                   three: false,
-                  four: false,
-                  five: false,
                 });
               }}
             />
-            <div className="less-than">5% - 8%</div>
+            <div className="less-than">10% - 15%</div>
           </div>
           <div className="scale-option-parent">
             <Radio
@@ -202,143 +274,73 @@ const LoansList = () => {
                   one: false,
                   two: false,
                   three: true,
-                  four: false,
-                  five: false,
                 });
               }}
             />
-            <div className="less-than">8%-12%</div>
+            <div className="less-than">{`> 15%`}</div>
+          </div>
+        </RadioGroup>
+        <RadioGroup className="section">
+          <div className="section-title1">
+            <div className="annual-interest-rate">Tenure</div>
           </div>
           <div className="scale-option-parent">
             <Radio
-              checked={interestRateFilterData.four}
+              checked={tenureFilterData.zero}
               onChange={() => {
-                setInterestRateFilterData({
-                  zero: false,
+                setTenureFilterData({
+                  zero: true,
                   one: false,
                   two: false,
                   three: false,
-                  four: true,
-                  five: false,
                 });
               }}
             />
-            <div className="less-than">12%-16%</div>
+            <div className="less-than">{`Any`}</div>
           </div>
           <div className="scale-option-parent">
-            <div className="scale-option4">
-              <Radio
-                checked={interestRateFilterData.five}
-                onChange={() => {
-                  setInterestRateFilterData({
-                    zero: false,
-                    one: false,
-                    two: false,
-                    three: false,
-                    four: false,
-                    five: true,
-                  });
-                }}
-              />
-            </div>
-            <div className="less-than">{`> 16%`}</div>
+            <Radio
+              checked={tenureFilterData.one}
+              onChange={() => {
+                setTenureFilterData({
+                  zero: false,
+                  one: true,
+                  two: false,
+                  three: false,
+                });
+              }}
+            />
+            <div className="less-than">{`< 1 Year`}</div>
+          </div>
+          <div className="scale-option-parent">
+            <Radio
+              checked={tenureFilterData.two}
+              onChange={() => {
+                setTenureFilterData({
+                  zero: false,
+                  one: false,
+                  two: true,
+                  three: false,
+                });
+              }}
+            />
+            <div className="less-than">1-2 Years</div>
+          </div>
+          <div className="scale-option-parent">
+            <Radio
+              checked={tenureFilterData.three}
+              onChange={() => {
+                setTenureFilterData({
+                  zero: false,
+                  one: false,
+                  two: false,
+                  three: true,
+                });
+              }}
+            />
+            <div className="less-than">{`> 2 Years`}</div>
           </div>
         </RadioGroup>
-      </div>
-      <div className="searchbar" data-testid="search-bar-section">
-        <div className="section2">
-          <FormControl
-            className="content7"
-            variant="standard"
-            id="principle_amount"
-          >
-            <InputLabel>Principle Amount</InputLabel>
-            <Select
-              name="principle_amount"
-              id="principle_amount"
-              size="medium"
-              placeholder="Select Principle Amount"
-              onChange={(e) =>
-                setFindSuitableLoanFormData({
-                  ...findSuitableLoanFormData,
-                  principleAmount: e.target.value,
-                })
-              }
-            >
-              <MenuItem value="">Any</MenuItem>
-              <MenuItem value={"1000-100000"}>{`${numberWithCommaINR(
-                1000
-              )} - ${numberWithCommaINR(100000)}`}</MenuItem>
-              <MenuItem value={"100000-500000"}>{`${numberWithCommaINR(
-                100000
-              )} - ${numberWithCommaINR(500000)}`}</MenuItem>
-              <MenuItem value={"500000-5000000"}>{`${numberWithCommaINR(
-                500000
-              )} - ${numberWithCommaINR(5000000)}`}</MenuItem>
-              <MenuItem value={"5000000-MAX"}>{`${numberWithCommaINR(
-                5000000
-              )}+`}</MenuItem>
-            </Select>
-          </FormControl>
-        </div>
-        <img className="divider-icon" alt="" src="/divider.svg" />
-        <div className="section3">
-          <FormControl className="content7" variant="standard" id="tenure">
-            <InputLabel>Tenure</InputLabel>
-            <Select
-              name="tenure"
-              id="tenure"
-              size="medium"
-              placeholder="Select Tenure"
-              onChange={(e) =>
-                setFindSuitableLoanFormData({
-                  ...findSuitableLoanFormData,
-                  tenure: e.target.value,
-                })
-              }
-            >
-              <MenuItem value="">Any</MenuItem>
-              <MenuItem value={"0-12"}>Less than an year</MenuItem>
-              <MenuItem value={"12-36"}>1-3 years</MenuItem>
-              <MenuItem value={"36-60"}>3-5 years</MenuItem>
-              <MenuItem value={"60-MAX"}>5+ years</MenuItem>
-            </Select>
-          </FormControl>
-        </div>
-        <img className="divider-icon" alt="" src="/divider1.svg" />
-        <div className="section4">
-          <FormControl
-            className="content7"
-            variant="standard"
-            id="interest_rate"
-          >
-            <InputLabel>Interest Rate</InputLabel>
-            <Select
-              name="interest_rate"
-              id="interest_rate"
-              size="medium"
-              placeholder="Select Interest Rate"
-              onChange={(e) =>
-                setFindSuitableLoanFormData({
-                  ...findSuitableLoanFormData,
-                  interestRate: e.target.value,
-                })
-              }
-            >
-              <MenuItem value="">Any</MenuItem>
-              <MenuItem value={"0-5"}>0% to 5%</MenuItem>
-              <MenuItem value={"5-10"}>5% to 10%</MenuItem>
-              <MenuItem value={"10-15"}>10% to 15%</MenuItem>
-              <MenuItem value={"15-20"}>15% to 20%</MenuItem>
-              <MenuItem value={"20-MAX"}>20% +</MenuItem>
-            </Select>
-          </FormControl>
-        </div>
-        <ButtonComponent
-          className="search"
-          buttonText={"Find a suitable Loan"}
-          onClickHandler={onClickFindSuitableLoan}
-        />
       </div>
       <div
         className="loggedinlandingloanslist-child"
@@ -353,7 +355,7 @@ const LoansList = () => {
             />
           </div>
         ) : (
-          filteredLoans.map((loan) => (
+          loans.map((loan) => (
             <div className="checkout3">
               <div className="user1">
                 <div className="space">

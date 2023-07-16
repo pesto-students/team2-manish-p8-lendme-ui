@@ -54,7 +54,6 @@ const read = async (endpoint) => {
       }
     })
     .catch((error) => {
-      console.log(error);
       if (
         (error.code || error.response.status === 401) &&
         window.location.pathname !== urlRoutes.loginPage

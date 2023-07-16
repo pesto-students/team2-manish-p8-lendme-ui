@@ -29,7 +29,6 @@ const ExistingLoanDetail = () => {
     (async () => {
       setLoading(true);
       const resp = await read(`loan/${id}`);
-      console.log(resp);
       if (resp && resp.status === "SUCCESS") {
         setLoan(resp.data.loan);
         setLoading(false);
@@ -72,9 +71,10 @@ const ExistingLoanDetail = () => {
   };
 
   const handlePayEmiClick = async (emiData) => {
-    console.log(emiData);
     setPayEmiLoadingInstallment(emiData.installment);
-    const resp = await create(`loan/${loan.id}/repayment/${emiData.id}`);
+    const resp = await create(
+      `loan/${loan.id}/repayment/${emiData.installment}`
+    );
     if (resp && resp.status === "SUCCESS") {
       toast.success("EMI paid successfully");
       setRefreshScreen(!refreshScreen);

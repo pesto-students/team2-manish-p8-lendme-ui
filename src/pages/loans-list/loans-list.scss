@@ -184,7 +184,7 @@
 }
 .principle-amount1 {
   flex: 1;
-  font-weight: 500;
+  font-weight: 600;
   -webkit-line-clamp: 16;
 }
 .icons12 {
@@ -265,7 +265,6 @@
   flex-direction: column;
   align-items: flex-start;
   justify-content: flex-start;
-  gap: 16px;
 }
 .annual-interest-rate {
   flex: 1;
@@ -324,7 +323,7 @@
 }
 .filters {
   position: absolute;
-  top: 325px;
+  top: 220px;
   left: 6%;
   border-radius: 4px;
   background-color: #fff;
@@ -427,23 +426,9 @@
   font-size: 16px;
   color: #fff;
 }
-.searchbar {
-  position: absolute;
-  top: 200px;
-  left: 6%;
-  background-color: #fff;
-  width: 90%;
-  height: 89px;
-  flex-direction: row;
-  padding: 20px 40px;
-  box-sizing: border-box;
-  justify-content: flex-start;
-  gap: 24px;
-  font-size: 20px;
-}
 .loggedinlandingloanslist-child {
   position: absolute;
-  top: 352.5px;
+  top: 230px;
   left: 24%;
   background-color: #f3f3f3;
   border: 1px solid #dadadb;
@@ -454,7 +439,7 @@
   justify-content: flex-start;
   padding: 15px;
   min-height: 500px;
-  height: 600px;
+  height: 700px;
   overflow-y: scroll;
 }
 .subtitle5 {
@@ -598,7 +583,7 @@
   flex-direction: column;
   padding: 10px 16px;
   gap: 25px;
-  margin: 15px 6px;
+  margin: 15px 4px;
   max-width: 310px;
 }
 
