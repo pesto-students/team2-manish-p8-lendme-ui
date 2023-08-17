@@ -10,8 +10,8 @@ import { urlRoutes } from "../../constants";
 const LoginPage = () => {
   const navigate = useNavigate();
   const initialValues = {
-    email: "",
-    password: "",
+    email: "pesto@project.com",
+    password: "aaAA11!!",
   };
   const [formData, setFormData] = useState(initialValues);
   const [wrongPassword, setWrongPassword] = useState("");
