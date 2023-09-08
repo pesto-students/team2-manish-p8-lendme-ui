@@ -151,6 +151,63 @@ const LoansList = () => {
     navigate(`${urlRoutes.loanDetailPage}/${loanData.id}`);
   };
 
+  const getLoanListHTML = () => {
+    if(loans.length < 1) {
+            return <p style={{alignSelf:'center', margin: 'auto'}}>No Loans found...</p>;
+    }
+
+    return loans.map((loan) => (
+      <div className="checkout3">
+        <div className="user1">
+          <div className="space">
+            <div className="container1">
+              <div className="content10">
+                <div className="content-wrapper1">
+                  <div className="total">
+                    {getFullName(
+                      loan.borrower.firstName,
+                      loan.borrower.lastName
+                    )}
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div className="list3">
+          <div className="row18">
+            <div className="principle-amount2">Principle Amount</div>
+            <div className="div56">{numberWithCommaINR(loan.amount)}</div>
+          </div>
+          <div className="row18">
+            <div className="principle-amount2">Interest Rate</div>
+            <div className="div56">{`${loan.interestRate}%`}</div>
+          </div>
+          <div className="row18">
+            <div className="principle-amount2">Tenure</div>
+            <div className="div56">{months2years(loan.tenureMonths)}</div>
+          </div>
+          <div className="divider1" />
+          <div className="row21">
+            <div className="total">Total</div>
+            <div className="div58">
+              {numberWithCommaINR(
+                parseFloat(loan.amount || 0) +
+                  parseFloat(loan.interest || 0),
+                true
+              )}
+            </div>
+          </div>
+        </div>
+        <ButtonComponent
+          className="cta5"
+          buttonText={"Check Loan Details"}
+          onClickHandler={() => handleCheckLoanDetailsClick(loan)}
+        ></ButtonComponent>
+      </div>
+    ))
+  }
+
   return (
     <div className="loggedinlandingloanslist">
       <Header />
@@ -355,56 +412,7 @@ const LoansList = () => {
             />
           </div>
         ) : (
-          loans.map((loan) => (
-            <div className="checkout3">
-              <div className="user1">
-                <div className="space">
-                  <div className="container1">
-                    <div className="content10">
-                      <div className="content-wrapper1">
-                        <div className="total">
-                          {getFullName(
-                            loan.borrower.firstName,
-                            loan.borrower.lastName
-                          )}
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div className="list3">
-                <div className="row18">
-                  <div className="principle-amount2">Principle Amount</div>
-                  <div className="div56">{numberWithCommaINR(loan.amount)}</div>
-                </div>
-                <div className="row18">
-                  <div className="principle-amount2">Interest Rate</div>
-                  <div className="div56">{`${loan.interestRate}%`}</div>
-                </div>
-                <div className="row18">
-                  <div className="principle-amount2">Tenure</div>
-                  <div className="div56">{months2years(loan.tenureMonths)}</div>
-                </div>
-                <div className="divider1" />
-                <div className="row21">
-                  <div className="total">Total</div>
-                  <div className="div58">
-                    {numberWithCommaINR(
-                      parseFloat(loan.amount || 0) +
-                        parseFloat(loan.interest || 0),
-                      true
-                    )}
-                  </div>
-                </div>
-              </div>
-              <ButtonComponent
-                className="cta5"
-                buttonText={"Check Loan Details"}
-                onClickHandler={() => handleCheckLoanDetailsClick(loan)}
-              ></ButtonComponent>
-            </div>
-          ))
+         getLoanListHTML()
         )}
       </div>
     </div>

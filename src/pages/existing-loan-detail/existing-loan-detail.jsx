@@ -179,6 +179,8 @@ const ExistingLoanDetail = () => {
               </div>
             </div>
           </div>
+          <div style={{position:'relative', top: '-80px'}}>
+            
           <div className="loan-repayment-schedule">Loan Repayment Schedule</div>
           <div className="table">
             <Grid
@@ -187,6 +189,7 @@ const ExistingLoanDetail = () => {
               columns={getEmiGridColumns()}
               showPagination={false}
             />
+          </div>
           </div>
           <div className="card">
             <div className="content-frame">
