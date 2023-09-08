@@ -208,14 +208,16 @@ const LoanDetailPage = () => {
               </div>
             )}
           </div>
-          <div className="loan-repayment-schedule">Loan Repayment Schedule</div>
-          <div className="table">
-            <Grid
-              totalCount={loan.rps.length}
-              rows={prepareEmiGridData(loan.rps)}
-              columns={getEmiGridColumns()}
-              showPagination={false}
-            />
+          <div style={{position:'relative', top: '-80px'}}>
+            <div className="loan-repayment-schedule">Loan Repayment Schedule</div>
+            <div className="table">
+              <Grid
+                totalCount={loan.rps.length}
+                rows={prepareEmiGridData(loan.rps)}
+                columns={getEmiGridColumns()}
+                showPagination={false}
+              />
+            </div>
           </div>
           <div className="card">
             <div className="content-frame">

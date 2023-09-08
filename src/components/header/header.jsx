@@ -46,7 +46,7 @@ const Header = memo(() => {
       <>
         <div className="header13">
           <div className="headerleft9">
-            <div className="categories9">
+            <div className="categories9" style={{fontSize: '1.1rem'}}>
               <div
                 className="item58"
                 onClick={() => handleNavigationOnclick(urlRoutes.landingPage)}
@@ -60,7 +60,7 @@ const Header = memo(() => {
                 </div>
               </div>
               <div
-                className="item60"
+                className={'item60 '.concat(window.location.href.indexOf('loan-request') > 1 ? 'active-link' : '')}
                 onClick={() =>
                   handleNavigationOnclick(urlRoutes.loanRequestForm)
                 }
@@ -68,7 +68,7 @@ const Header = memo(() => {
                 Request a Loan
               </div>
               <div
-                className="item61"
+                className={'item61 '.concat(window.location.href.indexOf('loans-list') > 1 ? 'active-link' : '')}
                 onClick={() =>
                   handleNavigationOnclick(urlRoutes.loggedInLandingLoansList)
                 }
@@ -76,13 +76,13 @@ const Header = memo(() => {
                 Loans List
               </div>
               <div
-                className="item62"
+                className={'item62 '.concat(window.location.href.indexOf('portfolio') > 1 ? 'active-link' : '')}
                 onClick={() => handleNavigationOnclick(urlRoutes.portfolioPage)}
               >
                 Portfolio
               </div>
               <div
-                className="item62"
+                className={'item62 '.concat(window.location.href.indexOf('profile') > 1 ? 'active-link' : '')}
                 onClick={() => handleNavigationOnclick(urlRoutes.profilePage)}
               >
                 Profile
