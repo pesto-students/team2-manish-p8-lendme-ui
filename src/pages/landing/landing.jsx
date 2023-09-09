@@ -6,16 +6,10 @@ const LandingPage = () => {
       <Header />
       <div className="fast-accurate-reliable-parent">
         <b className="fast-accurate-reliable" data-testid="heading">
-          Fast. Accurate. Reliable
+          P2P. Transparent. Reliable
         </b>
         <div className="the-most-powerful">
-          The application which offers registered users a choice of loans,
-          depending on their financial situation also for those users who wants
-          to invest into a loan. Users can browse through a range of loan
-          requests, filter by interest rates and choose the one that suits their
-          needs best. LendMe also offers a money transfer service so that users
-          can get money sent to them electronically through their application
-          wallet
+        The LendMe application offers registered users a choice of peer-to-peer (P2P) loans, depending on their financial situation. This includes options for users who want to invest in a loan. Users can browse through a range of loan requests, filter by interest rates, and choose the one that best suits their needs. Additionally, LendMe provides a money transfer service, allowing users to receive funds electronically through their application wallet.
         </div>
       </div>
       <div id="features" className="card-parent" data-testid="cards">
@@ -104,7 +98,6 @@ const LandingPage = () => {
             <b className="fax">LendMe</b>
             <div className="we-ara-a-container">
               <span>{`LendMe application offers registered users a choice of loans, depending on their financial situation also for those users who wants to invest into a loan. Users can browse through a range of loan requests, filter by interest rates and choose the one that suits their needs best. LendMe also offers a money transfer service so that users can get money sent to them electronically through their application wallet.`}</span>
-              <span className="read-more">Read More</span>
             </div>
           </div>
           <div id="contact-us" className="contact1">
@@ -112,7 +105,7 @@ const LandingPage = () => {
               <img className="icons30" alt="" src="/icons15.svg" />
               <div className="text31">
                 <div className="fax">Contact</div>
-                <div className="div83">7769854309</div>
+                <div className="div83">1234567890</div>
               </div>
             </div>
             <div className="lightfax">
@@ -131,13 +124,6 @@ const LandingPage = () => {
                 </div>
               </div>
             </div>
-            <div className="lightfax">
-              <img className="lighticon4" alt="" src="/lighticon4.svg" />
-              <div className="text34">
-                <div className="fax">Fax</div>
-                <div className="div83">XPMP+8PV</div>
-              </div>
-            </div>
           </div>
         </div>
         <div className="menus">
@@ -148,7 +134,6 @@ const LandingPage = () => {
               <div className="about">Blog</div>
               <div className="about">Careers</div>
               <div className="about">Jobs</div>
-              <div className="about">In Press</div>
             </div>
           </div>
           <div className="menu1">
@@ -157,48 +142,16 @@ const LandingPage = () => {
               <div className="about">Contact us</div>
               <div className="about">Online Chat</div>
               <div className="about">Whatsapp</div>
-              <div className="about">Telegram</div>
-              <div className="about">Ticketing</div>
+              <div className="about">Email</div>
             </div>
           </div>
           <div className="menu1">
             <b className="about">FAQ</b>
             <div className="items">
               <div className="about">Account</div>
-              <div className="about">Manage Deliveries</div>
-              <div className="about">Orders</div>
+              <div className="about">Agreement</div>
+              <div className="about">Portfolio</div>
               <div className="about">Payments</div>
-              <div className="about">Returns</div>
-            </div>
-          </div>
-          <div className="menu1">
-            <b className="about">About</b>
-            <div className="items">
-              <div className="about">About us</div>
-              <div className="about">Blog</div>
-              <div className="about">Careers</div>
-              <div className="about">Jobs</div>
-              <div className="about">In Press</div>
-            </div>
-          </div>
-          <div className="menu1">
-            <b className="about">Support</b>
-            <div className="items">
-              <div className="about">Contact us</div>
-              <div className="about">Online Chat</div>
-              <div className="about">Whatsapp</div>
-              <div className="about">Telegram</div>
-              <div className="about">Ticketing</div>
-            </div>
-          </div>
-          <div className="menu1">
-            <b className="about">FAQ</b>
-            <div className="items">
-              <div className="about">Account</div>
-              <div className="about">Manage Deliveries</div>
-              <div className="about">Orders</div>
-              <div className="about">Payments</div>
-              <div className="about">Returns</div>
             </div>
           </div>
         </div>
@@ -211,7 +164,7 @@ const LandingPage = () => {
             <div className="enter-your-email">Terms of Use</div>
           </div>
           <div className="all-rights-reserved">
-            © 2000-2021, All Rights Reserved
+            © 2023, All Rights Reserved
           </div>
         </div>
       </div>
@@ -435,13 +388,13 @@ const LandingPage = () => {
           <div className="icons-wrapper">
             <img className="coloricon" alt="" src="/icons20.svg" />
           </div>
-          <div className="advanced-analytics">Team management</div>
+          <div className="advanced-analytics">Upfront agreement</div>
         </div>
         <div className="feature2">
           <div className="icons-wrapper">
             <img className="coloricon" alt="" src="/icons20.svg" />
           </div>
-          <div className="advanced-analytics">24/7 assistance</div>
+          <div className="advanced-analytics">Wallet transfer</div>
         </div>
         <div className="line-div" />
         <b className="why-choose-us">WHY CHOOSE US</b>
